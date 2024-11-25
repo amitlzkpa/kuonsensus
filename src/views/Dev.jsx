@@ -71,39 +71,37 @@ export default function Dev() {
   };
 
   return (
-    <div className="absolute w-full h-full flex flex-col items-center">
-      <div className="sm:w-full md:w-3/4 h-full m-4 p-4">
+    <div>
+      <div>
         <textarea
           onChange={(e) => setInText(e.target.value)}
-          className="w-full h-32 p-2 border-2 border-gray-300"
           placeholder="Enter text here"
         />
         <div className="flex gap-2 items-center my-2">
           <button
             onClick={handleSubmit}
             disabled={isProcessing}
-            className="px-4 py-2 bg-blue-500 text-white rounded"
           >
             Submit
           </button>
           <button
             onClick={handleReset}
             disabled={isProcessing}
-            className="px-4 py-2 bg-red-500 text-white rounded"
           >
             Reset
           </button>
           {isProcessing ? (
-            <div className="flex justify-center items-center">
-              <div className="animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 border-blue-500"></div>
+            <div>
+              ...
             </div>
           ) : (
             <></>
           )}
         </div>
-        <hr className="m-4" />
 
-        <pre>{outText}</pre>
+        <hr />
+
+        <pre style={{ overflow: "auto" }} >{outText}</pre>
       </div>
     </div>
   );
