@@ -4,10 +4,12 @@ import {
   RouterProvider,
 } from "react-router-dom";
 
-import { AppShell, Burger, Group, MantineProvider, Skeleton } from '@mantine/core';
+import { Anchor, AppShell, Burger, Group, MantineProvider, Skeleton } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 
+import Board from "./views/Board";
 import Dev from "./views/Dev";
+import Landing from "./views/Landing";
 
 export function App() {
   const [mobileOpened, { toggle: toggleMobile }] = useDisclosure();
@@ -16,6 +18,14 @@ export function App() {
   const router = createBrowserRouter([
     {
       path: "/",
+      element: <Landing />,
+    },
+    {
+      path: "/board",
+      element: <Board />,
+    },
+    {
+      path: "/dev",
       element: <Dev />,
     },
   ]);
@@ -39,12 +49,9 @@ export function App() {
           </Group>
         </AppShell.Header>
         <AppShell.Navbar p="md">
-          Navbar
-          {Array(15)
-            .fill(0)
-            .map((_, index) => (
-              <Skeleton key={index} h={28} mt="sm" animate={false} />
-            ))}
+          <Anchor href="/">Landing</Anchor>
+          <Anchor href="/board">Board</Anchor>
+          <Anchor href="/dev">Dev</Anchor>
         </AppShell.Navbar>
         <AppShell.Main>
           <RouterProvider router={router} />
