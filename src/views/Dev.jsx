@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Button } from '@mantine/core';
 import sampleStakeHolders from "../assets/samples/a1_stakeHolders.json";
 
 const sampleStartingPrompt = `
@@ -146,18 +147,18 @@ export default function Dev() {
           placeholder="Enter text here"
         />
         <div>
-          <button
+          <Button
             onClick={handleSubmit}
             disabled={isProcessing}
           >
             Submit
-          </button>
-          <button
+          </Button>
+          <Button
             onClick={handleReset}
             disabled={isProcessing}
           >
             Reset
-          </button>
+          </Button>
           {isProcessing ? (
             <div>
               ...
