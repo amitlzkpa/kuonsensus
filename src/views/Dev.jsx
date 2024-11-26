@@ -80,7 +80,7 @@ const extractStakeholders = async (inText, llmRef) => {
   return stakeHolders;
 };
 
-const extractSideEffect = async (inText, stakeHolder, llmRef) => {
+const extractSideEffects = async (inText, stakeHolder, llmRef) => {
   const promptText = promptForSideEffectsIdentification
     .replace("{__issueText__}", inText)
     .replace("{__stakeholderName__}", stakeHolder.stakeholderName);
@@ -112,6 +112,17 @@ export default function Dev() {
       const stakeHolders = await extractStakeholders(inText, llmRef);
       // const stakeHolders = sampleStakeHolders;
 
+      const allSideEffects = [];
+      for (const stakeHolder of stakeHolders) {
+        let sideEffects = await extractSideEffects(inText, stakeHolder, llmRef);
+        allSideEffects.push({
+          proposal: inText,
+          stakeHolder,
+          sideEffects
+        });
+      }
+
+      const json = allSideEffects;
 
       setOutText(JSON.stringify(json, null, 2));
     } catch (error) {
