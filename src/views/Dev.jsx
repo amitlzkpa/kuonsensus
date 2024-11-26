@@ -68,6 +68,27 @@ Job Creation,Local Community,Good,"New construction projects can create job oppo
 {__stakeholderName__}
 `;
 
+const extractStakeholders = async (inText, llmRef) => {
+  const promptText = promptForStakeholderIdentification.replace(
+    "{__issueText__}",
+    inText
+  );
+  const llmResponse = await llmRef?.current?.prompt(promptText);
+
+  const stakeHolders = csvToJson(llmResponse);
+  return stakeHolders;
+};
+
+const extractSideEffect = async (inText, stakeholder, llmRef) => {
+  const promptText = promptForSideEffectsIdentification
+    .replace("{__issueText__}", inText)
+    .replace("{__stakeholderName__}", stakeholder.stakeholderName);
+
+  const llmResponse = await llmRef?.current?.prompt(promptText);
+  return csvToJson(llmResponse);
+};
+
+
 export default function Dev() {
   const [inText, setInText] = useState(sampleStartingPrompt);
   const [outText, setOutText] = useState("");
@@ -88,32 +109,16 @@ export default function Dev() {
     setIsProcessing(true);
 
     try {
-      const promptText = promptForStakeholderIdentification.replace(
-        "{__issueText__}",
-        inText
-      );
-      const llmResponse = await llmRef?.current?.prompt(promptText);
+      const stakeHolders = await extractStakeholders(inText, llmRef);
 
-      const stakeHolders = csvToJson(llmResponse);
-
-      const sideEffects = await Promise.allSettled(stakeHolders.map(async (stakeholder) => {
-        const promptText = promptForSideEffectsIdentification
-          .replace("{__issueText__}", inText)
-          .replace("{__stakeholderName__}", stakeholder.stakeholderName);
-
-        const llmResponse = await llmRef?.current?.prompt(promptText);
-        return {
-          stakeholder,
-          sideEffects: csvToJson(llmResponse),
-        };
-      }));
+      console.log(stakeHolders);
+      const sideEffect = await extractSideEffect(inText, stakeHolders[0], llmRef);
+      console.log(sideEffect);
 
       const json = {
-        stakeHolders,
-        sideEffects: sideEffects.map((result) => result.value),
+        stakeHolders
       };
 
-      console.log(json);
       setOutText(JSON.stringify(json, null, 2));
     } catch (error) {
       console.log(error?.message);
