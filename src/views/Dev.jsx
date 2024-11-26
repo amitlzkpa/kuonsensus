@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from "react";
 
+const sampleStartingPrompt = `
+In order to address environmental concerns from new construction,
+propose requiring developers to include measures such as
+- tree planting
+- renewable energy systems
+- contributions to local conservation funds
+`;
+
 function csvToJson(csv) {
   const lines = csv.trim().split("\n");
   const headers = lines[0].split(",");
@@ -45,7 +53,7 @@ Provide a short title of the side-effect and the whether it is good, bad or neut
 `;
 
 export default function Dev() {
-  const [inText, setInText] = useState("");
+  const [inText, setInText] = useState(sampleStartingPrompt);
   const [outText, setOutText] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
 
@@ -127,6 +135,7 @@ export default function Dev() {
             height: 200
           }}
           onChange={(e) => setInText(e.target.value)}
+          value={inText}
           placeholder="Enter text here"
         />
         <div
