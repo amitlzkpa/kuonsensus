@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button } from '@mantine/core';
+import { Button, Container, Flex, JsonInput, Space, Textarea } from '@mantine/core';
 import sampleStakeHolders from "../assets/samples/a1_stakeHolders.json";
 
 const sampleStartingPrompt = `
@@ -139,39 +139,55 @@ export default function Dev() {
   };
 
   return (
-    <div>
-      <div>
-        <textarea
-          onChange={(e) => setInText(e.target.value)}
-          value={inText}
-          placeholder="Enter text here"
-        />
-        <div>
-          <Button
-            onClick={handleSubmit}
-            disabled={isProcessing}
-          >
-            Submit
-          </Button>
-          <Button
-            onClick={handleReset}
-            disabled={isProcessing}
-          >
-            Reset
-          </Button>
-          {isProcessing ? (
-            <div>
-              ...
-            </div>
-          ) : (
-            <></>
-          )}
-        </div>
+    <Container fluid>
+      <Textarea
+        onChange={(e) => setInText(e.currentTarget.value)}
+        value={inText}
+        placeholder="Enter text here"
+        autosize
+        minRows={4}
+        maxRows={12}
+      />
 
-        <hr />
+      <Space h="md" />
 
-        <pre>{outText}</pre>
-      </div>
-    </div>
+      <Flex
+        gap="sm"
+        justify="flex-start"
+        align="center"
+        direction="row"
+      >
+        <Button
+          onClick={handleSubmit}
+          disabled={isProcessing}
+        >
+          Submit
+        </Button>
+        <Button
+          onClick={handleReset}
+          disabled={isProcessing}
+        >
+          Reset
+        </Button>
+        {isProcessing ? (
+          <Container>
+            ...
+          </Container>
+        ) : (
+          <></>
+        )}
+      </Flex>
+
+      <Space h="md" />
+
+      <JsonInput
+        formatOnBlur
+        autosize
+        minRows={4}
+        maxRows={12}
+      >
+        {outText}
+      </JsonInput>
+    </Container>
   );
 }
