@@ -28,6 +28,19 @@ Project Team,"The project team is responsible for executing the project. Their i
 {__issueText__}
 `;
 
+const promptForSideEffectsIdentification = `
+For the issue described below, please provide a list of 3-4 possible side-effects of the proposed change for the given stakeholder.
+Provide a short title of the side-effect and the whether it is good, bad or neutral to the stakeholder's interests.
+
+## Issue:
+
+{__issueText__}
+
+## Stakeholder:
+
+{__stakeholderName__}
+`;
+
 export default function Dev() {
   const [inText, setInText] = useState("");
   const [outText, setOutText] = useState("");
@@ -54,7 +67,24 @@ export default function Dev() {
       );
       const llmResponse = await llmRef?.current?.prompt(promptText);
 
-      const json = csvToJson(llmResponse);
+      const stakeHolders = csvToJson(llmResponse);
+
+      const sideEffects = await Promise.allSettled(stakeHolders.map(async (stakeholder) => {
+        const promptText = promptForSideEffectsIdentification
+          .replace("{__issueText__}", inText)
+          .replace("{__stakeholderName__}", stakeholder.stakeholderName);
+
+        const llmResponse = await llmRef?.current?.prompt(promptText);
+        return {
+          stakeholder,
+          sideEffects: csvToJson(llmResponse),
+        };
+      }));
+
+      const json = {
+        stakeHolders,
+        sideEffects: sideEffects.map((result) => result.value),
+      };
 
       console.log(json);
       setOutText(JSON.stringify(json, null, 2));
