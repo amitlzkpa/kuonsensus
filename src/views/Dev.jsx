@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import sampleStakeHolders from "../assets/samples/a1_stakeHolders.json";
 
 const sampleStartingPrompt = `
 In order to address environmental concerns from new construction,
@@ -109,25 +110,8 @@ export default function Dev() {
 
     try {
       const stakeHolders = await extractStakeholders(inText, llmRef);
+      // const stakeHolders = sampleStakeHolders;
 
-      // const sideEffects = [];
-      // for (const stakeHolder of stakeHolders) {
-      //   let sideEffect = await extractSideEffect(inText, stakeHolder, llmRef);
-      //   sideEffects.push(sideEffect);
-      // }
-      // console.log(sideEffects);
-
-      console.log(stakeHolders[0]);
-      const sideEffect = await extractSideEffect(inText, stakeHolders[0], llmRef);
-      console.log(sideEffect);
-
-      // console.log(stakeHolders);
-      // const sideEffects = await extractAllSideEffects(inText, stakeHolders, llmRef);
-      // console.log(sideEffects);
-
-      const json = {
-        stakeHolders
-      };
 
       setOutText(JSON.stringify(json, null, 2));
     } catch (error) {
