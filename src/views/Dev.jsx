@@ -71,13 +71,37 @@ export default function Dev() {
   };
 
   return (
-    <div>
-      <div>
+    <div style={{
+      width: "100%",
+      height: "100%",
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "center",
+      alignItems: "center"
+    }}>
+      <div style={{
+        width: "60%",
+        minWidth: 200,
+        maxWidth: 1280,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        gap: 12,
+      }}>
         <textarea
+          style={{
+            width: "100%",
+            height: 200
+          }}
           onChange={(e) => setInText(e.target.value)}
           placeholder="Enter text here"
         />
-        <div className="flex gap-2 items-center my-2">
+        <div
+          style={{
+            display: "flex",
+            gap: 12,
+          }}
+        >
           <button
             onClick={handleSubmit}
             disabled={isProcessing}
@@ -101,7 +125,12 @@ export default function Dev() {
 
         <hr />
 
-        <pre style={{ overflow: "auto" }} >{outText}</pre>
+        <pre style={{
+          overflow: "auto",
+          width: "100%",
+          maxWidth: 1280,
+          maxHeight: 400,
+        }} >{outText}</pre>
       </div>
     </div>
   );
