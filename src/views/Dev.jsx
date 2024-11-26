@@ -14,8 +14,11 @@ function csvToJson(csv) {
 }
 
 const promptForStakeholderIdentification = `
-For the issue described below, please provide a list of 3-4 stakeholders (as a CSV) that should be identified and consulted for input.
+For the issue described below, please provide a list of 3-4 stakeholders that should be identified and consulted for input.
 Provide a brief description of the stakeholder and the reason for their inclusion in the format below.
+Don't use any special characters or text-formatting.
+Return the response in simple English.
+Format it as a CSV with the following columns: stakeholderName,description.
 
 ## Sample Response
 stakeholderName,description
