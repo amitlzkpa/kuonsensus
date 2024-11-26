@@ -1,0 +1,50 @@
+[
+  {
+    "sideEffectTitle": "Increased Costs",
+    "stakeholderName": "Developers",
+    "implication": "Neutral",
+    "implicationReason": "\"Increased costs for tree planting"
+  },
+  {
+    "sideEffectTitle": "Reduced Profit Margins",
+    "stakeholderName": "Developers",
+    "implication": "Bad",
+    "implicationReason": "\"The inclusion of environmental measures can reduce profit margins as these costs are not recouped through higher prices.\""
+  },
+  {
+    "sideEffectTitle": "Increased Complexity",
+    "stakeholderName": "Developers",
+    "implication": "Bad",
+    "implicationReason": "\"The development of renewable energy systems and the need to comply with environmental regulations can increase the complexity of the project"
+  },
+  {
+    "sideEffectTitle": "Limited Design Flexibility",
+    "stakeholderName": "Developers",
+    "implication": "Neutral",
+    "implicationReason": "\"Developers may have limited flexibility in their design choices when incorporating environmental features"
+  },
+  {
+    "sideEffectTitle": "Improved Brand Reputation",
+    "stakeholderName": "Developers",
+    "implication": "Good",
+    "implicationReason": "\"Developers who demonstrate environmental responsibility can improve their brand image and attract environmentally conscious consumers and investors.\""
+  },
+  {
+    "sideEffectTitle": "Enhanced Public Image",
+    "stakeholderName": "Developers",
+    "implication": "Good",
+    "implicationReason": "\"Participating in local conservation projects can enhance the developer's public image and contribute to a positive community image.\""
+  },
+  {
+    "sideEffectTitle": "Access to New Markets",
+    "stakeholderName": "Developers",
+    "implication": "Good",
+    "implicationReason": "\"Developers who incorporate sustainable practices may attract developers and investors who are committed to environmentally friendly construction"
+  },
+  {
+    "sideEffectTitle": "Reduced Risk of Environmental Violations",
+    "stakeholderName": "Developers",
+    "implication": "Good",
+    "implicationReason": "\"Environmental measures can help developers reduce the risk of facing fines and penalties for environmental violations"
+  }
+]
