@@ -88,20 +88,6 @@ const extractSideEffect = async (inText, stakeHolder, llmRef) => {
   return csvToJson(llmResponse);
 };
 
-const extractAllSideEffects = async (inText, stakeHolders, llmRef) => {
-  const ps = stakeHolders.map((stakeHolder) => {
-    return new Promise((resolve, reject) => {
-      extractSideEffect(inText, stakeHolder, llmRef)
-        .then(sideEffect => resolve(sideEffect))
-        .catch(err => reject(err));
-    });
-  });
-
-  const sideEffects = await Promise.allSettled(ps);
-
-  return sideEffects.filter(r => !!r.value).map((result) => result.value);
-};
-
 export default function Dev() {
   const [inText, setInText] = useState(sampleStartingPrompt);
   const [outText, setOutText] = useState("");
