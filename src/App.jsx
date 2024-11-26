@@ -1,8 +1,9 @@
-import './App.css';
+import '@mantine/core/styles.css';
 import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
+import { MantineProvider } from '@mantine/core';
 
 import Dev from "./views/Dev";
 
@@ -16,17 +17,9 @@ const router = createBrowserRouter([
 
 function App() {
   return (
-    <div style={{
-      position: "absolute",
-      top: 0,
-      left: 0,
-      bottom: 0,
-      right: 0,
-      margin: 0,
-      padding: 12,
-    }}>
+    <MantineProvider>
       <RouterProvider router={router} />
-    </div>
+    </MantineProvider>
   )
 }
 

@@ -11,9 +11,24 @@
     "generate-pwa-assets": "pwa-assets-generator --preset minimal public/logo.svg"
   },
   "dependencies": {
+    "@mantine/charts": "^7.14.2",
+    "@mantine/core": "^7.14.2",
+    "@mantine/dropzone": "^7.14.2",
+    "@mantine/form": "^7.14.2",
+    "@mantine/hooks": "^7.14.2",
+    "@mantine/modals": "^7.14.2",
+    "@mantine/notifications": "^7.14.2",
+    "@mantine/nprogress": "^7.14.2",
+    "@mantine/spotlight": "^7.14.2",
+    "@mantine/tiptap": "^7.14.2",
+    "@tiptap/extension-link": "^2.10.3",
+    "@tiptap/pm": "^2.10.3",
+    "@tiptap/react": "^2.10.3",
+    "@tiptap/starter-kit": "^2.10.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-router-dom": "^7.0.1"
+    "react-router-dom": "^7.0.1",
+    "recharts": "^2.13.3"
   },
   "devDependencies": {
     "@eslint/js": "^9.13.0",
@@ -26,6 +41,9 @@
     "eslint-plugin-react-hooks": "^5.0.0",
     "eslint-plugin-react-refresh": "^0.4.14",
     "globals": "^15.11.0",
+    "postcss": "^8.4.49",
+    "postcss-preset-mantine": "^1.17.0",
+    "postcss-simple-vars": "^7.0.1",
     "vite": "^5.4.10",
     "vite-plugin-pwa": "^0.21.0"
   }
