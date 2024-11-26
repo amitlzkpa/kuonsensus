@@ -79,15 +79,28 @@ const extractStakeholders = async (inText, llmRef) => {
   return stakeHolders;
 };
 
-const extractSideEffect = async (inText, stakeholder, llmRef) => {
+const extractSideEffect = async (inText, stakeHolder, llmRef) => {
   const promptText = promptForSideEffectsIdentification
     .replace("{__issueText__}", inText)
-    .replace("{__stakeholderName__}", stakeholder.stakeholderName);
+    .replace("{__stakeholderName__}", stakeHolder.stakeholderName);
 
   const llmResponse = await llmRef?.current?.prompt(promptText);
   return csvToJson(llmResponse);
 };
 
+const extractAllSideEffects = async (inText, stakeHolders, llmRef) => {
+  const ps = stakeHolders.map((stakeHolder) => {
+    return new Promise((resolve, reject) => {
+      extractSideEffect(inText, stakeHolder, llmRef)
+        .then(sideEffect => resolve(sideEffect))
+        .catch(err => reject(err));
+    });
+  });
+
+  const sideEffects = await Promise.allSettled(ps);
+
+  return sideEffects.filter(r => !!r.value).map((result) => result.value);
+};
 
 export default function Dev() {
   const [inText, setInText] = useState(sampleStartingPrompt);
@@ -111,9 +124,20 @@ export default function Dev() {
     try {
       const stakeHolders = await extractStakeholders(inText, llmRef);
 
-      console.log(stakeHolders);
+      // const sideEffects = [];
+      // for (const stakeHolder of stakeHolders) {
+      //   let sideEffect = await extractSideEffect(inText, stakeHolder, llmRef);
+      //   sideEffects.push(sideEffect);
+      // }
+      // console.log(sideEffects);
+
+      console.log(stakeHolders[0]);
       const sideEffect = await extractSideEffect(inText, stakeHolders[0], llmRef);
       console.log(sideEffect);
+
+      // console.log(stakeHolders);
+      // const sideEffects = await extractAllSideEffects(inText, stakeHolders, llmRef);
+      // console.log(sideEffects);
 
       const json = {
         stakeHolders
