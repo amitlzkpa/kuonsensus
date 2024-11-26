@@ -40,6 +40,17 @@ Project Team,"The project team is responsible for executing the project. Their i
 {__issueText__}
 `;
 
+const extractStakeholders = async (inText, llmRef) => {
+  const promptText = promptForStakeholderIdentification.replace(
+    "{__issueText__}",
+    inText
+  );
+  const llmResponse = await llmRef?.current?.prompt(promptText);
+
+  const stakeHolders = csvToJson(llmResponse);
+  return stakeHolders;
+};
+
 const promptForSideEffectsIdentification = `
 For the issue described below, please provide a list of 3-4 possible side-effects of the proposed change for the given stakeholder.
 Provide a short title of the side-effect and the implication - whether it is good, bad or neutral to the stakeholder's interests - and include a reason for the implication.
@@ -68,17 +79,6 @@ Job Creation,Local Community,Good,"New construction projects can create job oppo
 
 {__stakeholderName__}
 `;
-
-const extractStakeholders = async (inText, llmRef) => {
-  const promptText = promptForStakeholderIdentification.replace(
-    "{__issueText__}",
-    inText
-  );
-  const llmResponse = await llmRef?.current?.prompt(promptText);
-
-  const stakeHolders = csvToJson(llmResponse);
-  return stakeHolders;
-};
 
 const extractSideEffects = async (inText, stakeHolder, llmRef) => {
   const promptText = promptForSideEffectsIdentification
