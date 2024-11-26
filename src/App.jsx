@@ -4,7 +4,7 @@ import {
   RouterProvider,
 } from "react-router-dom";
 
-import { Anchor, AppShell, Burger, Group, MantineProvider, Skeleton } from '@mantine/core';
+import { AppShell, Burger, Group, MantineProvider, NavLink } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 
 import Board from "./views/Board";
@@ -49,9 +49,18 @@ export function App() {
           </Group>
         </AppShell.Header>
         <AppShell.Navbar p="md">
-          <Anchor href="/">Landing</Anchor>
-          <Anchor href="/board">Board</Anchor>
-          <Anchor href="/dev">Dev</Anchor>
+          <NavLink
+            href="/"
+            label={"Landing"}
+          />
+          <NavLink
+            href="/board"
+            label={"Board"}
+          />
+          <NavLink
+            href="/dev"
+            label={"Dev"}
+          />
         </AppShell.Navbar>
         <AppShell.Main>
           <RouterProvider router={router} />
