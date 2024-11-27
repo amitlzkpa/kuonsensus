@@ -1,13 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button, Center, Stack } from '@mantine/core';
-import { FaBeer } from "react-icons/fa";
+import { FaCircle as Icon1, FaSquare as Icon2 } from "react-icons/fa";
 import { animated, useIsomorphicLayoutEffect, useSpring } from "@react-spring/web";
 
 export const MorphingSvg = () => {
 
+  const [active, setActive] = useState(false);
+  const { x } = useSpring({ config: { duration: 800 }, x: active ? 1 : 0 });
+
   const [springs, api] = useSpring(() => ({
     from: { x: 0 }
   }));
+
+  const [outputs, setOutputs] = useState([]);
 
   useIsomorphicLayoutEffect(() => {
     api.start({
@@ -18,11 +23,16 @@ export const MorphingSvg = () => {
         x: 100,
       },
     });
+
+    const svg1 = Icon1().props.children[0].props.d;
+    const svg2 = Icon2().props.children[0].props.d;
+
+    setOutputs([svg1, svg2]);
+
   }, []);
 
   const handleClick = () => {
-    const r = FaBeer().props.children[0].props.d;
-    console.log(r);
+    setActive(!active);
   };
 
 
@@ -42,7 +52,17 @@ export const MorphingSvg = () => {
         </Center>
 
         <Center h="100">
-          <FaBeer />
+          <svg
+            viewBox="0 0 1000 1000"
+            onClick={() => setActive(!active)}
+          >
+            <animated.path
+              d={x.to({
+                range: [0, 1],
+                output: outputs,
+              })}
+            />
+          </svg>
         </Center>
 
         <Button onClick={handleClick}>
