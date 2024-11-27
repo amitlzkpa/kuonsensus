@@ -17,6 +17,8 @@ const SideEffectSchema = z.object({
   implicationReason: z.string(),
 });
 
+const SideEffectsSchema = z.array(SideEffectSchema);
+
 const getTypeVerifiedLLMResponse = (llmResponseObj, schema) => {
   try {
     const verifiedResponse = schema.parse(llmResponseObj);
@@ -72,9 +74,7 @@ const extractStakeholders = async (inText, llmRef) => {
     inText
   );
   const llmResponse = await llmRef?.current?.prompt(promptText);
-
   const responseJson = csvToJson(llmResponse);
-  console.log(responseJson);
   const stakeHoldersArray = getTypeVerifiedLLMResponse(responseJson, StakeholdersSchema);
   return stakeHoldersArray;
 };
@@ -135,7 +135,9 @@ const extractPositiveSideEffects = async (inText, stakeHolder, llmRef) => {
     .replace("{__stakeholderName__}", stakeHolder.stakeholderName);
 
   const llmResponse = await llmRef?.current?.prompt(promptText_PositiveSideEffects);
-  return csvToJson(llmResponse);
+  const responseJson = csvToJson(llmResponse);
+  const sideEffectsArray = getTypeVerifiedLLMResponse(responseJson, SideEffectsSchema);
+  return sideEffectsArray;
 };
 
 const extractNegativeSideEffects = async (inText, stakeHolder, llmRef) => {
@@ -144,7 +146,9 @@ const extractNegativeSideEffects = async (inText, stakeHolder, llmRef) => {
     .replace("{__stakeholderName__}", stakeHolder.stakeholderName);
 
   const llmResponse = await llmRef?.current?.prompt(promptText_NegativeSideEffects);
-  return csvToJson(llmResponse);
+  const responseJson = csvToJson(llmResponse);
+  const sideEffectsArray = getTypeVerifiedLLMResponse(responseJson, SideEffectsSchema);
+  return sideEffectsArray;
 };
 
 const extractSideEffects = async (inText, stakeHolder, llmRef) => {
