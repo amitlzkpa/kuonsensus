@@ -92,7 +92,7 @@ const extractSideEffects = async (inText, stakeHolder, llmRef) => {
 
 export default function Dev() {
   const [inText, setInText] = useState(sampleStartingPrompt);
-  const [outText, setOutText] = useState("");
+  const [outText, setOutText] = useState("{}");
   const [isProcessing, setIsProcessing] = useState(false);
 
   const llmRef = React.useRef();
@@ -116,14 +116,12 @@ export default function Dev() {
       const allSideEffects = [];
       for (const stakeHolder of stakeHolders) {
         let sideEffects = await extractSideEffects(inText, stakeHolder, llmRef);
-        allSideEffects.push({
-          proposal: inText,
-          stakeHolder,
-          sideEffects
-        });
+        allSideEffects.push(sideEffects);
       }
 
-      const json = allSideEffects;
+      const json = { allSideEffects, stakeHolders };
+
+      console.log(json);
 
       setOutText(JSON.stringify(json, null, 2));
     } catch (error) {
@@ -181,13 +179,11 @@ export default function Dev() {
       <Space h="md" />
 
       <JsonInput
-        formatOnBlur
+        value={outText}
         autosize
         minRows={4}
         maxRows={12}
-      >
-        {outText}
-      </JsonInput>
+      />
     </Container>
   );
 }
