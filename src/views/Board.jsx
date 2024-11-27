@@ -32,10 +32,10 @@ const Board = () => {
 
   const [boardData, setBoardData] = useState();
 
+  // Create or Navigate Board
   useEffect(() => {
 
     if (!boardId) return;
-    if (boardData?.boardId === boardId) return;
 
 
     if (boardId === "_new") {
@@ -45,22 +45,15 @@ const Board = () => {
       const updStoredBoards = [...storedBoards, newBoard];
       localStorage.setItem(kuonKeys.KUON_KEY_STORED_BOARDS_LCLSTR, updStoredBoards);
       navigate(`/board/${newBoardId}`);
-      return;
+    } else if (boardId !== "_new" && !boardData) {
+      const storedBoards = localStorage.getItem(kuonKeys.KUON_KEY_STORED_BOARDS_LCLSTR) ?? [];
+      const foundBoard = storedBoards.find((board) => board.boardId === boardId);
+      if (foundBoard) {
+        setBoardData(foundBoard);
+      }
     }
 
   }, [boardId, boardData, navigate]);
-
-  useEffect(() => {
-
-    if (!boardId) return;
-    if (boardId === "_new") return;
-
-    const storedBoards = localStorage.getItem(kuonKeys.KUON_KEY_STORED_BOARDS_LCLSTR) ?? [];
-    const foundBoard = storedBoards.find((board) => board.boardId === boardId);
-    if (foundBoard) {
-      setBoardData(foundBoard);
-    }
-  }, [boardId]);
 
 
   return (
