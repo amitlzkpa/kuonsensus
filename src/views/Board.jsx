@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Center, Text } from '@mantine/core';
+import { Stack, Text } from '@mantine/core';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import * as kuonKeys from "../config/kuonKeys";
@@ -35,32 +35,41 @@ const Board = () => {
   useEffect(() => {
 
     if (!boardId) return;
+    if (boardData?.boardId === boardId) return;
 
-    const storedBoards = localStorage.getItem(kuonKeys.KUON_KEY_STORED_BOARDS_LCLSTR) ?? [];
 
     if (boardId === "_new") {
-      const newBoardId = `brd_${Math.floor(Math.random() * 1000)}`;
+      const newBoardId = `brd_${Math.floor(Math.random() * 100000)}`;
       const newBoard = { ...boardTemplate, boardId: newBoardId };
-      localStorage.setItem(kuonKeys.KUON_KEY_STORED_BOARDS_LCLSTR, [...storedBoards, newBoard]);
+      const storedBoards = localStorage.getItem(kuonKeys.KUON_KEY_STORED_BOARDS_LCLSTR) ?? [];
+      const updStoredBoards = [...storedBoards, newBoard];
+      localStorage.setItem(kuonKeys.KUON_KEY_STORED_BOARDS_LCLSTR, updStoredBoards);
       navigate(`/board/${newBoardId}`);
       return;
     }
 
+  }, [boardId, boardData, navigate]);
+
+  useEffect(() => {
+
+    if (!boardId) return;
+    if (boardId === "_new") return;
+
+    const storedBoards = localStorage.getItem(kuonKeys.KUON_KEY_STORED_BOARDS_LCLSTR) ?? [];
     const foundBoard = storedBoards.find((board) => board.boardId === boardId);
     if (foundBoard) {
       setBoardData(foundBoard);
     }
-
-  }, [boardId, navigate]);
+  }, [boardId]);
 
 
   return (
     <div>
-      <Center>
+      <Stack>
         <Text>{boardId}</Text>
         <Text>{boardData?.boardName}</Text>
 
-      </Center>
+      </Stack>
     </div>
   );
 };
