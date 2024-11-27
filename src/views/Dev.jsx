@@ -156,7 +156,7 @@ const extractSideEffects = async (inText, stakeHolder, llmRef) => {
   positiveSideEffects = positiveSideEffects.map((se) => ({ ...se, implication: "positive" }));
   let negativeSideEffects = await extractNegativeSideEffects(inText, stakeHolder, llmRef);
   negativeSideEffects = negativeSideEffects.map((se) => ({ ...se, implication: "negative" }));
-  const sideEffects = { positiveSideEffects, negativeSideEffects };
+  const sideEffects = [...positiveSideEffects, ...negativeSideEffects];
   return sideEffects;
 };
 
@@ -195,7 +195,7 @@ export default function Dev() {
 
       setOutText(JSON.stringify(json, null, 2));
     } catch (error) {
-      console.log(error?.message);
+      console.error(error?.message);
     } finally {
       setIsProcessing(false);
     }
