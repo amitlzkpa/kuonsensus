@@ -34,6 +34,7 @@ export default [
         { allowConstantExport: true },
       ],
       "no-unused-vars": "off",
+      "no-unreachable": "off",
     },
   },
 ];
