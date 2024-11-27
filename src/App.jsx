@@ -2,6 +2,7 @@ import '@mantine/core/styles.css';
 import {
   createBrowserRouter,
   RouterProvider,
+  Link
 } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 
@@ -60,7 +61,21 @@ export function App() {
           <Group h="100%" px="md">
             <Burger opened={mobileOpened} onClick={toggleMobile} hiddenFrom="sm" size="sm" />
             <Burger opened={desktopOpened} onClick={toggleDesktop} visibleFrom="sm" size="sm" />
-            Kuonsensus
+            <Button
+              component="a"
+              href="/"
+              radius="xl"
+              size="md"
+              variant="outline"
+              pr={14}
+              h={48}
+              styles={{
+                root: { color: "black", borderColor: "black" },
+                section: { marginLeft: 22 }
+              }}
+            >
+              Kuonsensus
+            </Button>
           </Group>
         </AppShell.Header>
         <AppShell.Navbar p="md">
