@@ -35,6 +35,7 @@ export default [
       ],
       "no-unused-vars": "off",
       "no-unreachable": "off",
+      "react/prop-types": "off",
     },
   },
 ];
