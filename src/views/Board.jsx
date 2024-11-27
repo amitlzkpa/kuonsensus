@@ -5,6 +5,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import * as kuonKeys from "../config/kuonKeys";
 import * as localStorage from "../utils/localStorageHelpers";
 
+import sampleStakeHolders from "../assets/samples/a1_stakeHolders.json";
+
 const boardTemplate = {
   boardId: "brd_temp",
   boardName: "Sample Board",
@@ -41,6 +43,7 @@ const Board = () => {
     if (boardId === "_new") {
       const newBoardId = `brd_${Math.floor(Math.random() * 100000)}`;
       const newBoard = { ...boardTemplate, boardId: newBoardId };
+      newBoard.currStakeholders = sampleStakeHolders;
       const storedBoards = localStorage.getItem(kuonKeys.KUON_KEY_STORED_BOARDS_LCLSTR) ?? [];
       const updStoredBoards = [...storedBoards, newBoard];
       localStorage.setItem(kuonKeys.KUON_KEY_STORED_BOARDS_LCLSTR, updStoredBoards);
@@ -61,7 +64,7 @@ const Board = () => {
       <Stack>
         <Text>{boardId}</Text>
         <Text>{boardData?.boardName}</Text>
-
+        <Text>{boardData?.currStakeholders.length}</Text>
       </Stack>
     </div>
   );
