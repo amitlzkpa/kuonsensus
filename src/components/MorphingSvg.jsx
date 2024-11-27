@@ -1,7 +1,5 @@
-import React, { useEffect, useState } from "react";
-import * as ReactDOMServer from 'react-dom/server';
-import { z } from "zod";
-import { Button, Center, Container, Flex, JsonInput, Space, Textarea } from '@mantine/core';
+import React from "react";
+import { Button, Center, Stack } from '@mantine/core';
 import { FaBeer } from "react-icons/fa";
 import { animated, useIsomorphicLayoutEffect, useSpring } from "@react-spring/web";
 
@@ -23,7 +21,6 @@ export const MorphingSvg = () => {
   }, []);
 
   const handleClick = () => {
-
     const r = FaBeer().props.children[0].props.d;
     console.log(r);
   };
@@ -31,22 +28,27 @@ export const MorphingSvg = () => {
 
   return (
     <>
+      <Stack>
+        <Center>
+          <animated.div
+            style={{
+              width: 80,
+              height: 80,
+              background: '#ff6d6d',
+              borderRadius: 8,
+              ...springs,
+            }}
+          />
+        </Center>
 
-      <Center>
-        <animated.div
-          style={{
-            width: 80,
-            height: 80,
-            background: '#ff6d6d',
-            borderRadius: 8,
-            ...springs,
-          }}
-        />
-      </Center>
+        <Center h="100">
+          <FaBeer />
+        </Center>
 
-      <Center h="100" onClick={handleClick}>
-        <FaBeer />
-      </Center>
+        <Button onClick={handleClick}>
+          Run
+        </Button>
+      </Stack>
     </>
   )
 };
