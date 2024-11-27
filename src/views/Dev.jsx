@@ -1,6 +1,31 @@
 import React, { useEffect, useState } from "react";
+import { z } from "zod";
 import { Button, Container, Flex, JsonInput, Space, Textarea } from '@mantine/core';
 import sampleStakeHolders from "../assets/samples/a1_stakeHolders.json";
+
+const StakeholderSchema = z.object({
+  stakeholderName: z.string().min(2),
+  description: z.string(),
+});
+
+const StakeholdersSchema = z.array(StakeholderSchema);
+
+const SideEffectSchema = z.object({
+  sideEffectTitle: z.string().min(2),
+  stakeholderName: z.string().min(2),
+  implication: z.string().min(2),
+  implicationReason: z.string(),
+});
+
+const getTypeVerifiedLLMResponse = (llmResponseObj, schema) => {
+  try {
+    const verifiedResponse = schema.parse(llmResponseObj);
+    return verifiedResponse;
+  } catch (error) {
+    console.error(error.message);
+    return null;
+  }
+};
 
 const sampleStartingPrompt = `
 In order to address environmental concerns from new construction,
@@ -48,8 +73,10 @@ const extractStakeholders = async (inText, llmRef) => {
   );
   const llmResponse = await llmRef?.current?.prompt(promptText);
 
-  const stakeHolders = csvToJson(llmResponse);
-  return stakeHolders;
+  const responseJson = csvToJson(llmResponse);
+  console.log(responseJson);
+  const stakeHoldersArray = getTypeVerifiedLLMResponse(responseJson, StakeholdersSchema);
+  return stakeHoldersArray;
 };
 
 const promptForPositiveSideEffectsIdentification = `
