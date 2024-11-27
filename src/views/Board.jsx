@@ -6,6 +6,7 @@ import * as kuonKeys from "../config/kuonKeys";
 import * as localStorage from "../utils/localStorageHelpers";
 
 import sampleStakeHolders from "../assets/samples/a1_stakeHolders.json";
+import sampleSideEffects from "../assets/samples/a1_sideEffects.json";
 
 const boardTemplate = {
   boardId: "brd_temp",
@@ -44,6 +45,7 @@ const Board = () => {
       const newBoardId = `brd_${Math.floor(Math.random() * 100000)}`;
       const newBoard = { ...boardTemplate, boardId: newBoardId };
       newBoard.currStakeholders = sampleStakeHolders;
+      newBoard.currSideEffects = sampleSideEffects;
       const storedBoards = localStorage.getItem(kuonKeys.KUON_KEY_STORED_BOARDS_LCLSTR) ?? [];
       const updStoredBoards = [...storedBoards, newBoard];
       localStorage.setItem(kuonKeys.KUON_KEY_STORED_BOARDS_LCLSTR, updStoredBoards);
@@ -65,6 +67,7 @@ const Board = () => {
         <Text>{boardId}</Text>
         <Text>{boardData?.boardName}</Text>
         <Text>{boardData?.currStakeholders.length}</Text>
+        <Text>{boardData?.currSideEffects.length}</Text>
       </Stack>
     </div>
   );
