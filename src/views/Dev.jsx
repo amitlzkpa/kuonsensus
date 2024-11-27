@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { z } from "zod";
 import { Button, Center, Container, Flex, JsonInput, Space, Textarea } from '@mantine/core';
-import { FaBeer } from "react-icons/fa";
-import { animated, useIsomorphicLayoutEffect, useSpring } from "@react-spring/web";
+
+import MorphingSvg from "../components/MorphingSvg";
 
 import sampleStakeHolders from "../assets/samples/a1_stakeHolders.json";
 
@@ -168,24 +168,6 @@ export default function Dev() {
   const [outText, setOutText] = useState("{}");
   const [isProcessing, setIsProcessing] = useState(false);
 
-  const [springs, api] = useSpring(() => ({
-    from: { x: 0 }
-  }));
-
-  useIsomorphicLayoutEffect(() => {
-    api.start({
-      from: {
-        x: 0,
-      },
-      to: {
-        x: 100,
-      },
-    });
-  }, []);
-
-  const handleClick = () => {
-  };
-
   const llmRef = React.useRef();
 
   useEffect(() => {
@@ -231,19 +213,7 @@ export default function Dev() {
     <Container fluid>
 
       <Center>
-        <animated.div
-          style={{
-            width: 80,
-            height: 80,
-            background: '#ff6d6d',
-            borderRadius: 8,
-            ...springs,
-          }}
-        />
-      </Center>
-
-      <Center h="100" onClick={handleClick}>
-        <FaBeer />
+        <MorphingSvg />
       </Center>
 
       <Space h="md" />
