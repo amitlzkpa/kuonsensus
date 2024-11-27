@@ -52,25 +52,21 @@ const extractStakeholders = async (inText, llmRef) => {
   return stakeHolders;
 };
 
-const promptForSideEffectsIdentification = `
-For the issue described below, please provide a list of 3-4 possible side-effects of the proposed change for the given stakeholder.
-Provide a short title of the side-effect and the implication - whether it is good, bad or neutral to the stakeholder's interests - and include a reason for the implication.
-You can have the same side-effect for multiple stakeholders.
-You can have the same side-effect with different implications for the same stakeholder. Keep each side-effect, implication and its reasoning separate.
+const promptForPositiveSideEffectsIdentification = `
+For the issue described below, please provide a list of 3-4 possible good side-effects of the proposed change for the given stakeholder.
+Provide a short title of the side-effect and include a reason as to why it affects the stakeholder positively.
+The side-effect should necessarily affect the stakeholder positively.
+Each side-effect should be unique and different. Keep each side-effect and its reasoning separate.
 Don't use any special characters or text-formatting.
 Return the response in simple English.
-Format it as a CSV with the following columns: sideEffectTitle,stakeholderName,implication,implicationReason.
+Format it as a CSV with the following columns: sideEffectTitle,stakeholderName,implicationReason.
 
 ## Sample Response
-sideEffectTitle,stakeholderName,implication,implicationReason
-Increased Costs,Investors,Bad,"Increased costs can reduce the return on investment for investors, impacting their financial interests."
-Increased Costs,Regulatory Authorities,Neutral,"Increased costs may lead to higher compliance with regulations, which can be beneficial for regulatory authorities."
-Increased Costs,Local Community,Bad,"Increased costs may lead to higher prices for goods and services, impacting the local community negatively."
-Increased Costs,Project Team,Bad,"Increased costs can affect the project budget and timeline, creating challenges for the project team."
-Improved Air Quality,Local Community,Good,"Tree planting can improve air quality, benefiting the health and well-being of the local community."
-Reduced Energy Costs,Investors,Good,"Renewable energy systems can reduce long-term energy costs, providing financial benefits to investors."
-Enhanced Biodiversity,Regulatory Authorities,Good,"Contributions to local conservation funds can enhance biodiversity, aligning with regulatory authorities' environmental goals."
-Job Creation,Local Community,Good,"New construction projects can create job opportunities for the local community, boosting the local economy."
+sideEffectTitle,stakeholderName,implicationReason
+"Improved Air Quality","Local Community","Tree planting can improve air quality, benefiting the health and well-being of the local community"
+"Reduced Energy Costs","Investors","Renewable energy systems can reduce long-term energy costs, providing financial benefits to investors"
+"Enhanced Biodiversity","Regulatory Authorities","Contributions to local conservation funds can enhance biodiversity, aligning with regulatory authorities' environmental goals"
+"Job Creation","Local Community","New construction projects can create job opportunities for the local community, boosting the local economy"
 
 ## Issue:
 
@@ -81,13 +77,56 @@ Job Creation,Local Community,Good,"New construction projects can create job oppo
 {__stakeholderName__}
 `;
 
-const extractSideEffects = async (inText, stakeHolder, llmRef) => {
-  const promptText = promptForSideEffectsIdentification
+const promptForNegativeSideEffectsIdentification = `
+For the issue described below, please provide a list of 3-4 possible bad side-effects of the proposed change for the given stakeholder.
+Provide a short title of the side-effect and include a reason as to why it affects the stakeholder negatively.
+The side-effect should necessarily affect the stakeholder negatively.
+Each side-effect should be unique and different. Keep each side-effect and its reasoning separate.
+Don't use any special characters or text-formatting.
+Return the response in simple English.
+Format it as a CSV with the following columns: sideEffectTitle,stakeholderName,implicationReason.
+
+
+## Sample Response
+sideEffectTitle,stakeholderName,implicationReason
+"Increased Costs","Investors","Increased costs can reduce the return on investment for investors, impacting their financial interests"
+"Increased Costs","Local Community","Increased costs may lead to higher prices for goods and services, impacting the local community negatively"
+"Increased Costs","Project Team","Increased costs can affect the project budget and timeline, creating challenges for the project team"
+
+## Issue:
+
+{__issueText__}
+
+## Stakeholder:
+
+{__stakeholderName__}
+`;
+
+const extractPositiveSideEffects = async (inText, stakeHolder, llmRef) => {
+  const promptText_PositiveSideEffects = promptForPositiveSideEffectsIdentification
     .replace("{__issueText__}", inText)
     .replace("{__stakeholderName__}", stakeHolder.stakeholderName);
 
-  const llmResponse = await llmRef?.current?.prompt(promptText);
+  const llmResponse = await llmRef?.current?.prompt(promptText_PositiveSideEffects);
   return csvToJson(llmResponse);
+};
+
+const extractNegativeSideEffects = async (inText, stakeHolder, llmRef) => {
+  const promptText_NegativeSideEffects = promptForNegativeSideEffectsIdentification
+    .replace("{__issueText__}", inText)
+    .replace("{__stakeholderName__}", stakeHolder.stakeholderName);
+
+  const llmResponse = await llmRef?.current?.prompt(promptText_NegativeSideEffects);
+  return csvToJson(llmResponse);
+};
+
+const extractSideEffects = async (inText, stakeHolder, llmRef) => {
+  let positiveSideEffects = await extractPositiveSideEffects(inText, stakeHolder, llmRef);
+  positiveSideEffects = positiveSideEffects.map((se) => ({ ...se, implication: "positive" }));
+  let negativeSideEffects = await extractNegativeSideEffects(inText, stakeHolder, llmRef);
+  negativeSideEffects = negativeSideEffects.map((se) => ({ ...se, implication: "negative" }));
+  const sideEffects = { positiveSideEffects, negativeSideEffects };
+  return sideEffects;
 };
 
 export default function Dev() {
@@ -133,7 +172,7 @@ export default function Dev() {
 
   const handleReset = () => {
     setInText("");
-    setOutText("");
+    setOutText("{}");
   };
 
   return (
