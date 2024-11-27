@@ -1,6 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Flex, Tabs, Text, Title } from '@mantine/core';
 import { useNavigate, useParams } from 'react-router-dom';
+
+import { Canvas } from "@react-three/fiber";
+import { CameraControls, Environment, SoftShadows } from '@react-three/drei';
+// import { Avatar } from "./Avatar";
 
 import * as kuonKeys from "../config/kuonKeys";
 import * as localStorage from "../utils/localStorageHelpers";
@@ -61,6 +65,9 @@ const Board = () => {
   }, [boardId, boardData, navigate]);
 
 
+  const controls = useRef();
+
+
   return (
     // Board Main Pane
     <Flex
@@ -77,7 +84,37 @@ const Board = () => {
         <Flex
           w="60%"
         >
-          Stakeholders
+          <Canvas
+            camera={{
+              position: [1, 3, 2],
+              fov: 45
+            }}
+            shadows
+          >
+            <color attach="background" args={["black"]} />
+            <CameraControls
+              ref={controls}
+              minDistance={3.5}
+              maxDistance={4}
+              minPolarAngle={Math.PI * 0.35}
+              maxPolarAngle={Math.PI * 0.54}
+              minAzimuthAngle={-Math.PI * 0.3}
+              maxAzimuthAngle={Math.PI * 0.2}
+            />
+            <Environment preset="sunset" environmentIntensity={0.3} />
+            <SoftShadows size={52} samples={16} />
+            <directionalLight
+              position={[5, 5, 5]}
+              intensity={2.2}
+              castShadow
+              shadow-mapSize-height={2048}
+              shadow-mapSize-width={2048}
+              shadow-bias={-0.0001}
+            />
+            <directionalLight position={[-5, 5, 5]} intensity={0.7} />
+            <directionalLight position={[1, 0.1, -5]} intensity={3} color={"red"} />
+            <directionalLight position={[-1, 0.1, -5]} intensity={8} color={"blue"} />
+          </Canvas>
         </Flex>
 
         {/* Table */}
@@ -98,7 +135,7 @@ const Board = () => {
             <Tabs.Panel value="stakeholders">
               {boardData?.currStakeholders.map((stakeholder) => (
                 <Flex
-                  key={stakeholder.stakeholderId}
+                  key={stakeholder.stakeholderName}
                   direction="row"
                   align="center"
                   justify="space-between"
@@ -111,7 +148,7 @@ const Board = () => {
             <Tabs.Panel value="sideeffects">
               {boardData?.currSideEffects.map((sideEffect) => (
                 <Flex
-                  key={sideEffect.sideEffectId}
+                  key={sideEffect.sideEffectTitle}
                   direction="row"
                   align="center"
                   justify="space-between"
