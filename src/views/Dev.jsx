@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { z } from "zod";
-import { Button, Container, Flex, JsonInput, Space, Textarea } from '@mantine/core';
+import { Button, Center, Container, Flex, JsonInput, Space, Textarea } from '@mantine/core';
+import { FaBeer } from "react-icons/fa";
+import { animated, useIsomorphicLayoutEffect, useSpring } from "@react-spring/web";
+
 import sampleStakeHolders from "../assets/samples/a1_stakeHolders.json";
 
 const StakeholderSchema = z.object({
@@ -165,6 +168,24 @@ export default function Dev() {
   const [outText, setOutText] = useState("{}");
   const [isProcessing, setIsProcessing] = useState(false);
 
+  const [springs, api] = useSpring(() => ({
+    from: { x: 0 }
+  }));
+
+  useIsomorphicLayoutEffect(() => {
+    api.start({
+      from: {
+        x: 0,
+      },
+      to: {
+        x: 100,
+      },
+    });
+  }, []);
+
+  const handleClick = () => {
+  };
+
   const llmRef = React.useRef();
 
   useEffect(() => {
@@ -208,6 +229,25 @@ export default function Dev() {
 
   return (
     <Container fluid>
+
+      <Center>
+        <animated.div
+          style={{
+            width: 80,
+            height: 80,
+            background: '#ff6d6d',
+            borderRadius: 8,
+            ...springs,
+          }}
+        />
+      </Center>
+
+      <Center h="100" onClick={handleClick}>
+        <FaBeer />
+      </Center>
+
+      <Space h="md" />
+
       <Textarea
         onChange={(e) => setInText(e.currentTarget.value)}
         value={inText}
