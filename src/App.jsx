@@ -3,9 +3,13 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
+import React, { useEffect, useState } from "react";
 
-import { AppShell, Burger, Group, MantineProvider, NavLink } from '@mantine/core';
+import { AppShell, Button, Burger, Center, Flex, Group, MantineProvider, NavLink } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
+
+import * as kuonKeys from "./config/kuonKeys";
+import * as localStorage from "./utils/localStorageHelpers";
 
 import Board from "./views/Board";
 import Dev from "./views/Dev";
@@ -15,13 +19,24 @@ export function App() {
   const [mobileOpened, { toggle: toggleMobile }] = useDisclosure();
   const [desktopOpened, { toggle: toggleDesktop }] = useDisclosure(true);
 
+  const [storedBoards_localStorage, setStoredBoards_localStorage] = useState([]);
+
+  useEffect(() => {
+    let storedBoards = localStorage.getItem(kuonKeys.KUON_KEY_STORED_BOARDS_LCLSTR);
+    if (!storedBoards) {
+      localStorage.setItem(kuonKeys.KUON_KEY_STORED_BOARDS_LCLSTR, []);
+      storedBoards = [];
+    }
+    setStoredBoards_localStorage(storedBoards);
+  }, []);
+
   const router = createBrowserRouter([
     {
       path: "/",
       element: <Landing />,
     },
     {
-      path: "/board",
+      path: "/board/:boardId",
       element: <Board />,
     },
     {
@@ -50,17 +65,31 @@ export function App() {
         </AppShell.Header>
         <AppShell.Navbar p="md">
           <NavLink
-            href="/"
-            label={"Landing"}
+            href="/board/_new"
+            label={"New"}
           />
-          <NavLink
-            href="/board"
-            label={"Board"}
-          />
-          <NavLink
-            href="/dev"
-            label={"Dev"}
-          />
+
+          {[storedBoards_localStorage ?? []].length > 0
+            ?
+            (
+              <Flex direction={"column"} gap={"md"}>
+                {storedBoards_localStorage.map((board) => (
+                  <NavLink
+                    key={board.boardId}
+                    href={`/board/${board.boardId}`}
+                    label={board.boardName}
+                  />
+                ))}
+              </Flex>
+            )
+            :
+            (
+              <Center>
+                No boards found
+              </Center>
+            )
+          }
+
         </AppShell.Navbar>
         <AppShell.Main>
           <RouterProvider router={router} />
