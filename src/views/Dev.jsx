@@ -136,7 +136,8 @@ const extractPositiveSideEffects = async (inText, stakeHolder, llmRef) => {
 
   const llmResponse = await llmRef?.current?.prompt(promptText_PositiveSideEffects);
   const responseJson = csvToJson(llmResponse);
-  const sideEffectsArray = getTypeVerifiedLLMResponse(responseJson, SideEffectsSchema);
+  const reshapedResponse = responseJson.map((se) => ({ ...se, implication: "positive" }));
+  const sideEffectsArray = getTypeVerifiedLLMResponse(reshapedResponse, SideEffectsSchema);
   return sideEffectsArray;
 };
 
@@ -147,15 +148,14 @@ const extractNegativeSideEffects = async (inText, stakeHolder, llmRef) => {
 
   const llmResponse = await llmRef?.current?.prompt(promptText_NegativeSideEffects);
   const responseJson = csvToJson(llmResponse);
-  const sideEffectsArray = getTypeVerifiedLLMResponse(responseJson, SideEffectsSchema);
+  const reshapedResponse = responseJson.map((se) => ({ ...se, implication: "negative" }));
+  const sideEffectsArray = getTypeVerifiedLLMResponse(reshapedResponse, SideEffectsSchema);
   return sideEffectsArray;
 };
 
 const extractSideEffects = async (inText, stakeHolder, llmRef) => {
-  let positiveSideEffects = await extractPositiveSideEffects(inText, stakeHolder, llmRef);
-  positiveSideEffects = positiveSideEffects.map((se) => ({ ...se, implication: "positive" }));
-  let negativeSideEffects = await extractNegativeSideEffects(inText, stakeHolder, llmRef);
-  negativeSideEffects = negativeSideEffects.map((se) => ({ ...se, implication: "negative" }));
+  const positiveSideEffects = await extractPositiveSideEffects(inText, stakeHolder, llmRef);
+  const negativeSideEffects = await extractNegativeSideEffects(inText, stakeHolder, llmRef);
   const sideEffects = [...positiveSideEffects, ...negativeSideEffects];
   return sideEffects;
 };
