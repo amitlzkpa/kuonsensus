@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Stack, Text } from '@mantine/core';
+import { Flex, Tabs, Text, Title } from '@mantine/core';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import * as kuonKeys from "../config/kuonKeys";
@@ -62,14 +62,69 @@ const Board = () => {
 
 
   return (
-    <div>
-      <Stack>
-        <Text>{boardId}</Text>
-        <Text>{boardData?.boardName}</Text>
-        <Text>{boardData?.currStakeholders.length}</Text>
-        <Text>{boardData?.currSideEffects.length}</Text>
-      </Stack>
-    </div>
+    // Board Main Pane
+    <Flex
+      direction="column"
+      align="stretch"
+      justify="start"
+    >
+      <Title order={3}>{boardData?.boardName}</Title>
+      <Text>{boardData?.boardDescription}</Text>
+      <Flex
+        h="420"
+      >
+        {/* Graphic */}
+        <Flex
+          w="60%"
+        >
+          Stakeholders
+        </Flex>
+
+        {/* Table */}
+        <Flex
+          w="40%"
+          p="md"
+        >
+          <Tabs defaultValue="stakeholders">
+            <Tabs.List>
+              <Tabs.Tab value="stakeholders">
+                Stakeholders
+              </Tabs.Tab>
+              <Tabs.Tab value="sideeffects">
+                Effects
+              </Tabs.Tab>
+            </Tabs.List>
+
+            <Tabs.Panel value="stakeholders">
+              {boardData?.currStakeholders.map((stakeholder) => (
+                <Flex
+                  key={stakeholder.stakeholderId}
+                  direction="row"
+                  align="center"
+                  justify="space-between"
+                >
+                  <Text>{stakeholder.stakeholderName}</Text>
+                </Flex>
+              ))}
+            </Tabs.Panel>
+
+            <Tabs.Panel value="sideeffects">
+              {boardData?.currSideEffects.map((sideEffect) => (
+                <Flex
+                  key={sideEffect.sideEffectId}
+                  direction="row"
+                  align="center"
+                  justify="space-between"
+                >
+                  <Text>{sideEffect.sideEffectTitle}</Text>
+                </Flex>
+              ))}
+            </Tabs.Panel>
+          </Tabs>
+        </Flex>
+
+      </Flex>
+    </Flex>
   );
 };
 
