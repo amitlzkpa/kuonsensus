@@ -12,6 +12,15 @@ import * as localStorage from "../utils/localStorageHelpers";
 // import sampleStakeHolders from "../assets/samples/a1_stakeHolders.json";
 // import sampleSideEffects from "../assets/samples/a1_sideEffects.json";
 
+
+const sampleStartingPrompt = `
+In order to address environmental concerns from new construction,
+propose requiring developers to include measures such as
+- tree planting
+- renewable energy systems
+- contributions to local conservation funds
+`;
+
 const boardTemplate = {
   boardId: "",
   boardName: "",
