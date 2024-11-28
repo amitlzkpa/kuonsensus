@@ -195,12 +195,14 @@ const Board = () => {
           {selectedStakeholders.map((selectedStakeholder) => (
             <Flex
               key={selectedStakeholder.stakeholderName}
-              direction="row"
-              align="center"
+              direction="column"
+              align="start"
               justify="flex-start"
+              style={{ margin: "1rem 0 1rem 0" }}
               onClick={() => onClick_Stakeholder(selectedStakeholder)}
             >
               <Text>{selectedStakeholder.stakeholderName}</Text>
+              <Text>{selectedStakeholder.description}</Text>
             </Flex>
           ))}
         </Flex>
