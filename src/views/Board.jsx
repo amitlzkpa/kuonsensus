@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Button, Flex, JsonInput, Tabs, Text, Textarea, Title, Space } from '@mantine/core';
+import { Button, Flex, JsonInput, Tabs, Text, Title } from '@mantine/core';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { Canvas } from "@react-three/fiber";
@@ -8,6 +8,7 @@ import { OrthographicCamera, Environment, SoftShadows } from '@react-three/drei'
 import { extractStakeholders, extractSideEffects } from "../utils/extractionHelpers";
 import * as kuonKeys from "../config/kuonKeys";
 import * as localStorage from "../utils/localStorageHelpers";
+import { PromptReady_TextArea } from "../components/PromptReady_TextArea";
 
 // import sampleStakeHolders from "../assets/samples/a1_stakeHolders.json";
 // import sampleSideEffects from "../assets/samples/a1_sideEffects.json";
@@ -118,13 +119,16 @@ const Board_Init = ({ boardData }) => {
           </Text>
         </Flex>
 
-        <Textarea
-          onChange={(e) => setUserInitText(e.currentTarget.value)}
-          value={userInitText}
-          placeholder={sampleStartingPrompt}
-          autosize
-          minRows={4}
-          maxRows={12}
+        <PromptReady_TextArea
+          height="10rem"
+          textareaProps={{
+            onChange: (e) => setUserInitText(e.currentTarget.value),
+            value: userInitText,
+            placeholder: sampleStartingPrompt,
+            autosize: true,
+            minRows: 4,
+            maxRows: 12
+          }}
         />
       </Flex>
 
