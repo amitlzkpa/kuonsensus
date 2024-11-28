@@ -8,18 +8,19 @@ import { OrthographicCamera, Environment, SoftShadows } from '@react-three/drei'
 import * as kuonKeys from "../config/kuonKeys";
 import * as localStorage from "../utils/localStorageHelpers";
 
-import sampleStakeHolders from "../assets/samples/a1_stakeHolders.json";
-import sampleSideEffects from "../assets/samples/a1_sideEffects.json";
+// import sampleStakeHolders from "../assets/samples/a1_stakeHolders.json";
+// import sampleSideEffects from "../assets/samples/a1_sideEffects.json";
 
 const boardTemplate = {
-  boardId: "brd_temp",
-  boardName: "Sample Board",
-  boardDescription: "This is a sample board",
+  boardId: "",
+  boardName: "",
+  boardDescription: "",
   proposalPrompt: "",
   proposalDatabank: [],
   currStakeholders: [],
   currSideEffects: [],
   storedConversations: [],
+  hasBeenInitialized: false,
 };
 
 const conversationHistoryTemplate = {
@@ -30,13 +31,16 @@ const conversationHistoryTemplate = {
   currConversationOutline: [],
 };
 
-const Board = () => {
+const Board_Init = ({ boardData }) => {
 
+  return (
+    <Flex>
+      <Title order={3}>{boardData?.boardId}</Title>
+    </Flex>
+  );
+};
 
-  const navigate = useNavigate();
-  const { boardId } = useParams();
-
-  const [boardData, setBoardData] = useState();
+const Board_Edit = ({ boardData }) => {
 
   const [selectedStakeholders, setSelectedStakeholders] = useState([]);
 
@@ -57,42 +61,9 @@ const Board = () => {
     setSideEffectsForSelectedStakeholders(sideEffectsForSelectedStakeholders ?? []);
   }, [boardData, selectedStakeholders]);
 
-  // Create or Navigate Board
-  useEffect(() => {
-
-    if (!boardId) return;
-
-
-    if (boardId === "_new") {
-      const newBoardId = `brd_${Math.floor(Math.random() * 100000)}`;
-      const newBoard = { ...boardTemplate, boardId: newBoardId };
-      newBoard.currStakeholders = sampleStakeHolders;
-      newBoard.currSideEffects = sampleSideEffects;
-      const storedBoards = localStorage.getItem(kuonKeys.KUON_KEY_STORED_BOARDS_LCLSTR) ?? [];
-      const updStoredBoards = [...storedBoards, newBoard];
-      localStorage.setItem(kuonKeys.KUON_KEY_STORED_BOARDS_LCLSTR, updStoredBoards);
-      navigate(`/board/${newBoardId}`);
-    } else if (boardId !== "_new" && !boardData) {
-      const storedBoards = localStorage.getItem(kuonKeys.KUON_KEY_STORED_BOARDS_LCLSTR) ?? [];
-      const foundBoard = storedBoards.find((board) => board.boardId === boardId);
-      if (foundBoard) {
-        setBoardData(foundBoard);
-      }
-    }
-
-  }, [boardId, boardData, navigate]);
-
-
-  const controls = useRef();
-
-
   return (
-    // Board Main Pane
-    <Flex
-      direction="column"
-      align="stretch"
-      justify="start"
-    >
+    <Flex>
+
       <Title order={3}>{boardData?.boardName}</Title>
       <Text>{boardData?.boardDescription}</Text>
       <Flex
@@ -225,6 +196,59 @@ const Board = () => {
           ))}
         </Flex>
       </Flex>
+    </Flex>
+  );
+};
+
+const Board = () => {
+
+
+  const navigate = useNavigate();
+  const { boardId } = useParams();
+
+  const [boardData, setBoardData] = useState();
+
+  // Create or Navigate Board
+  useEffect(() => {
+
+    if (!boardId) return;
+
+
+    if (boardId === "_new") {
+      const newBoardId = `brd_${Math.floor(Math.random() * 100000)}`;
+      const newBoard = { ...boardTemplate, boardId: newBoardId };
+      // newBoard.currStakeholders = sampleStakeHolders;
+      // newBoard.currSideEffects = sampleSideEffects;
+      const storedBoards = localStorage.getItem(kuonKeys.KUON_KEY_STORED_BOARDS_LCLSTR) ?? [];
+      const updStoredBoards = [...storedBoards, newBoard];
+      localStorage.setItem(kuonKeys.KUON_KEY_STORED_BOARDS_LCLSTR, updStoredBoards);
+      navigate(`/board/${newBoardId}`);
+    } else if (boardId !== "_new" && !boardData) {
+      const storedBoards = localStorage.getItem(kuonKeys.KUON_KEY_STORED_BOARDS_LCLSTR) ?? [];
+      const foundBoard = storedBoards.find((board) => board.boardId === boardId);
+      if (foundBoard) {
+        setBoardData(foundBoard);
+      }
+    }
+
+  }, [boardId, boardData, navigate]);
+
+  const controls = useRef();
+
+  return (
+    // Board Main Pane
+    <Flex
+      direction="column"
+      align="stretch"
+      justify="start"
+    >
+      {
+        boardData?.hasBeenInitialized
+          ?
+          (<Board_Edit boardData={boardData} />)
+          :
+          (<Board_Init boardData={boardData} />)
+      }
     </Flex>
   );
 };
