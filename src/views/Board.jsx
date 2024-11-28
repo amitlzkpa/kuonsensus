@@ -41,7 +41,6 @@ const Board = () => {
   const [selectedStakeholders, setSelectedStakeholders] = useState([]);
 
   const onClick_Stakeholder = (stakeholder) => {
-    console.log(stakeholder);
     const stakeholderIsSelected = selectedStakeholders.find(sh => sh.stakeholderName === stakeholder.stakeholderName);
     if (stakeholderIsSelected) {
       setSelectedStakeholders(selectedStakeholders.filter((sh) => sh.stakeholderName !== stakeholder.stakeholderName));
@@ -49,6 +48,14 @@ const Board = () => {
       setSelectedStakeholders([...selectedStakeholders, stakeholder]);
     }
   };
+
+  const [sideEffectsForSelectedStakeholders, setSideEffectsForSelectedStakeholders] = useState([]);
+
+  useEffect(() => {
+    const selectedStakeholderNames = selectedStakeholders.map((sh) => sh.stakeholderName);
+    const sideEffectsForSelectedStakeholders = boardData?.currSideEffects.filter((se) => selectedStakeholderNames.includes(se.stakeholderName));
+    setSideEffectsForSelectedStakeholders(sideEffectsForSelectedStakeholders ?? []);
+  }, [boardData, selectedStakeholders]);
 
   // Create or Navigate Board
   useEffect(() => {
@@ -183,16 +190,35 @@ const Board = () => {
           direction="column"
           align="start"
           justify="flex-start"
+          style={{ flexGrow: 1 }}
         >
           {selectedStakeholders.map((selectedStakeholder) => (
             <Flex
               key={selectedStakeholder.stakeholderName}
               direction="row"
               align="center"
-              justify="space-between"
+              justify="flex-start"
               onClick={() => onClick_Stakeholder(selectedStakeholder)}
             >
               <Text>{selectedStakeholder.stakeholderName}</Text>
+            </Flex>
+          ))}
+        </Flex>
+
+        <Flex
+          direction="column"
+          align="start"
+          justify="flex-start"
+          style={{ flexGrow: 1 }}
+        >
+          {sideEffectsForSelectedStakeholders.map((sideEffect) => (
+            <Flex
+              key={sideEffect.sideEffectTitle}
+              direction="row"
+              align="center"
+              justify="flex-start"
+            >
+              <Text>{sideEffect.sideEffectTitle}</Text>
             </Flex>
           ))}
         </Flex>
