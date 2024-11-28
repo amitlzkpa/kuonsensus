@@ -114,9 +114,6 @@ const Board_Init = ({ boardData }) => {
           <Text>
             You can start with a simple outline and use the magic button to polish it.
           </Text>
-          <Text>
-            We will analyze it to help you identify stakeholders and potential side effects.
-          </Text>
         </Flex>
 
         <PromptReady_TextArea
@@ -157,6 +154,19 @@ const Board_Init = ({ boardData }) => {
         ) : (
           <></>
         )}
+      </Flex>
+
+      <Flex
+        direction="column"
+        align="stretch"
+        justify="start"
+      >
+        <Text>
+          Hit Submit when you are ready.
+        </Text>
+        <Text>
+          We will analyze it to help you identify stakeholders and potential side effects.
+        </Text>
       </Flex>
 
       <JsonInput
