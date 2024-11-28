@@ -1,10 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Flex, Tabs, Text, Title } from '@mantine/core';
+import { Button, Flex, JsonInput, Tabs, Text, Textarea, Title, Space } from '@mantine/core';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { Canvas } from "@react-three/fiber";
 import { OrthographicCamera, Environment, SoftShadows } from '@react-three/drei';
 
+import { extractStakeholders, extractSideEffects } from "../utils/extractionHelpers";
 import * as kuonKeys from "../config/kuonKeys";
 import * as localStorage from "../utils/localStorageHelpers";
 
@@ -32,10 +33,105 @@ const conversationHistoryTemplate = {
 };
 
 const Board_Init = ({ boardData }) => {
+  const [inText, setInText] = useState("");
+  const [outText, setOutText] = useState("{}");
+  const [isProcessing, setIsProcessing] = useState(false);
+
+  const llmRef = React.useRef();
+
+  useEffect(() => {
+    if (llmRef.current) return;
+
+    (async () => {
+      llmRef.current = await ai.languageModel.create();
+    })();
+  }, []);
+
+  const handleSubmit = async () => {
+    if (isProcessing) return;
+    setIsProcessing(true);
+
+    try {
+      const stakeHolders = await extractStakeholders(inText, llmRef);
+      // const stakeHolders = sampleStakeHolders;
+
+      const allSideEffects = [];
+      for (const stakeHolder of stakeHolders) {
+        let sideEffects = await extractSideEffects(inText, stakeHolder, llmRef);
+        allSideEffects.push(sideEffects);
+      }
+
+      const json = { allSideEffects, stakeHolders };
+
+      console.log(json);
+
+      setOutText(JSON.stringify(json, null, 2));
+    } catch (error) {
+      console.error(error?.message);
+    } finally {
+      setIsProcessing(false);
+    }
+  };
+
+  const handleReset = () => {
+    setInText("");
+    setOutText("{}");
+  };
 
   return (
-    <Flex>
+    <Flex
+      direction="column"
+      align="stretch"
+      justify="start"
+    >
       <Title order={3}>{boardData?.boardId}</Title>
+
+      <Textarea
+        onChange={(e) => setInText(e.currentTarget.value)}
+        value={inText}
+        placeholder="Enter text here"
+        autosize
+        minRows={4}
+        maxRows={12}
+      />
+
+      <Space h="md" />
+
+      <Flex
+        gap="sm"
+        justify="flex-start"
+        align="center"
+        direction="row"
+      >
+        <Button
+          onClick={handleSubmit}
+          disabled={isProcessing}
+        >
+          Submit
+        </Button>
+        <Button
+          onClick={handleReset}
+          disabled={isProcessing}
+        >
+          Reset
+        </Button>
+        {isProcessing ? (
+          <Flex>
+            ...
+          </Flex>
+        ) : (
+          <></>
+        )}
+      </Flex>
+
+      <Space h="md" />
+
+      <JsonInput
+        value={outText}
+        autosize
+        minRows={4}
+        maxRows={12}
+      />
     </Flex>
   );
 };
