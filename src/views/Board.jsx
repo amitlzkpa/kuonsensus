@@ -3,7 +3,7 @@ import { Flex, Tabs, Text, Title } from '@mantine/core';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { Canvas } from "@react-three/fiber";
-import { OrbitControls, OrthographicCamera, Environment, SoftShadows } from '@react-three/drei';
+import { OrthographicCamera, Environment, SoftShadows } from '@react-three/drei';
 
 import * as kuonKeys from "../config/kuonKeys";
 import * as localStorage from "../utils/localStorageHelpers";
@@ -83,9 +83,17 @@ const Board = () => {
         <Flex
           w="60%"
         >
-          <Canvas shadows style={{ width: "100%", height: "100%" }}>
-            <OrbitControls />
-            <OrthographicCamera makeDefault position={[0, 6, 0]} />
+          <Canvas
+            shadows
+            style={{ width: "100%", height: "100%" }}
+          >
+            <color attach="background" args={["#FF0000"]} />
+            <OrthographicCamera
+              makeDefault
+              position={[0, 10, 0]}
+              rotation={[-Math.PI / 2, 0, 0]}
+              zoom={10}
+            />
             <Environment preset="sunset" environmentIntensity={0.3} />
             <SoftShadows size={52} samples={16} />
             <directionalLight
@@ -99,8 +107,8 @@ const Board = () => {
             <directionalLight position={[-5, 5, 5]} intensity={0.7} />
             <directionalLight position={[1, 0.1, -5]} intensity={3} />
             <directionalLight position={[-1, 0.1, -5]} intensity={8} />
-            <mesh position={[0, 0.4, 0]} receiveShadow>
-              <cylinderGeometry attach="geometry" args={[10, 10, 0.08, 128]} />
+            <mesh position={[0, 0, 0]} receiveShadow>
+              <cylinderGeometry attach="geometry" args={[4, 4, 1, 128]} />
               <meshStandardMaterial attach="material" color={"#DEDEDE"} />
             </mesh>
           </Canvas>
