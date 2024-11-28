@@ -38,6 +38,18 @@ const Board = () => {
 
   const [boardData, setBoardData] = useState();
 
+  const [selectedStakeholders, setSelectedStakeholders] = useState([]);
+
+  const onClick_Stakeholder = (stakeholder) => {
+    console.log(stakeholder);
+    const stakeholderIsSelected = selectedStakeholders.find(sh => sh.stakeholderName === stakeholder.stakeholderName);
+    if (stakeholderIsSelected) {
+      setSelectedStakeholders(selectedStakeholders.filter((sh) => sh.stakeholderName !== stakeholder.stakeholderName));
+    } else {
+      setSelectedStakeholders([...selectedStakeholders, stakeholder]);
+    }
+  };
+
   // Create or Navigate Board
   useEffect(() => {
 
@@ -136,8 +148,15 @@ const Board = () => {
                   direction="row"
                   align="center"
                   justify="space-between"
+                  onClick={() => onClick_Stakeholder(stakeholder)}
                 >
-                  <Text>{stakeholder.stakeholderName}</Text>
+                  {
+                    (selectedStakeholders.find(sh => sh.stakeholderName === stakeholder.stakeholderName))
+                      ?
+                      <Text style={{ fontWeight: "bold" }}>{stakeholder.stakeholderName}</Text>
+                      :
+                      <Text>{stakeholder.stakeholderName}</Text>
+                  }
                 </Flex>
               ))}
             </Tabs.Panel>
@@ -157,6 +176,26 @@ const Board = () => {
           </Tabs>
         </Flex>
 
+      </Flex>
+
+      <Flex>
+        <Flex
+          direction="column"
+          align="start"
+          justify="flex-start"
+        >
+          {selectedStakeholders.map((selectedStakeholder) => (
+            <Flex
+              key={selectedStakeholder.stakeholderName}
+              direction="row"
+              align="center"
+              justify="space-between"
+              onClick={() => onClick_Stakeholder(selectedStakeholder)}
+            >
+              <Text>{selectedStakeholder.stakeholderName}</Text>
+            </Flex>
+          ))}
+        </Flex>
       </Flex>
     </Flex>
   );
