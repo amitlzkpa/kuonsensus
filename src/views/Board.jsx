@@ -3,8 +3,7 @@ import { Flex, Tabs, Text, Title } from '@mantine/core';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { Canvas } from "@react-three/fiber";
-import { CameraControls, Environment, SoftShadows } from '@react-three/drei';
-// import { Avatar } from "./Avatar";
+import { OrbitControls, OrthographicCamera, Environment, SoftShadows } from '@react-three/drei';
 
 import * as kuonKeys from "../config/kuonKeys";
 import * as localStorage from "../utils/localStorageHelpers";
@@ -84,23 +83,9 @@ const Board = () => {
         <Flex
           w="60%"
         >
-          <Canvas
-            camera={{
-              position: [1, 3, 2],
-              fov: 45
-            }}
-            shadows
-          >
-            <color attach="background" args={["black"]} />
-            <CameraControls
-              ref={controls}
-              minDistance={3.5}
-              maxDistance={4}
-              minPolarAngle={Math.PI * 0.35}
-              maxPolarAngle={Math.PI * 0.54}
-              minAzimuthAngle={-Math.PI * 0.3}
-              maxAzimuthAngle={Math.PI * 0.2}
-            />
+          <Canvas shadows style={{ width: "100%", height: "100%" }}>
+            <OrbitControls />
+            <OrthographicCamera makeDefault position={[0, 6, 0]} />
             <Environment preset="sunset" environmentIntensity={0.3} />
             <SoftShadows size={52} samples={16} />
             <directionalLight
@@ -112,8 +97,12 @@ const Board = () => {
               shadow-bias={-0.0001}
             />
             <directionalLight position={[-5, 5, 5]} intensity={0.7} />
-            <directionalLight position={[1, 0.1, -5]} intensity={3} color={"red"} />
-            <directionalLight position={[-1, 0.1, -5]} intensity={8} color={"blue"} />
+            <directionalLight position={[1, 0.1, -5]} intensity={3} />
+            <directionalLight position={[-1, 0.1, -5]} intensity={8} />
+            <mesh position={[0, 0.4, 0]} receiveShadow>
+              <cylinderGeometry attach="geometry" args={[10, 10, 0.08, 128]} />
+              <meshStandardMaterial attach="material" color={"#DEDEDE"} />
+            </mesh>
           </Canvas>
         </Flex>
 

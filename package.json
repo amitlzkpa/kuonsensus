@@ -21,6 +21,7 @@
     "@mantine/nprogress": "^7.14.2",
     "@mantine/spotlight": "^7.14.2",
     "@mantine/tiptap": "^7.14.2",
+    "@react-spring/three": "^9.7.5",
     "@react-spring/web": "^9.7.5",
     "@react-three/drei": "^9.117.3",
     "@react-three/fiber": "^8.17.10",
