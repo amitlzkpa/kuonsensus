@@ -92,19 +92,41 @@ const Board_Init = ({ boardData }) => {
       direction="column"
       align="stretch"
       justify="start"
+      gap="md"
     >
-      <Title order={3}>{boardData?.boardId}</Title>
+      <Title order={3}>Set Up Your Board</Title>
 
-      <Textarea
-        onChange={(e) => setUserInitText(e.currentTarget.value)}
-        value={userInitText}
-        placeholder="Enter text here"
-        autosize
-        minRows={4}
-        maxRows={12}
-      />
+      <Flex
+        direction="column"
+        align="stretch"
+        justify="start"
+        gap="sm"
+      >
+        <Flex
+          direction="column"
+          align="stretch"
+          justify="start"
+        >
+          <Text>
+            Enter the text of your proposal below.
+          </Text>
+          <Text>
+            You can start with a simple outline and use the magic button to polish it.
+          </Text>
+          <Text>
+            We will analyze it to help you identify stakeholders and potential side effects.
+          </Text>
+        </Flex>
 
-      <Space h="md" />
+        <Textarea
+          onChange={(e) => setUserInitText(e.currentTarget.value)}
+          value={userInitText}
+          placeholder={sampleStartingPrompt}
+          autosize
+          minRows={4}
+          maxRows={12}
+        />
+      </Flex>
 
       <Flex
         gap="sm"
@@ -132,8 +154,6 @@ const Board_Init = ({ boardData }) => {
           <></>
         )}
       </Flex>
-
-      <Space h="md" />
 
       <JsonInput
         value={outText}
