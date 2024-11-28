@@ -42,7 +42,7 @@ const conversationHistoryTemplate = {
 };
 
 const Board_Init = ({ boardData }) => {
-  const [inText, setInText] = useState("");
+  const [userInitText, setUserInitText] = useState("");
   const [outText, setOutText] = useState("{}");
   const [isProcessing, setIsProcessing] = useState(false);
 
@@ -61,12 +61,12 @@ const Board_Init = ({ boardData }) => {
     setIsProcessing(true);
 
     try {
-      const stakeHolders = await extractStakeholders(inText, llmRef);
+      const stakeHolders = await extractStakeholders(userInitText, llmRef);
       // const stakeHolders = sampleStakeHolders;
 
       const allSideEffects = [];
       for (const stakeHolder of stakeHolders) {
-        let sideEffects = await extractSideEffects(inText, stakeHolder, llmRef);
+        let sideEffects = await extractSideEffects(userInitText, stakeHolder, llmRef);
         allSideEffects.push(sideEffects);
       }
 
@@ -83,7 +83,7 @@ const Board_Init = ({ boardData }) => {
   };
 
   const handleReset = () => {
-    setInText("");
+    setUserInitText("");
     setOutText("{}");
   };
 
@@ -96,8 +96,8 @@ const Board_Init = ({ boardData }) => {
       <Title order={3}>{boardData?.boardId}</Title>
 
       <Textarea
-        onChange={(e) => setInText(e.currentTarget.value)}
-        value={inText}
+        onChange={(e) => setUserInitText(e.currentTarget.value)}
+        value={userInitText}
         placeholder="Enter text here"
         autosize
         minRows={4}
