@@ -33,13 +33,14 @@ Provide a brief description of the stakeholder and the reason for their inclusio
 Don't use any special characters or text-formatting.
 Return the response in simple English.
 Format it as a CSV with the following columns: stakeholderName,description.
+Do not use any commas in "stakeholderName" or "description" text values.
 
 ## Sample Response
-stakeholderName,description
-Investors,"Investors are key stakeholders in the project as they provide the necessary funding for the project. Their input is critical for decision-making and project success."
-Regulatory Authorities,"Regulatory authorities are responsible for ensuring compliance with laws and regulations. Their input is necessary to ensure that the project meets all legal requirements."
-Local Community,"The local community is directly impacted by the project. Their input is important to address any concerns and ensure that the project benefits the community."
-Project Team,"The project team is responsible for executing the project. Their input is essential for planning and implementation."
+"stakeholderName","description"
+"Investors","Investors are key stakeholders in the project as they provide the necessary funding for the project. Their input is critical for decision-making and project success."
+"Regulatory Authorities","Regulatory authorities are responsible for ensuring compliance with laws and regulations. Their input is necessary to ensure that the project meets all legal requirements."
+"Local Community","The local community is directly impacted by the project. Their input is important to address any concerns and ensure that the project benefits the community."
+"Project Team","The project team is responsible for executing the project. Their input is essential for planning and implementation."
 
 ## Issue:
 {__issueText__}
@@ -72,11 +73,11 @@ Each side-effect should be unique and different. Keep each side-effect and its r
 Don't use any special characters or text-formatting.
 Return the response in simple English.
 Format it as a CSV.
-Use only 2 values for each record with the following keys for the column headers: sideEffectTitle,implicationReason
-Do not surrouned the header keys with quotes.
+Use only 2 values for each record with the following keys for the column headers: "sideEffectTitle","implicationReason"
+Do not use any commas in "sideEffectTitle" or "implicationReason" text values.
 
 ## Sample Response
-sideEffectTitle,implicationReason
+"sideEffectTitle","implicationReason"
 "Improved Air Quality","Tree planting can improve air quality, benefiting the health and well-being of the local community"
 "Reduced Energy Costs","Renewable energy systems can reduce long-term energy costs, providing financial benefits to investors"
 "Enhanced Biodiversity","Contributions to local conservation funds can enhance biodiversity, aligning with regulatory authorities' environmental goals"
@@ -99,11 +100,11 @@ Each side-effect should be unique and different. Keep each side-effect and its r
 Don't use any special characters or text-formatting.
 Return the response in simple English.
 Format it as a CSV.
-Use only 2 values for each record with the following keys for the column headers: sideEffectTitle,implicationReason
-Do not surrouned the header keys with quotes.
+Use only 2 values for each record with the following keys for the column headers: "sideEffectTitle","implicationReason"
+Do not use any commas in "sideEffectTitle" or "implicationReason" text values.
 
 ## Sample Response
-sideEffectTitle,implicationReason
+"sideEffectTitle","implicationReason"
 "Increased Financial Costs","Increased costs can reduce the return on investment for investors, impacting their financial interests"
 "Higher Prices","Increased costs may lead to higher prices for goods and services, impacting the local community negatively"
 "Budget Strain","Increased costs can affect the project budget and timeline, creating challenges for the project team"

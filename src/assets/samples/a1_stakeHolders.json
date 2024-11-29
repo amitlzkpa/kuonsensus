@@ -1,18 +1,18 @@
 [
   {
     "stakeholderName": "Developers",
-    "description": "\"Developers are directly impacted by these new construction regulations. Their input is crucial to ensure that the requirements are reasonable and feasible to implement.\""
+    "description": "Developers are the primary source of the environmental impact and are responsible for implementing mitigation strategies. Their input is crucial for developing effective and feasible measures."
   },
   {
     "stakeholderName": "Environmental Experts",
-    "description": "\"Environmental experts can provide valuable input on the effectiveness and impact of the suggested measures. Their expertise can help ensure that the regulations are appropriate and contribute to real environmental protection.\""
+    "description": "Environmental experts can provide scientific evidence and guidance on the effectiveness and feasibility of different mitigation measures. Their input is vital for making informed decisions about the project."
   },
   {
-    "stakeholderName": "Community Representatives",
-    "description": "\"Community representatives can voice concerns and perspectives from the residents who will be living near the new construction. Their input can help ensure that the regulations are fair and address any community concerns.\""
+    "stakeholderName": "Local Environmental Groups",
+    "description": "Local environmental groups are directly concerned about the impact of new construction on the environment and local ecosystems. Their input is important for understanding their perspectives and incorporating their concerns."
   },
   {
-    "stakeholderName": "Local Government Officials",
-    "description": "\"Local government officials are responsible for implementing these regulations. Their input is necessary to ensure that the regulations are clear"
+    "stakeholderName": "Government Agencies",
+    "description": "Government agencies such as environmental protection agencies can provide guidance regulations and funding for environmental mitigation projects. Their input is important for ensuring compliance with environmental laws and securing necessary resources for the project."
   }
 ]
