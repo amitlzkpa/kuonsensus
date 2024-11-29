@@ -65,9 +65,14 @@ const Board_Init = ({ boardData }) => {
       const stakeHolders = await extractStakeholders(userInitText, llmRef);
       // const stakeHolders = sampleStakeHolders;
 
+      console.log(stakeHolders);
       const allSideEffects = [];
       for (const stakeHolder of stakeHolders) {
+        console.log('---------------------');
+        console.log(stakeHolder);
         let sideEffects = await extractSideEffects(userInitText, stakeHolder, llmRef);
+        console.log(sideEffects);
+        console.log('---------------------');
         allSideEffects.push(sideEffects);
       }
 
@@ -122,9 +127,9 @@ const Board_Init = ({ boardData }) => {
             onChange: (e) => setUserInitText(e.currentTarget.value),
             value: userInitText,
             placeholder: sampleStartingPrompt,
-            autosize: true,
             minRows: 4,
-            maxRows: 12
+            maxRows: 12,
+            rows: 7,
           }}
         />
       </Flex>

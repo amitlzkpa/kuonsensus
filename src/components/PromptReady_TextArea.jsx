@@ -9,7 +9,7 @@ export const PromptReady_TextArea = (props) => {
         {...props.textareaProps}
       />
       <div style={{ position: "absolute", top: 0, right: 0 }}>
-        <Button>Polish</Button>
+        <Button>P</Button>
       </div>
     </div>
   );
