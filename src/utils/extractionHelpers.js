@@ -79,10 +79,11 @@ Each side-effect should be unique and different. Keep each side-effect and its r
 Don't use any special characters or text-formatting.
 Return the response in simple English.
 Format it as a CSV.
-Use only 2 values for each record with the following keys for the column headers: "sideEffectTitle","implicationReason"
+Use only 2 values for each record with the following keys for the column headers: sideEffectTitle,implicationReason
+Do not surrouned the header keys with quotes.
 
 ## Sample Response
-"sideEffectTitle","implicationReason"
+sideEffectTitle,implicationReason
 "Improved Air Quality","Tree planting can improve air quality, benefiting the health and well-being of the local community"
 "Reduced Energy Costs","Renewable energy systems can reduce long-term energy costs, providing financial benefits to investors"
 "Enhanced Biodiversity","Contributions to local conservation funds can enhance biodiversity, aligning with regulatory authorities' environmental goals"
@@ -105,10 +106,11 @@ Each side-effect should be unique and different. Keep each side-effect and its r
 Don't use any special characters or text-formatting.
 Return the response in simple English.
 Format it as a CSV.
-Use only 2 values for each record with the following keys for the column headers: "sideEffectTitle","implicationReason"
+Use only 2 values for each record with the following keys for the column headers: sideEffectTitle,implicationReason
+Do not surrouned the header keys with quotes.
 
 ## Sample Response
-"sideEffectTitle","implicationReason"
+sideEffectTitle,implicationReason
 "Increased Financial Costs","Increased costs can reduce the return on investment for investors, impacting their financial interests"
 "Higher Prices","Increased costs may lead to higher prices for goods and services, impacting the local community negatively"
 "Budget Strain","Increased costs can affect the project budget and timeline, creating challenges for the project team"
