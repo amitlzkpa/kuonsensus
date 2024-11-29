@@ -53,6 +53,29 @@ const Board_Init = ({ setBoardData }) => {
 
   const [bufferBoardDataInit, setBufferBoardDataInit] = useState();
 
+  const [eachUniqueSideEffect, setEachUniqueSideEffect] = useState([]);
+
+  useEffect(() => {
+
+    const uqSideEffectList = [];
+    for (let sideEffect of bufferBoardDataInit?.sideEffects ?? []) {
+      let currSdEf = uqSideEffectList.find(uqEff => uqEff.sideEffectTitle === sideEffect.sideEffectTitle);
+      if (!currSdEf) {
+        let uqSdEf = {
+          sideEffectTitle: sideEffect.sideEffectTitle,
+          sideEffectItemList: [sideEffect]
+        }
+        uqSideEffectList.push(uqSdEf);
+      }
+      else {
+        currSdEf.sideEffectItemList.push(sideEffect);
+      }
+    }
+    console.log(uqSideEffectList);
+    setEachUniqueSideEffect(uqSideEffectList);
+
+  }, [bufferBoardDataInit]);
+
   const handleFinalizeBoardSetup = async () => {
     const storedBoards = localStorage.getItem(kuonKeys.KUON_KEY_STORED_BOARDS_LCLSTR) ?? [];
     const foundBoard = storedBoards.find((board) => board.boardId === boardId);
@@ -266,7 +289,32 @@ const Board_Init = ({ setBoardData }) => {
 
         </Flex>
 
+        <Flex
+          direction="column"
+          gap="sm"
+        >
+
+          {
+            (eachUniqueSideEffect ?? [])
+              .sort((a, b) => b.sideEffectItemList.length - a.sideEffectItemList.length)
+              .map(
+                (sideEffect, idx) => (
+                  <Flex
+                    key={idx}
+                    direction="column"
+                    align="start"
+                    justify="flex-start"
+                    style={{ margin: "1rem 0 1rem 0" }}
+                  >
+                    <Text>{sideEffect?.sideEffectTitle}</Text>
+                    <Text>{(sideEffect?.sideEffectItemList ?? []).length}</Text>
+                  </Flex>
+                )
+              )
+          }
+
         </Flex>
+      </Flex>
 
       <JsonInput
         value={outText}
