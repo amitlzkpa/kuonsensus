@@ -1,4 +1,5 @@
 import { z } from "zod";
+import csvToJson from "convert-csv-to-json";
 
 const StakeholderSchema = z.object({
   stakeholderName: z.string().min(2),
@@ -26,19 +27,6 @@ const getTypeVerifiedLLMResponse = (llmResponseObj, schema) => {
   }
 };
 
-function csvToJson(csv) {
-  const lines = csv.trim().split("\n");
-  const headers = lines[0].split(",");
-  const result = lines.slice(1).map((line) => {
-    const values = line.split(",");
-    return headers.reduce((obj, header, index) => {
-      obj[header.trim()] = values[index].trim();
-      return obj;
-    }, {});
-  });
-  return result;
-}
-
 const promptForStakeholderIdentification = `
 For the issue described below, please provide a list of 3-4 stakeholders that should be identified and consulted for input.
 Provide a brief description of the stakeholder and the reason for their inclusion in the format below.
@@ -63,7 +51,12 @@ export const extractStakeholders = async (inText, llmRef) => {
     inText
   );
   const llmResponse = await llmRef?.current?.prompt(promptText);
-  const responseJson = csvToJson(llmResponse);
+
+  const responseJson = csvToJson
+    .fieldDelimiter(",")
+    .supportQuotedField(true)
+    .csvStringToJson(llmResponse);
+
   const stakeHoldersArray = getTypeVerifiedLLMResponse(
     responseJson,
     StakeholdersSchema
@@ -133,7 +126,11 @@ const extractPositiveSideEffects = async (inText, stakeHolder, llmRef) => {
   const llmResponse = await llmRef?.current?.prompt(
     promptText_PositiveSideEffects
   );
-  const responseJson = csvToJson(llmResponse);
+
+  const responseJson = csvToJson
+    .fieldDelimiter(",")
+    .supportQuotedField(true)
+    .csvStringToJson(llmResponse);
   const reshapedResponse = responseJson.map((se) => ({
     ...se,
     stakeholderName: stakeHolder.stakeholderName,
@@ -155,7 +152,11 @@ const extractNegativeSideEffects = async (inText, stakeHolder, llmRef) => {
   const llmResponse = await llmRef?.current?.prompt(
     promptText_NegativeSideEffects
   );
-  const responseJson = csvToJson(llmResponse);
+
+  const responseJson = csvToJson
+    .fieldDelimiter(",")
+    .supportQuotedField(true)
+    .csvStringToJson(llmResponse);
   const reshapedResponse = responseJson.map((se) => ({
     ...se,
     stakeholderName: stakeHolder.stakeholderName,
