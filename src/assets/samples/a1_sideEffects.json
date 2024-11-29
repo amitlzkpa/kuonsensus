@@ -46,5 +46,53 @@
     "stakeholderName": "Developers",
     "implication": "positive",
     "implicationReason": "\"Environmental measures can help developers reduce the risk of facing fines and penalties for environmental violations"
+  },
+  {
+    "sideEffectTitle": "\"Enhanced Scientific Data\"",
+    "stakeholderName": "Environmental Experts",
+    "implication": "positive",
+    "implicationReason": "\"Tree planting and renewable energy projects generate valuable scientific data on their effectiveness and impact"
+  },
+  {
+    "sideEffectTitle": "\"Increased Stakeholder Support\"",
+    "stakeholderName": "Environmental Experts",
+    "implication": "positive",
+    "implicationReason": "\"Demonstrating a commitment to environmental sustainability can attract the support of environmental advocacy groups and the wider public"
+  },
+  {
+    "sideEffectTitle": "\"Policy Influence\"",
+    "stakeholderName": "Environmental Experts",
+    "implication": "positive",
+    "implicationReason": "\"Successful implementation of environmentally sustainable measures can influence policy decisions and encourage other developers to adopt similar practices"
+  },
+  {
+    "sideEffectTitle": "\"Improved Public Image\"",
+    "stakeholderName": "Environmental Experts",
+    "implication": "positive",
+    "implicationReason": "\"By actively addressing environmental concerns"
+  },
+  {
+    "sideEffectTitle": "\"Oversimplification of Complex Issues\"",
+    "stakeholderName": "Environmental Experts",
+    "implication": "negative",
+    "implicationReason": "\"The proposed requirement might oversimplify complex environmental issues"
+  },
+  {
+    "sideEffectTitle": "\"Lack of Flexibility\"",
+    "stakeholderName": "Environmental Experts",
+    "implication": "negative",
+    "implicationReason": "\"The standardized approach to tree planting"
+  },
+  {
+    "sideEffectTitle": "\"Potential for Underestimation of Costs\"",
+    "stakeholderName": "Environmental Experts",
+    "implication": "negative",
+    "implicationReason": "\"Estimates of the cost of tree planting"
+  },
+  {
+    "sideEffectTitle": "\"Limited Scope of Impact\"",
+    "stakeholderName": "Environmental Experts",
+    "implication": "negative",
+    "implicationReason": "\"The proposed requirement might focus solely on mitigation measures"
   }
 ]
