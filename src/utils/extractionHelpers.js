@@ -35,12 +35,11 @@ Provide a brief description of the stakeholder and the reason for their inclusio
 Don't use any special characters or text-formatting.
 Return the response in simple English.
 Format it as a CSV with the following headers: stakeholderName,description.
-Make sure to include the header row in the response.
+Don't include the header row in the response.
 Return only the csv string in the response.
-Do not use any commas in "stakeholderName" or "description" text values.
+Do not use any commas within individual text values.
 
 ## Sample Response
-"stakeholderName","description"
 "Investors","Investors are key stakeholders in the project as they provide the necessary funding for the project. Their input is critical for decision-making and project success."
 "Regulatory Authorities","Regulatory authorities are responsible for ensuring compliance with laws and regulations. Their input is necessary to ensure that the project meets all legal requirements."
 "Local Community","The local community is directly impacted by the project. Their input is important to address any concerns and ensure that the project benefits the community."
@@ -57,8 +56,10 @@ export const extractStakeholders = async (inText, llmRef) => {
     inText
   );
   if (DEBUG_LLM) console.log(promptText);
-  const llmResponse = await llmRef?.current?.prompt(promptText);
+  let llmResponse = await llmRef?.current?.prompt(promptText);
   if (DEBUG_LLM) console.log(llmResponse);
+
+  llmResponse = '"stakeholderName","description"\n' + llmResponse;
 
   const responseJson = csvToJson
     .fieldDelimiter(",")
@@ -84,12 +85,12 @@ Don't use any special characters or text-formatting.
 Return the response in simple English.
 Format it as a CSV.
 Use only 2 values for each record with the following keys for the column headers: "sideEffectTitle","implicationReason"
-Make sure to include the header row in the response.
+Don't include the header row in the response.
 Return only the csv string in the response.
-Do not use any commas in "sideEffectTitle" or "implicationReason" text values.
+Do not use any commas within individual text values.
+Return only the csv string in the response.
 
 ## Sample Response
-"sideEffectTitle","implicationReason"
 "Improved Air Quality","Tree planting can improve air quality, benefiting the health and well-being of the local community"
 "Reduced Energy Costs","Renewable energy systems can reduce long-term energy costs, providing financial benefits to investors"
 "Enhanced Biodiversity","Contributions to local conservation funds can enhance biodiversity, aligning with regulatory authorities' environmental goals"
@@ -113,12 +114,12 @@ Don't use any special characters or text-formatting.
 Return the response in simple English.
 Format it as a CSV.
 Use only 2 values for each record with the following keys for the column headers: "sideEffectTitle","implicationReason"
-Make sure to include the header row in the response.
+Don't include the header row in the response.
 Return only the csv string in the response.
-Do not use any commas in "sideEffectTitle" or "implicationReason" text values.
+Do not use any commas within individual text values.
+Return only the csv string in the response.
 
 ## Sample Response
-"sideEffectTitle","implicationReason"
 "Increased Financial Costs","Increased costs can reduce the return on investment for investors, impacting their financial interests"
 "Higher Prices","Increased costs may lead to higher prices for goods and services, impacting the local community negatively"
 "Budget Strain","Increased costs can affect the project budget and timeline, creating challenges for the project team"
@@ -141,9 +142,11 @@ const extractPositiveSideEffects = async (inText, stakeHolder, llmRef) => {
 
   if (DEBUG_LLM) console.log(promptText_PositiveSideEffects);
 
-  const llmResponse = await llmRef?.current?.prompt(
+  let llmResponse = await llmRef?.current?.prompt(
     promptText_PositiveSideEffects
   );
+
+  llmResponse = '"sideEffectTitle","implicationReason"\n' + llmResponse;
 
   if (DEBUG_LLM) console.log(llmResponse);
 
@@ -176,9 +179,11 @@ const extractNegativeSideEffects = async (inText, stakeHolder, llmRef) => {
 
   if (DEBUG_LLM) console.log(promptText_NegativeSideEffects);
 
-  const llmResponse = await llmRef?.current?.prompt(
+  let llmResponse = await llmRef?.current?.prompt(
     promptText_NegativeSideEffects
   );
+
+  llmResponse = '"sideEffectTitle","implicationReason"\n' + llmResponse;
 
   if (DEBUG_LLM) console.log(llmResponse);
 
