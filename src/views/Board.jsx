@@ -42,12 +42,34 @@ const conversationHistoryTemplate = {
   currConversationOutline: [],
 };
 
-const Board_Init = ({ boardData }) => {
+const Board_Init = ({ setBoardData }) => {
+  const { boardId } = useParams();
+
   const [userInitText, setUserInitText] = useState("");
   const [outText, setOutText] = useState("{}");
   const [isProcessing, setIsProcessing] = useState(false);
 
   const llmRef = React.useRef();
+
+  const [bufferBoardDataInit, setBufferBoardDataInit] = useState();
+
+  const handleFinalizeBoardSetup = async () => {
+    const storedBoards = localStorage.getItem(kuonKeys.KUON_KEY_STORED_BOARDS_LCLSTR) ?? [];
+    const foundBoard = storedBoards.find((board) => board.boardId === boardId);
+    if (foundBoard) {
+      bufferBoardDataInit.boardId = boardId;
+      bufferBoardDataInit.proposalPrompt = userInitText;
+      bufferBoardDataInit.hasBeenInitialized = true;
+      bufferBoardDataInit.creationDate = new Date().toISOString();
+      const updatedBoardData = { ...foundBoard, ...bufferBoardDataInit };
+      const updStoredBoards = [...storedBoards, updatedBoardData];
+      storedBoards.currSideEffects = bufferBoardDataInit.sideEffects;
+      storedBoards.currStakeholders = bufferBoardDataInit.stakeholders;
+      localStorage.setItem(kuonKeys.KUON_KEY_STORED_BOARDS_LCLSTR, updStoredBoards);
+      setBoardData(updatedBoardData);
+    }
+
+  };
 
   useEffect(() => {
     if (llmRef.current) return;
@@ -76,6 +98,8 @@ const Board_Init = ({ boardData }) => {
 
       console.log(json);
 
+      setBufferBoardDataInit(json);
+
       setOutText(JSON.stringify(json, null, 2));
     } catch (error) {
       console.error(error?.message);
@@ -87,6 +111,7 @@ const Board_Init = ({ boardData }) => {
   const handleReset = () => {
     setUserInitText("");
     setOutText("{}");
+    setBufferBoardDataInit();
   };
 
   return (
@@ -96,7 +121,20 @@ const Board_Init = ({ boardData }) => {
       justify="start"
       gap="md"
     >
-      <Title order={3}>Set Up Your Board</Title>
+      <Flex
+        direction="row"
+        align="center"
+        justify="space-between"
+      >
+        <Title order={3}>Set Up Your Board</Title>
+
+        <Button
+          onClick={handleFinalizeBoardSetup}
+          disabled={isProcessing}
+        >
+          Done
+        </Button>
+      </Flex>
 
       <Flex
         direction="column"
@@ -387,7 +425,7 @@ const Board = () => {
           ?
           (<Board_Edit boardData={boardData} />)
           :
-          (<Board_Init boardData={boardData} />)
+          (<Board_Init setBoardData={setBoardData} />)
       }
     </Flex>
   );
