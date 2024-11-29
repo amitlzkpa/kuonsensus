@@ -65,20 +65,13 @@ const Board_Init = ({ boardData }) => {
       const stakeHolders = await extractStakeholders(userInitText, llmRef);
       // const stakeHolders = sampleStakeHolders;
 
-      console.log(stakeHolders);
       const allSideEffects = [];
       for (const stakeHolder of stakeHolders) {
-        console.log('---------------------');
-        console.log(stakeHolder);
         let sideEffects = await extractSideEffects(userInitText, stakeHolder, llmRef);
-        console.log(sideEffects);
-        console.log('---------------------');
         allSideEffects.push(sideEffects);
       }
 
       const json = { allSideEffects, stakeHolders };
-
-      console.log(json);
 
       setOutText(JSON.stringify(json, null, 2));
     } catch (error) {
