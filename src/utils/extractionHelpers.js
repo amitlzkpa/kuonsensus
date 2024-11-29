@@ -78,14 +78,15 @@ The side-effect should necessarily affect the stakeholder positively.
 Each side-effect should be unique and different. Keep each side-effect and its reasoning separate.
 Don't use any special characters or text-formatting.
 Return the response in simple English.
-Format it as a CSV with the following columns: sideEffectTitle,stakeholderName,implicationReason.
+Format it as a CSV.
+Use only 2 values for each record with the following keys for the column headers: "sideEffectTitle","implicationReason"
 
 ## Sample Response
-sideEffectTitle,stakeholderName,implicationReason
-"Improved Air Quality","Local Community","Tree planting can improve air quality, benefiting the health and well-being of the local community"
-"Reduced Energy Costs","Investors","Renewable energy systems can reduce long-term energy costs, providing financial benefits to investors"
-"Enhanced Biodiversity","Regulatory Authorities","Contributions to local conservation funds can enhance biodiversity, aligning with regulatory authorities' environmental goals"
-"Job Creation","Local Community","New construction projects can create job opportunities for the local community, boosting the local economy"
+"sideEffectTitle","implicationReason"
+"Improved Air Quality","Tree planting can improve air quality, benefiting the health and well-being of the local community"
+"Reduced Energy Costs","Renewable energy systems can reduce long-term energy costs, providing financial benefits to investors"
+"Enhanced Biodiversity","Contributions to local conservation funds can enhance biodiversity, aligning with regulatory authorities' environmental goals"
+"Job Creation","New construction projects can create job opportunities for the local community, boosting the local economy"
 
 ## Issue:
 
@@ -103,14 +104,14 @@ The side-effect should necessarily affect the stakeholder negatively.
 Each side-effect should be unique and different. Keep each side-effect and its reasoning separate.
 Don't use any special characters or text-formatting.
 Return the response in simple English.
-Format it as a CSV with the following columns: sideEffectTitle,stakeholderName,implicationReason.
-
+Format it as a CSV.
+Use only 2 values for each record with the following keys for the column headers: "sideEffectTitle","implicationReason"
 
 ## Sample Response
-sideEffectTitle,stakeholderName,implicationReason
-"Increased Costs","Investors","Increased costs can reduce the return on investment for investors, impacting their financial interests"
-"Increased Costs","Local Community","Increased costs may lead to higher prices for goods and services, impacting the local community negatively"
-"Increased Costs","Project Team","Increased costs can affect the project budget and timeline, creating challenges for the project team"
+"sideEffectTitle","implicationReason"
+"Increased Financial Costs","Increased costs can reduce the return on investment for investors, impacting their financial interests"
+"Higher Prices","Increased costs may lead to higher prices for goods and services, impacting the local community negatively"
+"Budget Strain","Increased costs can affect the project budget and timeline, creating challenges for the project team"
 
 ## Issue:
 
@@ -133,6 +134,7 @@ const extractPositiveSideEffects = async (inText, stakeHolder, llmRef) => {
   const responseJson = csvToJson(llmResponse);
   const reshapedResponse = responseJson.map((se) => ({
     ...se,
+    stakeholderName: stakeHolder.stakeholderName,
     implication: "positive",
   }));
   const sideEffectsArray = getTypeVerifiedLLMResponse(
@@ -154,6 +156,7 @@ const extractNegativeSideEffects = async (inText, stakeHolder, llmRef) => {
   const responseJson = csvToJson(llmResponse);
   const reshapedResponse = responseJson.map((se) => ({
     ...se,
+    stakeholderName: stakeHolder.stakeholderName,
     implication: "negative",
   }));
   const sideEffectsArray = getTypeVerifiedLLMResponse(
