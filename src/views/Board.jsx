@@ -87,10 +87,20 @@ const Board_Init = ({ setBoardData }) => {
       const stakeHolders = await extractStakeholders(userInitText, llmRef);
       // const stakeHolders = sampleStakeHolders;
 
+      setBufferBoardDataInit({
+        ...bufferBoardDataInit,
+        stakeholders: stakeHolders,
+      });
+
       const allSideEffects = [];
       for (const stakeHolder of stakeHolders) {
         const stakeholderSideEffects = await extractSideEffects(userInitText, stakeHolder, llmRef);
         allSideEffects.push(stakeholderSideEffects);
+
+        setBufferBoardDataInit({
+          ...bufferBoardDataInit,
+          stakeholders: stakeHolders,
+        });
       }
 
       const sideEffects = allSideEffects.flat();
@@ -207,6 +217,56 @@ const Board_Init = ({ setBoardData }) => {
           We will analyze it to help you identify stakeholders and potential side effects.
         </Text>
       </Flex>
+
+      <Flex>
+        <Flex
+          direction="column"
+          gap="sm"
+        >
+
+          {
+            (bufferBoardDataInit?.stakeHolders ?? []).map(
+              (stakeholder) => (
+                <Flex
+                  key={stakeholder.stakeholderName}
+                  direction="column"
+                  align="start"
+                  justify="flex-start"
+                  style={{ margin: "1rem 0 1rem 0" }}
+                >
+                  <Text>{stakeholder.stakeholderName}</Text>
+                  <Text>{stakeholder.description}</Text>
+
+                  <Flex
+                    direction="column"
+                    gap="sm"
+                  >
+                    {
+                      (bufferBoardDataInit?.sideEffects ?? [])
+                        .filter((sideEffect) => sideEffect.stakeholderName === stakeholder.stakeholderName)
+                        .map(
+                          (sideEffect) => (
+                            <Flex
+                              key={sideEffect.sideEffectTitle}
+                              direction="column"
+                              align="start"
+                              justify="start"
+                            >
+                              <Text>&nbsp;&nbsp;{sideEffect.implication} - {sideEffect.sideEffectTitle}</Text>
+                            </Flex>
+                          )
+                        )
+                    }
+                  </Flex>
+
+                </Flex>
+              )
+            )
+          }
+
+        </Flex>
+
+        </Flex>
 
       <JsonInput
         value={outText}
