@@ -65,6 +65,8 @@ export const extractStakeholders = async (inText, llmRef) => {
     .supportQuotedField(true)
     .csvStringToJson(llmResponse);
 
+  if (DEBUG_LLM) console.log(responseJson);
+
   const stakeHoldersArray = getTypeVerifiedLLMResponse(
     responseJson,
     StakeholdersSchema
@@ -154,6 +156,9 @@ const extractPositiveSideEffects = async (inText, stakeHolder, llmRef) => {
     stakeholderName: stakeHolder.stakeholderName,
     implication: "positive",
   }));
+
+  if (DEBUG_LLM) console.log(reshapedResponse);
+
   const sideEffectsArray = getTypeVerifiedLLMResponse(
     reshapedResponse,
     SideEffectsSchema
@@ -186,6 +191,9 @@ const extractNegativeSideEffects = async (inText, stakeHolder, llmRef) => {
     stakeholderName: stakeHolder.stakeholderName,
     implication: "negative",
   }));
+
+  if (DEBUG_LLM) console.log(reshapedResponse);
+
   const sideEffectsArray = getTypeVerifiedLLMResponse(
     reshapedResponse,
     SideEffectsSchema
