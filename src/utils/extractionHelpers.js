@@ -32,7 +32,9 @@ For the issue described below, please provide a list of 3-4 stakeholders that sh
 Provide a brief description of the stakeholder and the reason for their inclusion in the format below.
 Don't use any special characters or text-formatting.
 Return the response in simple English.
-Format it as a CSV with the following columns: stakeholderName,description.
+Format it as a CSV with the following headers: stakeholderName,description.
+Make sure to include the header row in the response.
+Return only the csv string in the response.
 Do not use any commas in "stakeholderName" or "description" text values.
 
 ## Sample Response
@@ -74,6 +76,8 @@ Don't use any special characters or text-formatting.
 Return the response in simple English.
 Format it as a CSV.
 Use only 2 values for each record with the following keys for the column headers: "sideEffectTitle","implicationReason"
+Make sure to include the header row in the response.
+Return only the csv string in the response.
 Do not use any commas in "sideEffectTitle" or "implicationReason" text values.
 
 ## Sample Response
@@ -101,6 +105,8 @@ Don't use any special characters or text-formatting.
 Return the response in simple English.
 Format it as a CSV.
 Use only 2 values for each record with the following keys for the column headers: "sideEffectTitle","implicationReason"
+Make sure to include the header row in the response.
+Return only the csv string in the response.
 Do not use any commas in "sideEffectTitle" or "implicationReason" text values.
 
 ## Sample Response
