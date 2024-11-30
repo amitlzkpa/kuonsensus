@@ -6,6 +6,7 @@ import {
   Divider,
   Flex,
   Loader,
+  Stepper,
   Tabs,
   Text,
   Title
@@ -618,20 +619,80 @@ const Board = () => {
 
   const controls = useRef();
 
+  const [active, setActive] = useState(0);
+  const [activeTabVal, setActiveTabVal] = useState("first");
+
+  useEffect(() => {
+    const tabVals = ["first", "second", "third"];
+    setActiveTabVal(tabVals[active]);
+  }, [active]);
+
   return (
     // Board Main Pane
     <Flex
       direction="column"
       align="stretch"
       justify="start"
+      gap="md"
     >
-      {
-        boardData?.hasBeenInitialized
-          ?
-          (<Board_Edit boardData={boardData} />)
-          :
-          (<Board_Init setBoardData={setBoardData} />)
-      }
+      {/* Stepper */}
+      <Flex
+        direction="column"
+        align="center"
+        mt="sm"
+        mb="lg"
+      >
+        <Stepper active={active} onStepClick={setActive} allowNextStepsSelect={false}>
+          <Stepper.Step
+            label="First step"
+            description="Give an outline"
+          >
+            Step 1: Start with an outline of your proposal
+          </Stepper.Step>
+          <Stepper.Step
+            label="Second step"
+            description="Review stakeholders"
+          >
+            Step 2: Review who is involved
+          </Stepper.Step>
+          <Stepper.Step
+            label="Third step"
+            description="Set priorities"
+          >
+            Step 3: Set priorities and your goals
+          </Stepper.Step>
+        </Stepper>
+      </Flex>
+
+      {/* Step content */}
+      <Flex
+        direction="column"
+        align="stretch"
+        w="100%"
+      >
+        <Tabs value={activeTabVal}>
+          <Tabs.Panel value="first">
+            {
+              boardData?.hasBeenInitialized
+                ?
+                <Board_Edit boardData={boardData} />
+                :
+                <></>
+            }
+            <Board_Init setBoardData={setBoardData} />
+          </Tabs.Panel>
+          <Tabs.Panel value="second">
+            {
+              boardData?.hasBeenInitialized
+                ?
+                <></>
+                :
+                <Board_Init setBoardData={setBoardData} />
+            }
+          </Tabs.Panel>
+          <Tabs.Panel value="third">Third panel</Tabs.Panel>
+        </Tabs>
+      </Flex>
     </Flex>
   );
 };
