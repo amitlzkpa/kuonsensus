@@ -38,13 +38,8 @@ const SideEffectSchema = z.object({
 const SideEffectsSchema = z.array(SideEffectSchema);
 
 const getTypeVerifiedLLMResponse = (llmResponseObj, schema) => {
-  try {
-    const verifiedResponse = schema.parse(llmResponseObj);
-    return verifiedResponse;
-  } catch (error) {
-    console.error(error.message);
-    return null;
-  }
+  const verifiedResponse = schema.parse(llmResponseObj);
+  return verifiedResponse;
 };
 
 const promptForStakeholderIdentification = `
