@@ -80,7 +80,7 @@ const conversationHistoryTemplate = {
   currConversationOutline: [],
 };
 
-const ImplicationList = ({ sideEffects }) => {
+const ImplicationList = ({ sideEffects, handleRemoveSideEffect }) => {
   return (
     <Flex
       direction="column"
@@ -92,7 +92,7 @@ const ImplicationList = ({ sideEffects }) => {
         sideEffects.map(
           (sideEffect, idx) => (
             <Flex
-              key={idx}
+              key={sideEffect.sideEffectTitle}
               direction="row"
               align="center"
               justify="start"
@@ -101,7 +101,7 @@ const ImplicationList = ({ sideEffects }) => {
               <Pill
                 c={sideEffect.implication === "positive" ? "green.9" : "orange.7"}
                 withRemoveButton
-                onClick={() => { console.log(sideEffect); }}
+                onRemove={() => handleRemoveSideEffect(sideEffect)}
               >
                 {sideEffect.implication}
               </Pill>
@@ -240,6 +240,14 @@ const Board_Init = ({ setBoardData }) => {
   const handleReset = () => {
     setUserInitText("");
     setBufferBoardDataInit();
+  };
+
+  const handleRemoveSideEffect = (sideEffect) => {
+    const updSideEffects = bufferBoardDataInit.sideEffects.filter((se) => se.sideEffectTitle !== sideEffect.sideEffectTitle);
+    setBufferBoardDataInit({
+      ...bufferBoardDataInit,
+      sideEffects: updSideEffects
+    });
   };
 
   return (
@@ -389,7 +397,9 @@ const Board_Init = ({ setBoardData }) => {
                             <ImplicationList sideEffects={(bufferBoardDataInit?.sideEffects ?? [])
                               .filter((sideEffect) => sideEffect.stakeHolderName === stakeHolder.stakeHolderName)
                               .filter((sideEffect) => sideEffect.implication === "positive")
-                            } />
+                            }
+                              handleRemoveSideEffect={handleRemoveSideEffect}
+                            />
                           </Flex>
 
                           {/* Negatives */}
@@ -397,7 +407,9 @@ const Board_Init = ({ setBoardData }) => {
                             <ImplicationList sideEffects={(bufferBoardDataInit?.sideEffects ?? [])
                               .filter((sideEffect) => sideEffect.stakeHolderName === stakeHolder.stakeHolderName)
                               .filter((sideEffect) => sideEffect.implication === "negative")
-                            } />
+                            }
+                              handleRemoveSideEffect={handleRemoveSideEffect}
+                            />
                           </Flex>
                         </Flex>
 
@@ -446,13 +458,9 @@ const Board_Edit = ({ boardData }) => {
 
       <Title order={3}>{boardData?.boardName}</Title>
       <Text>{boardData?.boardDescription}</Text>
-      <Flex
-        h="420"
-      >
+      <Flex h="420">
         {/* Graphic */}
-        <Flex
-          w="60%"
-        >
+        <Flex w="60%">
           <Canvas
             shadows
             style={{ width: "100%", height: "100%" }}
