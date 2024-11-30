@@ -14,6 +14,7 @@ import {
 import { useNavigate, useParams } from 'react-router-dom';
 
 import Typed from "typed.js";
+import { FaTrashAlt } from 'react-icons/fa';
 import { Canvas } from "@react-three/fiber";
 import { OrthographicCamera, Environment, SoftShadows } from '@react-three/drei';
 
@@ -462,6 +463,16 @@ const Board = () => {
     });
   };
 
+  const handleDeleteStakeHolder = (stakeHolder) => {
+    const updSideEffects = bufferBoardDataInit.sideEffects.filter((se) => se.stakeHolderName !== stakeHolder.stakeHolderName);
+    const updStakeHolders = bufferBoardDataInit.stakeHolders.filter((sh) => sh.stakeHolderName !== stakeHolder.stakeHolderName);
+    setBufferBoardDataInit({
+      ...bufferBoardDataInit,
+      sideEffects: updSideEffects,
+      stakeHolders: updStakeHolders
+    });
+  };
+
   return (
     // Board Main Pane
     <Flex
@@ -647,6 +658,9 @@ const Board = () => {
                 gap="sm"
                 w="100%"
               >
+                <Title order={4}>
+                  Stakeholders
+                </Title>
                 <Accordion>
                   {
                     (bufferBoardDataInit?.stakeHolders ?? []).map(
@@ -662,6 +676,22 @@ const Board = () => {
                               align="stretch"
                               justify="flex-start"
                             >
+                              <Flex
+                                direction="row"
+                                align="center"
+                                justify="space-between"
+                                gap="sm"
+                                p="md"
+                              >
+                                <Flex></Flex>
+                                <Flex>
+                                  <FaTrashAlt
+                                    color="#ababab"
+                                    onClick={() => { handleDeleteStakeHolder(stakeHolder) }}
+                                    style={{ cursor: "pointer" }}
+                                  />
+                                </Flex>
+                              </Flex>
                               <Text>{stakeHolder.description}</Text>
 
                               <Flex
