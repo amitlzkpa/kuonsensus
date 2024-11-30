@@ -19,11 +19,38 @@ import { Kuon3D_StakeHolder } from "../components/Kuon3D_Stakeholder";
 // import sampleStakeHolders from "../assets/samples/a1_stakeHolders.json";
 // import sampleSideEffects from "../assets/samples/a1_sideEffects.json";
 
-function placeInCircle(radius, maxCount, currIdx) {
-  const angle = (2 * Math.PI * currIdx) / maxCount;
-  const x = radius * Math.cos(angle);
-  const y = radius * Math.sin(angle);
-  return [x, 0, y];
+function getSeatingConfiguration(participants) {
+
+  const seatSize = 12;
+  const tableDepth = seatSize * 2;
+  const totalSeats = (participants ?? []).length;
+
+  const seats = [];
+  const tableLength = Math.ceil(totalSeats / 2) * seatSize; // Calculate table length based on seat count
+  const halfDepth = tableDepth / 2;
+  const halfLength = tableLength / 2;
+
+  for (let i = 0; i < totalSeats; i++) {
+    if (i < totalSeats / 2) {
+      // Top side (horizontal axis)
+      const x = -halfLength + i * seatSize;
+      const y = halfDepth;
+      seats.push({
+        stakeHolder: participants[i],
+        position: [x, 0, y]
+      });
+    } else {
+      // Bottom side (horizontal axis)
+      const x = -halfLength + (i - totalSeats / 2) * seatSize;
+      const y = -halfDepth;
+      seats.push({
+        stakeHolder: participants[i],
+        position: [x, 0, y]
+      });
+    }
+  }
+
+  return seats;
 }
 
 const sampleStartingPrompt = `
@@ -414,10 +441,12 @@ const Board_Edit = ({ boardData }) => {
             <directionalLight position={[-5, 5, 5]} intensity={0.7} />
             <directionalLight position={[1, 0.1, -5]} intensity={3} />
             <directionalLight position={[-1, 0.1, -5]} intensity={8} />
+            <axesHelper args={[10]} />
             {
-              (boardData?.stakeHolders ?? []).map((stakeholder, idx) => (
-                <Kuon3D_StakeHolder key={idx} position={placeInCircle(12, (boardData?.stakeHolders ?? []).length, idx)} />
-              ))
+              getSeatingConfiguration(boardData?.stakeHolders)
+                .map((seat, idx) => (
+                  <Kuon3D_StakeHolder key={idx} position={seat.position} />
+                ))
             }
           </Canvas>
         </Flex>
