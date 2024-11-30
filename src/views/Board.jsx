@@ -28,8 +28,6 @@ const boardTemplate = {
   boardDescription: "",
   proposalPrompt: "",
   proposalDatabank: [],
-  currStakeholders: [],
-  currSideEffects: [],
   storedConversations: [],
   hasBeenInitialized: false,
 };
@@ -86,8 +84,6 @@ const Board_Init = ({ setBoardData }) => {
       bufferBoardDataInit.creationDate = new Date().toISOString();
       const updatedBoardData = { ...foundBoard, ...bufferBoardDataInit };
       const updStoredBoards = [...storedBoards, updatedBoardData];
-      storedBoards.currSideEffects = bufferBoardDataInit.sideEffects;
-      storedBoards.currStakeholders = bufferBoardDataInit.stakeholders;
       localStorage.setItem(kuonKeys.KUON_KEY_STORED_BOARDS_LCLSTR, updStoredBoards);
       setBoardData(updatedBoardData);
     }
@@ -343,7 +339,7 @@ const Board_Edit = ({ boardData }) => {
 
   useEffect(() => {
     const selectedStakeholderNames = selectedStakeholders.map((sh) => sh.stakeholderName);
-    const sideEffectsForSelectedStakeholders = boardData?.currSideEffects.filter((se) => selectedStakeholderNames.includes(se.stakeholderName));
+    const sideEffectsForSelectedStakeholders = boardData?.sideEffects.filter((se) => selectedStakeholderNames.includes(se.stakeholderName));
     setSideEffectsForSelectedStakeholders(sideEffectsForSelectedStakeholders ?? []);
   }, [boardData, selectedStakeholders]);
 
@@ -406,7 +402,7 @@ const Board_Edit = ({ boardData }) => {
             </Tabs.List>
 
             <Tabs.Panel value="stakeholders">
-              {boardData?.currStakeholders.map((stakeholder) => (
+              {boardData?.stakeholders.map((stakeholder) => (
                 <Flex
                   key={stakeholder.stakeholderName}
                   direction="row"
@@ -426,7 +422,7 @@ const Board_Edit = ({ boardData }) => {
             </Tabs.Panel>
 
             <Tabs.Panel value="sideeffects">
-              {boardData?.currSideEffects.map((sideEffect) => (
+              {boardData?.sideEffects.map((sideEffect) => (
                 <Flex
                   key={sideEffect.sideEffectTitle}
                   direction="row"
@@ -503,8 +499,6 @@ const Board = () => {
     if (boardId === "_new") {
       const newBoardId = `brd_${Math.floor(Math.random() * 100000)}`;
       const newBoard = { ...boardTemplate, boardId: newBoardId };
-      // newBoard.currStakeholders = sampleStakeHolders;
-      // newBoard.currSideEffects = sampleSideEffects;
       const storedBoards = localStorage.getItem(kuonKeys.KUON_KEY_STORED_BOARDS_LCLSTR) ?? [];
       const updStoredBoards = [...storedBoards, newBoard];
       localStorage.setItem(kuonKeys.KUON_KEY_STORED_BOARDS_LCLSTR, updStoredBoards);
