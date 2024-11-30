@@ -3,6 +3,24 @@ import csvToJson from "convert-csv-to-json";
 
 let DEBUG_LLM = true;
 
+const makeCallsTillSuccess = async (
+  fnLabel,
+  fn,
+  maxAttempts,
+  fallbackValue
+) => {
+  for (let i = 0; i < maxAttempts; i++) {
+    try {
+      const response = await fn();
+      return response;
+    } catch (error) {
+      if (DEBUG_LLM)
+        console.log(`Error in ${fnLabel} attempt ${i + 1}: ${error.message}`);
+    }
+  }
+  return fallbackValue;
+};
+
 const StakeholderSchema = z.object({
   stakeHolderName: z.string().min(2),
   description: z.string(),
@@ -51,29 +69,42 @@ Do not use any commas within individual text values.
 
 export const extractStakeholders = async (inText, llmRef) => {
   if (DEBUG_LLM) console.log("-------extractStakeholders");
-  const promptText = promptForStakeholderIdentification.replace(
-    "{__issueText__}",
-    inText
+
+  const callLLM_extractStakeholders = async () => {
+    const promptText = promptForStakeholderIdentification.replace(
+      "{__issueText__}",
+      inText
+    );
+    if (DEBUG_LLM) console.log(promptText);
+    let llmResponse = await llmRef?.current?.prompt(promptText);
+    if (DEBUG_LLM) console.log(llmResponse);
+
+    llmResponse = '"stakeHolderName","description"\n' + llmResponse;
+
+    const responseJson = csvToJson
+      .fieldDelimiter(",")
+      .supportQuotedField(true)
+      .csvStringToJson(llmResponse);
+
+    if (DEBUG_LLM) console.log(responseJson);
+
+    const stakeHoldersArray = getTypeVerifiedLLMResponse(
+      responseJson,
+      StakeholdersSchema
+    );
+
+    return stakeHoldersArray;
+  };
+
+  const stakeHolders = await makeCallsTillSuccess(
+    "extractStakeholders",
+    callLLM_extractStakeholders,
+    6,
+    []
   );
-  if (DEBUG_LLM) console.log(promptText);
-  let llmResponse = await llmRef?.current?.prompt(promptText);
-  if (DEBUG_LLM) console.log(llmResponse);
 
-  llmResponse = '"stakeHolderName","description"\n' + llmResponse;
-
-  const responseJson = csvToJson
-    .fieldDelimiter(",")
-    .supportQuotedField(true)
-    .csvStringToJson(llmResponse);
-
-  if (DEBUG_LLM) console.log(responseJson);
-
-  const stakeHoldersArray = getTypeVerifiedLLMResponse(
-    responseJson,
-    StakeholdersSchema
-  );
   if (DEBUG_LLM) console.log("-------extractStakeholders");
-  return stakeHoldersArray;
+  return stakeHolders;
 };
 
 const promptForPositiveSideEffectsIdentification = `
