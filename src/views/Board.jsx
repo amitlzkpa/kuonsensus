@@ -1,5 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Accordion, Button, Chip, Divider, Flex, Loader, Tabs, Text, Title } from '@mantine/core';
+import {
+  Accordion,
+  Button,
+  Pill,
+  Divider,
+  Flex,
+  Loader,
+  Tabs,
+  Text,
+  Title
+} from '@mantine/core';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import Typed from "typed.js";
@@ -88,9 +98,13 @@ const ImplicationList = ({ sideEffects }) => {
               justify="start"
               gap="sm"
             >
-              <Chip color={sideEffect.implication === "positive" ? "green" : "orange"}>
+              <Pill
+                c={sideEffect.implication === "positive" ? "green.9" : "orange.7"}
+                withRemoveButton
+                onClick={() => { console.log(sideEffect); }}
+              >
                 {sideEffect.implication}
-              </Chip>
+              </Pill>
               <Text>{sideEffect.sideEffectTitle}</Text>
             </Flex>
           )
