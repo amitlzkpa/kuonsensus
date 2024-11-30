@@ -23,6 +23,7 @@ const boardTemplate = {
   proposalDatabank: [],
   storedConversations: [],
   hasBeenInitialized: false,
+  creationDate: "",
 };
 
 export function App() {
@@ -57,11 +58,18 @@ export function App() {
 
   const handleCreateNewBoard = () => {
     const newBoardId = `brd_${Math.floor(Math.random() * 100000)}`;
-    const newBoard = { ...boardTemplate, boardId: newBoardId };
+    const newBoard = {
+      ...boardTemplate,
+      boardId: newBoardId,
+      creationDate: new Date().toISOString()
+    };
+
     const storedBoards = localStorage.getItem(kuonKeys.KUON_KEY_STORED_BOARDS_LCLSTR) ?? [];
     const updStoredBoards = [...storedBoards, newBoard];
     localStorage.setItem(kuonKeys.KUON_KEY_STORED_BOARDS_LCLSTR, updStoredBoards);
-    router.navigate(`/board/${newBoardId}`);
+    setTimeout(() => {
+      router.navigate(`/board/${newBoardId}`);
+    }, 2000);
   }
 
   return (
