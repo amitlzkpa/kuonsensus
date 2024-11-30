@@ -14,7 +14,7 @@ import {
 import * as kuonKeys from "../config/kuonKeys";
 import * as localStorage from "../utils/localStorageHelpers";
 import { PromptReady_TextArea } from "../components/PromptReady_TextArea";
-import { Kuon3D_StakeHolder } from "../components/Kuon3D_Stakeholder";
+import { Kuon3D_StakeHolder } from "../components/Kuon3D_StakeHolder";
 
 // import sampleStakeHolders from "../assets/samples/a1_stakeHolders.json";
 // import sampleSideEffects from "../assets/samples/a1_sideEffects.json";
