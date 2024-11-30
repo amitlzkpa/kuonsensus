@@ -367,7 +367,12 @@ const Board_Edit = ({ boardData }) => {
   }, [boardData, selectedStakeholders]);
 
   return (
-    <Flex>
+    <Flex
+      direction="column"
+      align="stretch"
+      justify="start"
+      gap="md"
+    >
 
       <Title order={3}>{boardData?.boardName}</Title>
       <Text>{boardData?.boardDescription}</Text>
