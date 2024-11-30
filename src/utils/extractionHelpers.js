@@ -166,74 +166,100 @@ Return only the csv string in the response.
 
 const extractPositiveSideEffects = async (inText, stakeHolder, llmRef) => {
   if (DEBUG_LLM) console.log("-------extractPositiveSideEffects");
-  const promptText_PositiveSideEffects =
-    promptForPositiveSideEffectsIdentification
-      .replace("{__issueText__}", inText)
-      .replace("{__stakeHolderName__}", stakeHolder.stakeHolderName);
 
-  if (DEBUG_LLM) console.log(promptText_PositiveSideEffects);
+  const callLLM_extractPositiveSideEffects = async () => {
+    const promptText_PositiveSideEffects =
+      promptForPositiveSideEffectsIdentification
+        .replace("{__issueText__}", inText)
+        .replace("{__stakeHolderName__}", stakeHolder.stakeHolderName);
 
-  let llmResponse = await llmRef?.current?.prompt(
-    promptText_PositiveSideEffects
+    if (DEBUG_LLM) console.log(promptText_PositiveSideEffects);
+
+    let llmResponse = await llmRef?.current?.prompt(
+      promptText_PositiveSideEffects
+    );
+
+    llmResponse = '"sideEffectTitle","implicationReason"\n' + llmResponse;
+
+    if (DEBUG_LLM) console.log(llmResponse);
+
+    const responseJson = csvToJson
+      .fieldDelimiter(",")
+      .supportQuotedField(true)
+      .csvStringToJson(llmResponse);
+    const reshapedResponse = responseJson.map((se) => ({
+      ...se,
+      stakeHolderName: stakeHolder.stakeHolderName,
+      implication: "positive",
+    }));
+
+    if (DEBUG_LLM) console.log(reshapedResponse);
+
+    const sideEffectsArray = getTypeVerifiedLLMResponse(
+      reshapedResponse,
+      SideEffectsSchema
+    );
+
+    return sideEffectsArray;
+  };
+
+  const sideEffectsArray = await makeCallsTillSuccess(
+    "extractPositiveSideEffects",
+    callLLM_extractPositiveSideEffects,
+    6,
+    []
   );
 
-  llmResponse = '"sideEffectTitle","implicationReason"\n' + llmResponse;
-
-  if (DEBUG_LLM) console.log(llmResponse);
-
-  const responseJson = csvToJson
-    .fieldDelimiter(",")
-    .supportQuotedField(true)
-    .csvStringToJson(llmResponse);
-  const reshapedResponse = responseJson.map((se) => ({
-    ...se,
-    stakeHolderName: stakeHolder.stakeHolderName,
-    implication: "positive",
-  }));
-
-  if (DEBUG_LLM) console.log(reshapedResponse);
-
-  const sideEffectsArray = getTypeVerifiedLLMResponse(
-    reshapedResponse,
-    SideEffectsSchema
-  );
   if (DEBUG_LLM) console.log("-------extractPositiveSideEffects");
   return sideEffectsArray;
 };
 
 const extractNegativeSideEffects = async (inText, stakeHolder, llmRef) => {
   if (DEBUG_LLM) console.log("-------extractNegativeSideEffects");
-  const promptText_NegativeSideEffects =
-    promptForNegativeSideEffectsIdentification
-      .replace("{__issueText__}", inText)
-      .replace("{__stakeHolderName__}", stakeHolder.stakeHolderName);
 
-  if (DEBUG_LLM) console.log(promptText_NegativeSideEffects);
+  const callLLM_extractNegativeSideEffects = async () => {
+    const promptText_NegativeSideEffects =
+      promptForNegativeSideEffectsIdentification
+        .replace("{__issueText__}", inText)
+        .replace("{__stakeHolderName__}", stakeHolder.stakeHolderName);
 
-  let llmResponse = await llmRef?.current?.prompt(
-    promptText_NegativeSideEffects
+    if (DEBUG_LLM) console.log(promptText_NegativeSideEffects);
+
+    let llmResponse = await llmRef?.current?.prompt(
+      promptText_NegativeSideEffects
+    );
+
+    llmResponse = '"sideEffectTitle","implicationReason"\n' + llmResponse;
+
+    if (DEBUG_LLM) console.log(llmResponse);
+
+    const responseJson = csvToJson
+      .fieldDelimiter(",")
+      .supportQuotedField(true)
+      .csvStringToJson(llmResponse);
+    const reshapedResponse = responseJson.map((se) => ({
+      ...se,
+      stakeHolderName: stakeHolder.stakeHolderName,
+      implication: "negative",
+    }));
+
+    if (DEBUG_LLM) console.log(reshapedResponse);
+
+    const sideEffectsArray = getTypeVerifiedLLMResponse(
+      reshapedResponse,
+      SideEffectsSchema
+    );
+
+    return sideEffectsArray;
+  };
+
+  const sideEffectsArray = await makeCallsTillSuccess(
+    "extractNegativeSideEffects",
+    callLLM_extractNegativeSideEffects,
+    6,
+    []
   );
 
-  llmResponse = '"sideEffectTitle","implicationReason"\n' + llmResponse;
-
-  if (DEBUG_LLM) console.log(llmResponse);
-
-  const responseJson = csvToJson
-    .fieldDelimiter(",")
-    .supportQuotedField(true)
-    .csvStringToJson(llmResponse);
-  const reshapedResponse = responseJson.map((se) => ({
-    ...se,
-    stakeHolderName: stakeHolder.stakeHolderName,
-    implication: "negative",
-  }));
-
-  if (DEBUG_LLM) console.log(reshapedResponse);
-
-  const sideEffectsArray = getTypeVerifiedLLMResponse(
-    reshapedResponse,
-    SideEffectsSchema
-  );
   if (DEBUG_LLM) console.log("-------extractNegativeSideEffects");
   return sideEffectsArray;
 };
@@ -271,16 +297,27 @@ Proposal to develop a community outreach program for at-risk youth
 
 export const generateDescription = async (inText, llmRef) => {
   if (DEBUG_LLM) console.log("-------generateDescription");
-  const promptText = promptForBoardDescriptionGeneration.replace(
-    "{__issueText__}",
-    inText
+
+  const callLLM_generateDescription = async () => {
+    const promptText = promptForBoardDescriptionGeneration.replace(
+      "{__issueText__}",
+      inText
+    );
+    if (DEBUG_LLM) console.log(promptText);
+    let llmResponse = await llmRef?.current?.prompt(promptText);
+    if (DEBUG_LLM) console.log(llmResponse);
+    return llmResponse;
+  };
+
+  const generatedDescription = await makeCallsTillSuccess(
+    "generateDescription",
+    callLLM_generateDescription,
+    3,
+    ""
   );
-  if (DEBUG_LLM) console.log(promptText);
-  let llmResponse = await llmRef?.current?.prompt(promptText);
-  if (DEBUG_LLM) console.log(llmResponse);
 
   if (DEBUG_LLM) console.log("-------generateDescription");
-  return llmResponse;
+  return generatedDescription;
 };
 
 const promptForBoardNameGeneration = `
@@ -302,14 +339,25 @@ Project Management Software Upgrade
 
 export const generateTitle = async (inText, llmRef) => {
   if (DEBUG_LLM) console.log("-------generateTitle");
-  const promptText = promptForBoardNameGeneration.replace(
-    "{__issueText__}",
-    inText
+
+  const callLLM_generateTitle = async () => {
+    const promptText = promptForBoardNameGeneration.replace(
+      "{__issueText__}",
+      inText
+    );
+    if (DEBUG_LLM) console.log(promptText);
+    let llmResponse = await llmRef?.current?.prompt(promptText);
+    if (DEBUG_LLM) console.log(llmResponse);
+    return llmResponse;
+  };
+
+  const generatedTitle = await makeCallsTillSuccess(
+    "generateTitle",
+    callLLM_generateTitle,
+    3,
+    "untitled"
   );
-  if (DEBUG_LLM) console.log(promptText);
-  let llmResponse = await llmRef?.current?.prompt(promptText);
-  if (DEBUG_LLM) console.log(llmResponse);
 
   if (DEBUG_LLM) console.log("-------generateTitle");
-  return llmResponse;
+  return generatedTitle;
 };
