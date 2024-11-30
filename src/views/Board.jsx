@@ -165,18 +165,13 @@ const Board_Init = ({ setBoardData }) => {
 
   const handleFinalizeBoardSetup = async () => {
     const storedBoards = localStorage.getItem(kuonKeys.KUON_KEY_STORED_BOARDS_LCLSTR) ?? [];
-    const foundBoard = storedBoards.find((board) => board.boardId === boardId);
-    if (foundBoard) {
-      bufferBoardDataInit.boardId = boardId;
-      bufferBoardDataInit.proposalPrompt = userInitText;
-      bufferBoardDataInit.hasBeenInitialized = true;
-      bufferBoardDataInit.creationDate = new Date().toISOString();
-      const updatedBoardData = { ...foundBoard, ...bufferBoardDataInit };
-      const updStoredBoards = [...storedBoards, updatedBoardData];
-      localStorage.setItem(kuonKeys.KUON_KEY_STORED_BOARDS_LCLSTR, updStoredBoards);
-      setBoardData(updatedBoardData);
-    }
-
+    bufferBoardDataInit.boardId = boardId;
+    bufferBoardDataInit.proposalPrompt = userInitText;
+    bufferBoardDataInit.hasBeenInitialized = true;
+    bufferBoardDataInit.creationDate = new Date().toISOString();
+    const updStoredBoards = [...storedBoards, bufferBoardDataInit];
+    localStorage.setItem(kuonKeys.KUON_KEY_STORED_BOARDS_LCLSTR, updStoredBoards);
+    setBoardData(bufferBoardDataInit);
   };
 
   const handleReset = () => {
