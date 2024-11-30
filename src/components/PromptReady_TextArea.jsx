@@ -3,7 +3,7 @@ import { Button, Flex, JsonInput, Tabs, Text, Textarea, Title, Space } from '@ma
 
 export const PromptReady_TextArea = (props) => {
   return (
-    <div style={{ position: "relative", minHeight: "120px", height: props.height ?? "10rem", resize: "vertical" }}>
+    <div style={{ position: "relative", height: props.height ?? "10rem", resize: "vertical" }}>
       <Textarea
         style={{ position: "absolute", top: 0, right: 0, left: 0, bottom: 0 }}
         {...props.textareaProps}
