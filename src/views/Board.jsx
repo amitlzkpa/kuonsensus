@@ -3,7 +3,7 @@ import { Button, Divider, Flex, JsonInput, Tabs, Text, Title } from '@mantine/co
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { Canvas } from "@react-three/fiber";
-import { OrthographicCamera, Edges, Environment, SoftShadows } from '@react-three/drei';
+import { OrthographicCamera, Environment, SoftShadows } from '@react-three/drei';
 
 import {
   extractStakeholders,
@@ -14,6 +14,7 @@ import {
 import * as kuonKeys from "../config/kuonKeys";
 import * as localStorage from "../utils/localStorageHelpers";
 import { PromptReady_TextArea } from "../components/PromptReady_TextArea";
+import { Kuon3D_StakeHolder } from "../components/Kuon3D_Stakeholder";
 
 // import sampleStakeHolders from "../assets/samples/a1_stakeHolders.json";
 // import sampleSideEffects from "../assets/samples/a1_sideEffects.json";
@@ -407,11 +408,7 @@ const Board_Edit = ({ boardData }) => {
             <directionalLight position={[-5, 5, 5]} intensity={0.7} />
             <directionalLight position={[1, 0.1, -5]} intensity={3} />
             <directionalLight position={[-1, 0.1, -5]} intensity={8} />
-            <mesh position={[0, 0, 0]} receiveShadow>
-              <cylinderGeometry attach="geometry" args={[4, 4, 1, 128]} />
-              <meshStandardMaterial attach="material" color={"#DEDEDE"} />
-              <Edges linewidth={1} threshold={15} color={"black"} />
-            </mesh>
+            <Kuon3D_StakeHolder />
           </Canvas>
         </Flex>
 
