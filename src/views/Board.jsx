@@ -468,112 +468,128 @@ const Board_Init = ({ boardId, setBoardData }) => {
                 <Title order={4}>
                   Stakeholders
                 </Title>
-                <Accordion>
-                  {
-                    (bufferBoardDataInit?.stakeHolders ?? []).map(
-                      (stakeHolder, idx) => (
-                        <Accordion.Item key={idx} value={stakeHolder.stakeHolderName}>
-                          <Accordion.Control icon={"→"}>
-                            {stakeHolder.stakeHolderName}
-                          </Accordion.Control>
-                          <Accordion.Panel>
-                            <Flex
-                              key={idx}
-                              direction="column"
-                              align="stretch"
-                              justify="flex-start"
-                            >
-                              <Flex
-                                direction="row"
-                                align="center"
-                                justify="space-between"
-                                gap="sm"
-                                p="md"
-                              >
-                                <Flex></Flex>
-                                <Flex>
-                                  <FaTrashAlt
-                                    color="#ababab"
-                                    onClick={() => { handleDeleteStakeHolder(stakeHolder) }}
-                                    style={{ cursor: "pointer" }}
-                                  />
-                                </Flex>
-                              </Flex>
-                              <Text>{stakeHolder.description}</Text>
 
-                              <Flex
-                                direction="row"
-                                gap="sm"
-                                p="md"
-                                w="100%"
-                              >
-                                {/* Positives */}
-                                <Flex w="50%">
-
-                                  {
-                                    isProcessing ? (
-                                      <Flex
-                                        direction="column"
-                                        align="stretch"
-                                        gap="sm"
-                                        w="100%"
-                                      >
-                                        <Skeleton height={16} radius="xl" />
-                                        <Skeleton height={16} radius="xl" />
-                                        <Skeleton height={16} radius="xl" />
-                                        <Skeleton height={16} radius="xl" />
-                                      </Flex>
-                                    ) : (
-                                      <ImplicationList sideEffects={(bufferBoardDataInit?.sideEffects ?? [])
-                                        .filter((sideEffect) => sideEffect.stakeHolderName === stakeHolder.stakeHolderName)
-                                        .filter((sideEffect) => sideEffect.implication === "positive")
-                                      }
-                                        handleRemoveSideEffect={handleRemoveSideEffect}
+                {
+                  isProcessing && (bufferBoardDataInit?.stakeHolders ?? []).length < 1 ? (
+                    <Flex
+                      direction="column"
+                      align="stretch"
+                      gap="sm"
+                    >
+                      <Skeleton height={16} radius="xl" />
+                      <Skeleton height={16} radius="xl" />
+                      <Skeleton height={16} radius="xl" />
+                      <Skeleton height={16} radius="xl" />
+                    </Flex>
+                  ) : (
+                    <Accordion>
+                      {
+                        (bufferBoardDataInit?.stakeHolders ?? []).map(
+                          (stakeHolder, idx) => (
+                            <Accordion.Item key={idx} value={stakeHolder.stakeHolderName}>
+                              <Accordion.Control icon={"→"}>
+                                {stakeHolder.stakeHolderName}
+                              </Accordion.Control>
+                              <Accordion.Panel>
+                                <Flex
+                                  key={idx}
+                                  direction="column"
+                                  align="stretch"
+                                  justify="flex-start"
+                                >
+                                  <Flex
+                                    direction="row"
+                                    align="center"
+                                    justify="space-between"
+                                    gap="sm"
+                                    p="md"
+                                  >
+                                    <Flex></Flex>
+                                    <Flex>
+                                      <FaTrashAlt
+                                        color="#ababab"
+                                        onClick={() => { handleDeleteStakeHolder(stakeHolder) }}
+                                        style={{ cursor: "pointer" }}
                                       />
-                                    )
-                                  }
-
-                                </Flex>
-
-                                {/* Negatives */}
-                                <Flex w="50%">
-                                  {
-                                    isProcessing ? (<Flex
-                                      direction="column"
-                                      align="stretch"
-                                      gap="sm"
-                                      w="100%"
-                                    >
-                                      <Skeleton height={16} radius="xl" />
-                                      <Skeleton height={16} radius="xl" />
-                                      <Skeleton height={16} radius="xl" />
-                                      <Skeleton height={16} radius="xl" />
                                     </Flex>
-                                    ) : (
-                                      <ImplicationList sideEffects={(bufferBoardDataInit?.sideEffects ?? [])
-                                        .filter((sideEffect) => sideEffect.stakeHolderName === stakeHolder.stakeHolderName)
-                                        .filter((sideEffect) => sideEffect.implication === "negative")
+                                  </Flex>
+                                  <Text>{stakeHolder.description}</Text>
+
+                                  <Flex
+                                    direction="row"
+                                    gap="sm"
+                                    p="md"
+                                    w="100%"
+                                  >
+                                    {/* Positives */}
+                                    <Flex w="50%">
+
+                                      {
+                                        isProcessing ? (
+                                          <Flex
+                                            direction="column"
+                                            align="stretch"
+                                            gap="sm"
+                                            w="100%"
+                                          >
+                                            <Skeleton height={16} radius="xl" />
+                                            <Skeleton height={16} radius="xl" />
+                                            <Skeleton height={16} radius="xl" />
+                                            <Skeleton height={16} radius="xl" />
+                                          </Flex>
+                                        ) : (
+                                          <ImplicationList sideEffects={(bufferBoardDataInit?.sideEffects ?? [])
+                                            .filter((sideEffect) => sideEffect.stakeHolderName === stakeHolder.stakeHolderName)
+                                            .filter((sideEffect) => sideEffect.implication === "positive")
+                                          }
+                                            handleRemoveSideEffect={handleRemoveSideEffect}
+                                          />
+                                        )
                                       }
-                                        handleRemoveSideEffect={handleRemoveSideEffect}
-                                      />
-                                    )
-                                  }
+
+                                    </Flex>
+
+                                    {/* Negatives */}
+                                    <Flex w="50%">
+                                      {
+                                        isProcessing ? (<Flex
+                                          direction="column"
+                                          align="stretch"
+                                          gap="sm"
+                                          w="100%"
+                                        >
+                                          <Skeleton height={16} radius="xl" />
+                                          <Skeleton height={16} radius="xl" />
+                                          <Skeleton height={16} radius="xl" />
+                                          <Skeleton height={16} radius="xl" />
+                                        </Flex>
+                                        ) : (
+                                          <ImplicationList sideEffects={(bufferBoardDataInit?.sideEffects ?? [])
+                                            .filter((sideEffect) => sideEffect.stakeHolderName === stakeHolder.stakeHolderName)
+                                            .filter((sideEffect) => sideEffect.implication === "negative")
+                                          }
+                                            handleRemoveSideEffect={handleRemoveSideEffect}
+                                          />
+                                        )
+                                      }
+                                    </Flex>
+                                  </Flex>
+
                                 </Flex>
-                              </Flex>
+                              </Accordion.Panel>
+                            </Accordion.Item>
 
-                            </Flex>
-                          </Accordion.Panel>
-                        </Accordion.Item>
-
-                      )
-                    )
-                  }
-                </Accordion>
+                          )
+                        )
+                      }
+                    </Accordion>
+                  )
+                }
 
                 <Flex>
                   <Button
                     onClick={() => handleStepChange(2)}
-                    disabled={bufferBoardDataInit?.stakeHolders?.length === 0}
+                    disabled={(bufferBoardDataInit?.stakeHolders ?? []).length === 0}
                   >
                     Next
                   </Button>
