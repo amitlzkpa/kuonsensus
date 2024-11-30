@@ -1,11 +1,16 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Button, Flex, JsonInput, Tabs, Text, Title } from '@mantine/core';
+import { Button, Divider, Flex, JsonInput, Tabs, Text, Title } from '@mantine/core';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { Canvas } from "@react-three/fiber";
 import { OrthographicCamera, Environment, SoftShadows } from '@react-three/drei';
 
-import { extractStakeholders, extractSideEffects } from "../utils/extractionHelpers";
+import {
+  extractStakeholders,
+  extractSideEffects,
+  generateDescription,
+  generateTitle
+} from "../utils/extractionHelpers";
 import * as kuonKeys from "../config/kuonKeys";
 import * as localStorage from "../utils/localStorageHelpers";
 import { PromptReady_TextArea } from "../components/PromptReady_TextArea";
@@ -92,6 +97,21 @@ const Board_Init = ({ setBoardData }) => {
     setIsProcessing(true);
 
     try {
+
+      const boardName = await generateTitle(userInitText, llmRef);
+
+      setBufferBoardDataInit({
+        ...bufferBoardDataInit,
+        boardName,
+      });
+
+      const boardDescription = await generateDescription(userInitText, llmRef);
+
+      setBufferBoardDataInit({
+        ...bufferBoardDataInit,
+        boardDescription,
+      });
+
       const stakeHolders = await extractStakeholders(userInitText, llmRef);
       // const stakeHolders = sampleStakeHolders;
 
@@ -223,6 +243,21 @@ const Board_Init = ({ setBoardData }) => {
         </Text>
         <Text>
           We will analyze it to help you identify stakeholders and potential side effects.
+        </Text>
+      </Flex>
+
+      <Divider />
+
+      <Flex
+        direction="column"
+        align="start"
+        justify="start"
+      >
+        <Text>
+          Title: {bufferBoardDataInit?.boardName}
+        </Text>
+        <Text>
+          Description: {bufferBoardDataInit?.boardDescription}
         </Text>
       </Flex>
 
