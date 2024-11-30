@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Button, Divider, Flex, JsonInput, Loader, Tabs, Text, Title } from '@mantine/core';
+import { Accordion, Button, Chip, Divider, Flex, JsonInput, Loader, Tabs, Text, Title } from '@mantine/core';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import Typed from "typed.js";
@@ -69,6 +69,36 @@ const conversationHistoryTemplate = {
   conversationParticipants: [],
   currConversationOutline: [],
 };
+
+const ImplicationList = ({ sideEffects }) => {
+  return (
+    <Flex
+      direction="column"
+      align="stretch"
+      justify="start"
+      gap="sm"
+    >
+      {
+        sideEffects.map(
+          (sideEffect, idx) => (
+            <Flex
+              key={idx}
+              direction="row"
+              align="center"
+              justify="start"
+              gap="sm"
+            >
+              <Chip color={sideEffect.implication === "positive" ? "green" : "orange"}>
+                {sideEffect.implication}
+              </Chip>
+              <Text>{sideEffect.sideEffectTitle}</Text>
+            </Flex>
+          )
+        )
+      }
+    </Flex>
+  );
+}
 
 const Board_Init = ({ setBoardData }) => {
   const { boardId } = useParams();
@@ -311,78 +341,61 @@ const Board_Init = ({ setBoardData }) => {
         </Text>
       </Flex>
 
-      <Flex>
+      <Flex gap="md">
         <Flex
           direction="column"
           gap="sm"
+          w="100%"
         >
 
-          {
-            (bufferBoardDataInit?.stakeHolders ?? []).map(
-              (stakeHolder, idx) => (
-                <Flex
-                  key={idx}
-                  direction="column"
-                  align="start"
-                  justify="flex-start"
-                  style={{ margin: "1rem 0 1rem 0" }}
-                >
-                  <Text>{stakeHolder.stakeHolderName}</Text>
-                  <Text>{stakeHolder.description}</Text>
+          <Accordion>
+            {
+              (bufferBoardDataInit?.stakeHolders ?? []).map(
+                (stakeHolder, idx) => (
+                  <Accordion.Item key={idx} value={stakeHolder.stakeHolderName}>
+                    <Accordion.Control icon={"→"}>
+                      {stakeHolder.stakeHolderName}
+                    </Accordion.Control>
+                    <Accordion.Panel>
+                      <Flex
+                        key={idx}
+                        direction="column"
+                        align="stretch"
+                        justify="flex-start"
+                      >
+                        <Text>{stakeHolder.description}</Text>
 
-                  <Flex
-                    direction="column"
-                    gap="sm"
-                  >
-                    {
-                      (bufferBoardDataInit?.sideEffects ?? [])
-                        .filter((sideEffect) => sideEffect.stakeHolderName === stakeHolder.stakeHolderName)
-                        .map(
-                          (sideEffect, idx) => (
-                            <Flex
-                              key={idx}
-                              direction="column"
-                              align="start"
-                              justify="start"
-                            >
-                              <Text>&nbsp;&nbsp;{sideEffect.implication} - {sideEffect.sideEffectTitle}</Text>
-                            </Flex>
-                          )
-                        )
-                    }
-                  </Flex>
+                        <Flex
+                          direction="row"
+                          gap="sm"
+                          p="md"
+                          w="100%"
+                        >
+                          {/* Positives */}
+                          <Flex w="50%">
+                            <ImplicationList sideEffects={(bufferBoardDataInit?.sideEffects ?? [])
+                              .filter((sideEffect) => sideEffect.stakeHolderName === stakeHolder.stakeHolderName)
+                              .filter((sideEffect) => sideEffect.implication === "positive")
+                            } />
+                          </Flex>
 
-                </Flex>
-              )
-            )
-          }
+                          {/* Negatives */}
+                          <Flex w="50%">
+                            <ImplicationList sideEffects={(bufferBoardDataInit?.sideEffects ?? [])
+                              .filter((sideEffect) => sideEffect.stakeHolderName === stakeHolder.stakeHolderName)
+                              .filter((sideEffect) => sideEffect.implication === "negative")
+                            } />
+                          </Flex>
+                        </Flex>
 
-        </Flex>
+                      </Flex>
+                    </Accordion.Panel>
+                  </Accordion.Item>
 
-        <Flex
-          direction="column"
-          gap="sm"
-        >
-
-          {
-            (eachUniqueSideEffect ?? [])
-              .sort((a, b) => b.sideEffectItemList.length - a.sideEffectItemList.length)
-              .map(
-                (sideEffect, idx) => (
-                  <Flex
-                    key={idx}
-                    direction="column"
-                    align="start"
-                    justify="flex-start"
-                    style={{ margin: "1rem 0 1rem 0" }}
-                  >
-                    <Text>{sideEffect?.sideEffectTitle}</Text>
-                    <Text>{(sideEffect?.sideEffectItemList ?? []).length}</Text>
-                  </Flex>
                 )
               )
-          }
-
+            }
+          </Accordion>
         </Flex>
       </Flex>
 
