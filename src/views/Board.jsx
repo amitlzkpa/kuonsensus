@@ -408,7 +408,7 @@ const Board_Edit = ({ boardData }) => {
             <directionalLight position={[-5, 5, 5]} intensity={0.7} />
             <directionalLight position={[1, 0.1, -5]} intensity={3} />
             <directionalLight position={[-1, 0.1, -5]} intensity={8} />
-            <Kuon3D_StakeHolder />
+            <Kuon3D_StakeHolder position={[0, 0, 0]} />
           </Canvas>
         </Flex>
 
