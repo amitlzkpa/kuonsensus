@@ -1,11 +1,9 @@
 import '@mantine/core/styles.css';
-import {
-  createBrowserRouter,
-  RouterProvider
-} from "react-router-dom";
 import React, { useEffect, useState } from "react";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-import { AppShell, Button, Burger, Center, Flex, Group, MantineProvider, NavLink } from '@mantine/core';
+import { AppShell, Button, Burger, Center, Flex, Group, HoverCard, MantineProvider, NavLink, Text } from '@mantine/core';
+import { FaInfoCircle, FaTrashAlt } from 'react-icons/fa';
 import { useDisclosure } from '@mantine/hooks';
 
 import * as kuonKeys from "./config/kuonKeys";
@@ -116,15 +114,47 @@ export function App() {
             (
               <Flex direction={"column"} gap={"md"}>
                 {storedBoards_localStorage.map((board) => (
-                  <NavLink
+                  <Flex
                     key={board.boardId}
-                    href={`/board/${board.boardId}`}
-                    style={{
-                      fontStyle: board.boardName ? "" : "italic",
-                      color: board.boardName ? "" : "gray",
-                    }}
-                    label={board.boardName ? board.boardName : "Untitled Board"}
-                  />
+                    align="center"
+                    justify="space-between"
+                    gap="sm"
+                  >
+                    <HoverCard width={280} shadow="md">
+                      <HoverCard.Target>
+                        <div>
+                          <FaInfoCircle size="0.9rem" color="#ababab" />
+                        </div>
+                      </HoverCard.Target>
+                      <HoverCard.Dropdown>
+                        <Flex
+                          direction="column"
+                          gap="sm"
+                          w="100%"
+                        >
+                          <Text size="sm">
+                            {board.boardId}
+                          </Text>
+                          <Text size="md">
+                            {board.boardDescription}
+                          </Text>
+                        </Flex>
+                      </HoverCard.Dropdown>
+                    </HoverCard>
+                    <NavLink
+                      href={`/board/${board.boardId}`}
+                      style={{
+                        fontStyle: board.boardName ? "" : "italic",
+                        color: board.boardName ? "" : "gray",
+                      }}
+                      label={board.boardName ? board.boardName : "Untitled Board"}
+                    />
+                    <FaTrashAlt
+                      size="0.7rem"
+                      color="#ababab"
+                      onClick={() => { console.log('foo') }}
+                    />
+                  </Flex>
                 ))}
               </Flex>
             )
