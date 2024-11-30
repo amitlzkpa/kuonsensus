@@ -239,6 +239,7 @@ const Board_Init = ({ setBoardData }) => {
       justify="start"
       gap="md"
     >
+      {/* Top Row */}
       <Flex
         direction="row"
         align="center"
@@ -254,6 +255,7 @@ const Board_Init = ({ setBoardData }) => {
         </Button>
       </Flex>
 
+      {/* Prompt Area */}
       <Flex
         direction="column"
         align="stretch"
@@ -286,6 +288,7 @@ const Board_Init = ({ setBoardData }) => {
         />
       </Flex>
 
+      {/* Buttons Row */}
       <Flex
         gap="sm"
         justify="flex-start"
@@ -311,6 +314,7 @@ const Board_Init = ({ setBoardData }) => {
         )}
       </Flex>
 
+      {/* Bottom Instructions */}
       <Flex
         direction="column"
         align="stretch"
@@ -326,6 +330,7 @@ const Board_Init = ({ setBoardData }) => {
 
       <Divider />
 
+      {/* Title and Desc */}
       <Flex
         direction="column"
         align="start"
@@ -341,13 +346,13 @@ const Board_Init = ({ setBoardData }) => {
         </Text>
       </Flex>
 
+      {/* Stakeholders List */}
       <Flex gap="md">
         <Flex
           direction="column"
           gap="sm"
           w="100%"
         >
-
           <Accordion>
             {
               (bufferBoardDataInit?.stakeHolders ?? []).map(
