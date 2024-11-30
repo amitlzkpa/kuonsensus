@@ -144,8 +144,8 @@ const Board_Init = ({ setBoardData }) => {
 
       const allSideEffects = [];
       for (const stakeHolder of stakeHolders) {
-        const stakeholderSideEffects = await extractSideEffects(userInitText, stakeHolder, llmRef);
-        allSideEffects.push(stakeholderSideEffects);
+        const stakeHolderSideEffects = await extractSideEffects(userInitText, stakeHolder, llmRef);
+        allSideEffects.push(stakeHolderSideEffects);
       }
 
       const sideEffects = allSideEffects.flat();
@@ -300,7 +300,7 @@ const Board_Init = ({ setBoardData }) => {
 
           {
             (bufferBoardDataInit?.stakeHolders ?? []).map(
-              (stakeholder, idx) => (
+              (stakeHolder, idx) => (
                 <Flex
                   key={idx}
                   direction="column"
@@ -308,8 +308,8 @@ const Board_Init = ({ setBoardData }) => {
                   justify="flex-start"
                   style={{ margin: "1rem 0 1rem 0" }}
                 >
-                  <Text>{stakeholder.stakeholderName}</Text>
-                  <Text>{stakeholder.description}</Text>
+                  <Text>{stakeHolder.stakeHolderName}</Text>
+                  <Text>{stakeHolder.description}</Text>
 
                   <Flex
                     direction="column"
@@ -317,7 +317,7 @@ const Board_Init = ({ setBoardData }) => {
                   >
                     {
                       (bufferBoardDataInit?.sideEffects ?? [])
-                        .filter((sideEffect) => sideEffect.stakeholderName === stakeholder.stakeholderName)
+                        .filter((sideEffect) => sideEffect.stakeHolderName === stakeHolder.stakeHolderName)
                         .map(
                           (sideEffect, idx) => (
                             <Flex
@@ -381,20 +381,20 @@ const Board_Edit = ({ boardData }) => {
 
   const [selectedStakeholders, setSelectedStakeholders] = useState([]);
 
-  const onClick_Stakeholder = (stakeholder) => {
-    const stakeholderIsSelected = selectedStakeholders.find(sh => sh.stakeholderName === stakeholder.stakeholderName);
-    if (stakeholderIsSelected) {
-      setSelectedStakeholders(selectedStakeholders.filter((sh) => sh.stakeholderName !== stakeholder.stakeholderName));
+  const onClick_Stakeholder = (stakeHolder) => {
+    const stakeHolderIsSelected = selectedStakeholders.find(sh => sh.stakeHolderName === stakeHolder.stakeHolderName);
+    if (stakeHolderIsSelected) {
+      setSelectedStakeholders(selectedStakeholders.filter((sh) => sh.stakeHolderName !== stakeHolder.stakeHolderName));
     } else {
-      setSelectedStakeholders([...selectedStakeholders, stakeholder]);
+      setSelectedStakeholders([...selectedStakeholders, stakeHolder]);
     }
   };
 
   const [sideEffectsForSelectedStakeholders, setSideEffectsForSelectedStakeholders] = useState([]);
 
   useEffect(() => {
-    const selectedStakeholderNames = (selectedStakeholders ?? []).map((sh) => sh.stakeholderName);
-    const sideEffectsForSelectedStakeholders = boardData?.sideEffects.filter((se) => selectedStakeholderNames.includes(se.stakeholderName));
+    const selectedStakeholderNames = (selectedStakeholders ?? []).map((sh) => sh.stakeHolderName);
+    const sideEffectsForSelectedStakeholders = boardData?.sideEffects.filter((se) => selectedStakeholderNames.includes(se.stakeHolderName));
     setSideEffectsForSelectedStakeholders(sideEffectsForSelectedStakeholders ?? []);
   }, [boardData, selectedStakeholders]);
 
@@ -465,20 +465,20 @@ const Board_Edit = ({ boardData }) => {
             </Tabs.List>
 
             <Tabs.Panel value="stakeholders">
-              {(boardData?.stakeHolders ?? []).map((stakeholder, idx) => (
+              {(boardData?.stakeHolders ?? []).map((stakeHolder, idx) => (
                 <Flex
                   key={idx}
                   direction="row"
                   align="center"
                   justify="space-between"
-                  onClick={() => onClick_Stakeholder(stakeholder)}
+                  onClick={() => onClick_Stakeholder(stakeHolder)}
                 >
                   {
-                    (selectedStakeholders.find(sh => sh.stakeholderName === stakeholder.stakeholderName))
+                    (selectedStakeholders.find(sh => sh.stakeHolderName === stakeHolder.stakeHolderName))
                       ?
-                      <Text style={{ fontWeight: "bold" }}>{stakeholder.stakeholderName}</Text>
+                      <Text style={{ fontWeight: "bold" }}>{stakeHolder.stakeHolderName}</Text>
                       :
-                      <Text>{stakeholder.stakeholderName}</Text>
+                      <Text>{stakeHolder.stakeHolderName}</Text>
                   }
                 </Flex>
               ))}
@@ -517,7 +517,7 @@ const Board_Edit = ({ boardData }) => {
               style={{ margin: "1rem 0 1rem 0" }}
               onClick={() => onClick_Stakeholder(selectedStakeholder)}
             >
-              <Text>{selectedStakeholder.stakeholderName}</Text>
+              <Text>{selectedStakeholder.stakeHolderName}</Text>
               <Text>{selectedStakeholder.description}</Text>
             </Flex>
           ))}

@@ -20,7 +20,7 @@ export const Kuon3D_StakeHolder = ({ position, stakeHolder }) => {
       <Edges linewidth={clicked ? 3 : hovered ? 4 : 2} threshold={15} color={clicked ? "#0002ef" : hovered ? "#c02040" : "black"} />
       <Html center>
         <div style={{ color: "black", fontSize: "0.5rem" }}>
-          {stakeHolder.stakeholderName}
+          {stakeHolder.stakeHolderName}
         </div>
       </Html>
     </mesh>

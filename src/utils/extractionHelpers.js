@@ -4,7 +4,7 @@ import csvToJson from "convert-csv-to-json";
 let DEBUG_LLM = true;
 
 const StakeholderSchema = z.object({
-  stakeholderName: z.string().min(2),
+  stakeHolderName: z.string().min(2),
   description: z.string(),
 });
 
@@ -12,7 +12,7 @@ const StakeholdersSchema = z.array(StakeholderSchema);
 
 const SideEffectSchema = z.object({
   sideEffectTitle: z.string().min(2),
-  stakeholderName: z.string().min(2),
+  stakeHolderName: z.string().min(2),
   implication: z.string().min(2),
   implicationReason: z.string(),
 });
@@ -59,7 +59,7 @@ export const extractStakeholders = async (inText, llmRef) => {
   let llmResponse = await llmRef?.current?.prompt(promptText);
   if (DEBUG_LLM) console.log(llmResponse);
 
-  llmResponse = '"stakeholderName","description"\n' + llmResponse;
+  llmResponse = '"stakeHolderName","description"\n' + llmResponse;
 
   const responseJson = csvToJson
     .fieldDelimiter(",")
@@ -102,7 +102,7 @@ Return only the csv string in the response.
 
 ## Stakeholder:
 
-{__stakeholderName__}
+{__stakeHolderName__}
 `;
 
 const promptForNegativeSideEffectsIdentification = `
@@ -130,7 +130,7 @@ Return only the csv string in the response.
 
 ## Stakeholder:
 
-{__stakeholderName__}
+{__stakeHolderName__}
 `;
 
 const extractPositiveSideEffects = async (inText, stakeHolder, llmRef) => {
@@ -138,7 +138,7 @@ const extractPositiveSideEffects = async (inText, stakeHolder, llmRef) => {
   const promptText_PositiveSideEffects =
     promptForPositiveSideEffectsIdentification
       .replace("{__issueText__}", inText)
-      .replace("{__stakeholderName__}", stakeHolder.stakeholderName);
+      .replace("{__stakeHolderName__}", stakeHolder.stakeHolderName);
 
   if (DEBUG_LLM) console.log(promptText_PositiveSideEffects);
 
@@ -156,7 +156,7 @@ const extractPositiveSideEffects = async (inText, stakeHolder, llmRef) => {
     .csvStringToJson(llmResponse);
   const reshapedResponse = responseJson.map((se) => ({
     ...se,
-    stakeholderName: stakeHolder.stakeholderName,
+    stakeHolderName: stakeHolder.stakeHolderName,
     implication: "positive",
   }));
 
@@ -175,7 +175,7 @@ const extractNegativeSideEffects = async (inText, stakeHolder, llmRef) => {
   const promptText_NegativeSideEffects =
     promptForNegativeSideEffectsIdentification
       .replace("{__issueText__}", inText)
-      .replace("{__stakeholderName__}", stakeHolder.stakeholderName);
+      .replace("{__stakeHolderName__}", stakeHolder.stakeHolderName);
 
   if (DEBUG_LLM) console.log(promptText_NegativeSideEffects);
 
@@ -193,7 +193,7 @@ const extractNegativeSideEffects = async (inText, stakeHolder, llmRef) => {
     .csvStringToJson(llmResponse);
   const reshapedResponse = responseJson.map((se) => ({
     ...se,
-    stakeholderName: stakeHolder.stakeholderName,
+    stakeHolderName: stakeHolder.stakeHolderName,
     implication: "negative",
   }));
 
