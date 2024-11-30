@@ -67,9 +67,7 @@ export function App() {
     const storedBoards = localStorage.getItem(kuonKeys.KUON_KEY_STORED_BOARDS_LCLSTR) ?? [];
     const updStoredBoards = [...storedBoards, newBoard];
     localStorage.setItem(kuonKeys.KUON_KEY_STORED_BOARDS_LCLSTR, updStoredBoards);
-    setTimeout(() => {
-      router.navigate(`/board/${newBoardId}`);
-    }, 2000);
+    router.navigate(`/board/${newBoardId}`);
   }
 
   return (
