@@ -439,11 +439,11 @@ const Board_Edit = ({ boardData }) => {
             <directionalLight position={[-5, 5, 5]} intensity={0.7} />
             <directionalLight position={[1, 0.1, -5]} intensity={3} />
             <directionalLight position={[-1, 0.1, -5]} intensity={8} />
-            <axesHelper args={[10]} />
+            {/* <axesHelper args={[10]} /> */}
             {
               getSeatingConfiguration(boardData?.stakeHolders)
                 .map((seat, idx) => (
-                  <Kuon3D_StakeHolder key={idx} position={seat.position} />
+                  <Kuon3D_StakeHolder key={idx} position={seat.position} stakeHolder={seat.stakeHolder} />
                 ))
             }
           </Canvas>
