@@ -2,7 +2,20 @@ import '@mantine/core/styles.css';
 import React, { useEffect, useState } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-import { AppShell, Button, Burger, Center, Flex, Group, HoverCard, MantineProvider, NavLink, Text } from '@mantine/core';
+import {
+  AppShell,
+  Button,
+  Burger,
+  Center,
+  Flex,
+  Group,
+  HoverCard,
+  MantineProvider,
+  Modal,
+  NavLink,
+  Text,
+  Title
+} from '@mantine/core';
 import { FaInfoCircle, FaTrashAlt } from 'react-icons/fa';
 import { useDisclosure } from '@mantine/hooks';
 
@@ -25,6 +38,7 @@ const boardTemplate = {
 };
 
 export function App() {
+
   const [mobileOpened, { toggle: toggleMobile }] = useDisclosure();
   const [desktopOpened, { toggle: toggleDesktop }] = useDisclosure(true);
 
@@ -66,6 +80,16 @@ export function App() {
     const updStoredBoards = [...storedBoards, newBoard];
     localStorage.setItem(kuonKeys.KUON_KEY_STORED_BOARDS_LCLSTR, updStoredBoards);
     router.navigate(`/board/${newBoardId}`);
+  };
+
+  const [boardToDelete, setBoardToDelete] = useState({});
+  const [opened, { open, close }] = useDisclosure(false);
+
+  const handleBoardDelete = () => {
+    const storedBoards = localStorage.getItem(kuonKeys.KUON_KEY_STORED_BOARDS_LCLSTR) ?? [];
+    const updStoredBoards = storedBoards.filter((board) => board.boardId !== boardToDelete.boardId);
+    localStorage.setItem(kuonKeys.KUON_KEY_STORED_BOARDS_LCLSTR, updStoredBoards);
+    close();
   }
 
   return (
@@ -100,6 +124,7 @@ export function App() {
             </Button>
           </Group>
         </AppShell.Header>
+
         <AppShell.Navbar p="md">
           <Button
             m="md"
@@ -132,9 +157,7 @@ export function App() {
                           gap="sm"
                           w="100%"
                         >
-                          <Text size="sm">
-                            {board.boardId}
-                          </Text>
+                          <Text size="sm" c="gray.7" style={{ fontStyle: "italic" }}>{boardToDelete.boardId}</Text>
                           <Text size="md">
                             {board.boardDescription}
                           </Text>
@@ -152,7 +175,7 @@ export function App() {
                     <FaTrashAlt
                       size="0.7rem"
                       color="#ababab"
-                      onClick={() => { console.log('foo') }}
+                      onClick={() => { setBoardToDelete(board); open(); }}
                     />
                   </Flex>
                 ))}
@@ -167,10 +190,40 @@ export function App() {
           }
 
         </AppShell.Navbar>
+
         <AppShell.Main>
           <RouterProvider router={router} />
         </AppShell.Main>
+
       </AppShell>
+
+      <Modal
+        title="Are you sure you want to delete this board?"
+        centered
+        opened={opened}
+        onClose={close}
+      >
+        <Flex
+          direction="column"
+          gap="md"
+          h="24rem"
+          style={{ zIndex: 1000 }}
+        >
+          <Flex
+            direction="column"
+            style={{ flexGrow: 1 }}
+          >
+            <Text size="sm" c="gray.7" style={{ fontStyle: "italic" }}>{boardToDelete.boardId}</Text>
+            <Title order={3}>{boardToDelete.boardName}</Title>
+            <Text size="sm">{boardToDelete.boardDescription}</Text>
+          </Flex>
+
+          <Flex w="100%" justify="flex-end" gap="md">
+            <Button onClick={close}>Cancel</Button>
+            <Button color="red.4" onClick={handleBoardDelete}>Delete</Button>
+          </Flex>
+        </Flex>
+      </Modal>
     </MantineProvider>
   );
 }
