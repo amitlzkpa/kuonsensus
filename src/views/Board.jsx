@@ -19,6 +19,12 @@ import { Kuon3D_StakeHolder } from "../components/Kuon3D_Stakeholder";
 // import sampleStakeHolders from "../assets/samples/a1_stakeHolders.json";
 // import sampleSideEffects from "../assets/samples/a1_sideEffects.json";
 
+function placeInCircle(radius, maxCount, currIdx) {
+  const angle = (2 * Math.PI * currIdx) / maxCount;
+  const x = radius * Math.cos(angle);
+  const y = radius * Math.sin(angle);
+  return [x, 0, y];
+}
 
 const sampleStartingPrompt = `
 In order to address environmental concerns from new construction,
@@ -408,7 +414,11 @@ const Board_Edit = ({ boardData }) => {
             <directionalLight position={[-5, 5, 5]} intensity={0.7} />
             <directionalLight position={[1, 0.1, -5]} intensity={3} />
             <directionalLight position={[-1, 0.1, -5]} intensity={8} />
-            <Kuon3D_StakeHolder position={[0, 0, 0]} />
+            {
+              (boardData?.stakeHolders ?? []).map((stakeholder, idx) => (
+                <Kuon3D_StakeHolder key={idx} position={placeInCircle(12, (boardData?.stakeHolders ?? []).length, idx)} />
+              ))
+            }
           </Canvas>
         </Flex>
 
