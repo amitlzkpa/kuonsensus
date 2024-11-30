@@ -275,16 +275,16 @@ export const extractSideEffects = async (inText, stakeHolder, llmRef) => {
 };
 
 const promptForBoardDescriptionGeneration = `
-Provide a 1-line description for a proposal around the issue described below.
+Provide a 2-3-line description for a proposal around the issue described below.
 Don't use any special characters or text-formatting.
 Return the response in simple English.
 Do not use any punctuations in the title.
 Return only the title in the response.
 
 ## Sample Response
-Proposal to implement a renewable energy project
-Proposal to launch a fundraising campaign for a local charity
-Proposal to develop a community outreach program for at-risk youth
+Proposal to implement a renewable energy project. The project aims to reduce carbon emissions and promote sustainability. The project will involve the installation of solar panels and energy-efficient systems.
+Proposal to launch a fundraising campaign for a local charity. The campaign aims to raise funds for community projects and support underprivileged groups. The campaign will involve online and offline fundraising activities.
+Proposal to develop a community outreach program for at-risk youth. The program aims to provide mentorship and support to young people in need. The program will involve workshops, training sessions, and community events.
 
 ## Issue:
 {__issueText__}
