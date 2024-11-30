@@ -81,54 +81,53 @@ const Board_Init = ({ setBoardData }) => {
 
     try {
 
+      const creationBuffer = {};
+
       const boardName = await generateTitle(userInitText, llmRef);
+      creationBuffer.boardName = boardName;
 
       setBufferBoardDataInit({
         ...bufferBoardDataInit,
-        boardName,
+        ...creationBuffer,
       });
 
       const boardDescription = await generateDescription(userInitText, llmRef);
+      creationBuffer.boardDescription = boardDescription;
 
       setBufferBoardDataInit({
         ...bufferBoardDataInit,
-        boardDescription,
+        ...creationBuffer,
       });
 
       const stakeHolders = await extractStakeholders(userInitText, llmRef);
       // const stakeHolders = sampleStakeHolders;
+      creationBuffer.stakeHolders = stakeHolders;
 
       setBufferBoardDataInit({
         ...bufferBoardDataInit,
-        stakeholders: stakeHolders,
+        ...creationBuffer,
       });
 
       const allSideEffects = [];
       for (const stakeHolder of stakeHolders) {
         const stakeholderSideEffects = await extractSideEffects(userInitText, stakeHolder, llmRef);
         allSideEffects.push(stakeholderSideEffects);
-
-        setBufferBoardDataInit({
-          ...bufferBoardDataInit,
-          stakeholders: stakeHolders,
-        });
       }
 
       const sideEffects = allSideEffects.flat();
-      const json = { sideEffects, stakeHolders };
+      creationBuffer.sideEffects = sideEffects;
 
-      console.log(json);
+      console.log(creationBuffer);
 
-      setBufferBoardDataInit(json);
+      setBufferBoardDataInit(creationBuffer);
 
-      setOutText(JSON.stringify(json, null, 2));
+      setOutText(JSON.stringify(creationBuffer, null, 2));
     } catch (error) {
       console.error(error?.message);
     } finally {
       setIsProcessing(false);
     }
   };
-
 
   const handleFinalizeBoardSetup = async () => {
     const storedBoards = localStorage.getItem(kuonKeys.KUON_KEY_STORED_BOARDS_LCLSTR) ?? [];
