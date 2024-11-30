@@ -499,12 +499,15 @@ const Board_Edit = ({ boardData }) => {
 
       </Flex>
 
-      <Flex>
+      <Flex
+        gap="md"
+      >
+        {/* Selected Stakeholders */}
         <Flex
           direction="column"
           align="start"
           justify="flex-start"
-          style={{ flexGrow: 1 }}
+          w="40%"
         >
           {(selectedStakeholders ?? []).map((selectedStakeholder, idx) => (
             <Flex
@@ -521,11 +524,12 @@ const Board_Edit = ({ boardData }) => {
           ))}
         </Flex>
 
+        {/* Side Effects for Selected Stakeholders */}
         <Flex
           direction="column"
           align="start"
           justify="flex-start"
-          style={{ flexGrow: 1 }}
+          w="60%"
         >
           {(sideEffectsForSelectedStakeholders ?? []).map((sideEffect, idx) => (
             <Flex
