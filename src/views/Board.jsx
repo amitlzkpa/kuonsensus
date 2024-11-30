@@ -22,16 +22,6 @@ propose requiring developers to include measures such as
 - contributions to local conservation funds
 `;
 
-const boardTemplate = {
-  boardId: "",
-  boardName: "",
-  boardDescription: "",
-  proposalPrompt: "",
-  proposalDatabank: [],
-  storedConversations: [],
-  hasBeenInitialized: false,
-};
-
 const conversationHistoryTemplate = {
   conversationId: "",
   conversationMessages: [],
@@ -69,7 +59,6 @@ const Board_Init = ({ setBoardData }) => {
         currSdEf.sideEffectItemList.push(sideEffect);
       }
     }
-    console.log(uqSideEffectList);
     setEachUniqueSideEffect(uqSideEffectList);
 
   }, [bufferBoardDataInit]);
@@ -495,23 +484,13 @@ const Board = () => {
 
     if (!boardId) return;
 
-
-    if (boardId === "_new") {
-      const newBoardId = `brd_${Math.floor(Math.random() * 100000)}`;
-      const newBoard = { ...boardTemplate, boardId: newBoardId };
-      const storedBoards = localStorage.getItem(kuonKeys.KUON_KEY_STORED_BOARDS_LCLSTR) ?? [];
-      const updStoredBoards = [...storedBoards, newBoard];
-      localStorage.setItem(kuonKeys.KUON_KEY_STORED_BOARDS_LCLSTR, updStoredBoards);
-      navigate(`/board/${newBoardId}`);
-    } else if (boardId !== "_new" && !boardData) {
-      const storedBoards = localStorage.getItem(kuonKeys.KUON_KEY_STORED_BOARDS_LCLSTR) ?? [];
-      const foundBoard = storedBoards.find((board) => board.boardId === boardId);
-      if (foundBoard) {
-        setBoardData(foundBoard);
-      }
+    const storedBoards = localStorage.getItem(kuonKeys.KUON_KEY_STORED_BOARDS_LCLSTR) ?? [];
+    const foundBoard = storedBoards.find((board) => board.boardId === boardId);
+    if (foundBoard) {
+      setBoardData(foundBoard);
     }
 
-  }, [boardId, boardData, navigate]);
+  }, [boardId]);
 
   const controls = useRef();
 

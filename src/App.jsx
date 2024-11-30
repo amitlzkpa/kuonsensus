@@ -1,8 +1,7 @@
 import '@mantine/core/styles.css';
 import {
   createBrowserRouter,
-  RouterProvider,
-  Link
+  RouterProvider
 } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 
@@ -15,6 +14,16 @@ import * as localStorage from "./utils/localStorageHelpers";
 import Board from "./views/Board";
 import Dev from "./views/Dev";
 import Landing from "./views/Landing";
+
+const boardTemplate = {
+  boardId: "",
+  boardName: "",
+  boardDescription: "",
+  proposalPrompt: "",
+  proposalDatabank: [],
+  storedConversations: [],
+  hasBeenInitialized: false,
+};
 
 export function App() {
   const [mobileOpened, { toggle: toggleMobile }] = useDisclosure();
@@ -45,6 +54,15 @@ export function App() {
       element: <Dev />,
     },
   ]);
+
+  const handleCreateNewBoard = () => {
+    const newBoardId = `brd_${Math.floor(Math.random() * 100000)}`;
+    const newBoard = { ...boardTemplate, boardId: newBoardId };
+    const storedBoards = localStorage.getItem(kuonKeys.KUON_KEY_STORED_BOARDS_LCLSTR) ?? [];
+    const updStoredBoards = [...storedBoards, newBoard];
+    localStorage.setItem(kuonKeys.KUON_KEY_STORED_BOARDS_LCLSTR, updStoredBoards);
+    router.navigate(`/board/${newBoardId}`);
+  }
 
   return (
     <MantineProvider>
@@ -79,10 +97,13 @@ export function App() {
           </Group>
         </AppShell.Header>
         <AppShell.Navbar p="md">
-          <NavLink
+          <Button
+            m="md"
             href="/board/_new"
-            label={"New"}
-          />
+            onClick={handleCreateNewBoard}
+          >
+            Create New Board
+          </Button>
 
           {[storedBoards_localStorage ?? []].length > 0
             ?
@@ -92,7 +113,11 @@ export function App() {
                   <NavLink
                     key={board.boardId}
                     href={`/board/${board.boardId}`}
-                    label={board.boardName}
+                    style={{
+                      fontStyle: board.boardName ? "" : "italic",
+                      color: board.boardName ? "" : "gray",
+                    }}
+                    label={board.boardName ? board.boardName : "Untitled Board"}
                   />
                 ))}
               </Flex>
