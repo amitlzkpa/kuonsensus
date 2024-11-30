@@ -176,6 +176,7 @@ export function App() {
                       size="0.7rem"
                       color="#ababab"
                       onClick={() => { setBoardToDelete(board); open(); }}
+                      style={{ cursor: "pointer" }}
                     />
                   </Flex>
                 ))}

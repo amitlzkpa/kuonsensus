@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Accordion, Button, Chip, Divider, Flex, JsonInput, Loader, Tabs, Text, Title } from '@mantine/core';
+import { Accordion, Button, Chip, Divider, Flex, Loader, Tabs, Text, Title } from '@mantine/core';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import Typed from "typed.js";
@@ -104,7 +104,6 @@ const Board_Init = ({ setBoardData }) => {
   const { boardId } = useParams();
 
   const [userInitText, setUserInitText] = useState("");
-  const [outText, setOutText] = useState("{}");
   const [isProcessing, setIsProcessing] = useState(false);
 
   const llmRef = React.useRef();
@@ -203,8 +202,6 @@ const Board_Init = ({ setBoardData }) => {
       console.log(creationBuffer);
 
       setBufferBoardDataInit(creationBuffer);
-
-      setOutText(JSON.stringify(creationBuffer, null, 2));
     } catch (error) {
       console.error(error?.message);
     } finally {
@@ -228,7 +225,6 @@ const Board_Init = ({ setBoardData }) => {
 
   const handleReset = () => {
     setUserInitText("");
-    setOutText("{}");
     setBufferBoardDataInit();
   };
 
@@ -403,13 +399,6 @@ const Board_Init = ({ setBoardData }) => {
           </Accordion>
         </Flex>
       </Flex>
-
-      <JsonInput
-        value={outText}
-        autosize
-        minRows={4}
-        maxRows={12}
-      />
     </Flex>
   );
 };
