@@ -3,7 +3,7 @@ import { Button, Divider, Flex, JsonInput, Tabs, Text, Title } from '@mantine/co
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { Canvas } from "@react-three/fiber";
-import { OrthographicCamera, Environment, SoftShadows } from '@react-three/drei';
+import { OrthographicCamera, Edges, Environment, SoftShadows } from '@react-three/drei';
 
 import {
   extractStakeholders,
@@ -387,7 +387,7 @@ const Board_Edit = ({ boardData }) => {
             shadows
             style={{ width: "100%", height: "100%" }}
           >
-            <color attach="background" args={["#FF0000"]} />
+            <color attach="background" args={["#DEDEDE"]} />
             <OrthographicCamera
               makeDefault
               position={[0, 10, 0]}
@@ -410,6 +410,7 @@ const Board_Edit = ({ boardData }) => {
             <mesh position={[0, 0, 0]} receiveShadow>
               <cylinderGeometry attach="geometry" args={[4, 4, 1, 128]} />
               <meshStandardMaterial attach="material" color={"#DEDEDE"} />
+              <Edges linewidth={1} threshold={15} color={"black"} />
             </mesh>
           </Canvas>
         </Flex>
