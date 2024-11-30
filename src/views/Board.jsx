@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Button, Divider, Flex, JsonInput, Loader, Tabs, Text, Title } from '@mantine/core';
 import { useNavigate, useParams } from 'react-router-dom';
 
+import Typed from "typed.js";
 import { Canvas } from "@react-three/fiber";
 import { OrthographicCamera, Environment, SoftShadows } from '@react-three/drei';
 
@@ -109,6 +110,10 @@ const Board_Init = ({ setBoardData }) => {
 
   }, [bufferBoardDataInit]);
 
+
+  const titleEl = useRef(null);
+  const descriptionEl = useRef(null);
+
   const handleSubmit = async () => {
     if (isProcessing) return;
     setIsProcessing(true);
@@ -120,6 +125,13 @@ const Board_Init = ({ setBoardData }) => {
       const boardName = await generateTitle(userInitText, llmRef);
       creationBuffer.boardName = boardName;
 
+      new Typed(titleEl.current, {
+        strings: [boardName],
+        typeSpeed: 50,
+        loop: false,
+        showCursor: false,
+      });
+
       setBufferBoardDataInit({
         ...bufferBoardDataInit,
         ...creationBuffer,
@@ -127,6 +139,13 @@ const Board_Init = ({ setBoardData }) => {
 
       const boardDescription = await generateDescription(userInitText, llmRef);
       creationBuffer.boardDescription = boardDescription;
+
+      new Typed(descriptionEl.current, {
+        strings: [boardDescription],
+        typeSpeed: 20,
+        loop: false,
+        showCursor: false,
+      });
 
       setBufferBoardDataInit({
         ...bufferBoardDataInit,
@@ -283,10 +302,12 @@ const Board_Init = ({ setBoardData }) => {
         justify="start"
       >
         <Text>
-          Title: {bufferBoardDataInit?.boardName}
+          Title:{" "}
+          <span contentEditable ref={titleEl} />
         </Text>
         <Text>
-          Description: {bufferBoardDataInit?.boardDescription}
+          Description:{" "}
+          <span contentEditable ref={descriptionEl} />
         </Text>
       </Flex>
 
