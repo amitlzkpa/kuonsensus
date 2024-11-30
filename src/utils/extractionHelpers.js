@@ -221,3 +221,64 @@ export const extractSideEffects = async (inText, stakeHolder, llmRef) => {
   const sideEffects = [...positiveSideEffects, ...negativeSideEffects];
   return sideEffects;
 };
+
+const promptForBoardDescriptionGeneration = `
+Provide a 1-line description for a proposal around the issue described below.
+Don't use any special characters or text-formatting.
+Return the response in simple English.
+Do not use any punctuations in the title.
+Return only the title in the response.
+
+## Sample Response
+Proposal to implement a renewable energy project
+Proposal to launch a fundraising campaign for a local charity
+Proposal to develop a community outreach program for at-risk youth
+
+## Issue:
+{__issueText__}
+`;
+
+export const generateDescription = async (inText, llmRef) => {
+  if (DEBUG_LLM) console.log("-------generateDescription");
+  const promptText = promptForBoardDescriptionGeneration.replace(
+    "{__issueText__}",
+    inText
+  );
+  if (DEBUG_LLM) console.log(promptText);
+  let llmResponse = await llmRef?.current?.prompt(promptText);
+  if (DEBUG_LLM) console.log(llmResponse);
+
+  if (DEBUG_LLM) console.log("-------generateDescription");
+  return llmResponse;
+};
+
+const promptForBoardNameGeneration = `
+Provide a short title for the issue described below.
+Don't use any special characters or text-formatting.
+Return the response in simple English.
+Do not use any punctuations in the title.
+Return only the title in the response.
+
+## Sample Response
+Renewable Energy Project
+Fundraising Campaign
+Community Outreach Program
+Project Management Software Upgrade
+
+## Issue:
+{__issueText__}
+`;
+
+export const generateTitle = async (inText, llmRef) => {
+  if (DEBUG_LLM) console.log("-------generateTitle");
+  const promptText = promptForBoardNameGeneration.replace(
+    "{__issueText__}",
+    inText
+  );
+  if (DEBUG_LLM) console.log(promptText);
+  let llmResponse = await llmRef?.current?.prompt(promptText);
+  if (DEBUG_LLM) console.log(llmResponse);
+
+  if (DEBUG_LLM) console.log("-------generateTitle");
+  return llmResponse;
+};
