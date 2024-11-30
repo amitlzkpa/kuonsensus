@@ -116,195 +116,11 @@ const ImplicationList = ({ sideEffects, handleRemoveSideEffect }) => {
   );
 }
 
-const Board_Edit = ({ boardData }) => {
 
-  const [selectedStakeholders, setSelectedStakeholders] = useState([]);
+const Board_Init = ({ boardId, setBoardData }) => {
 
-  const onClick_Stakeholder = (stakeHolder) => {
-    const stakeHolderIsSelected = selectedStakeholders.find(sh => sh.stakeHolderName === stakeHolder.stakeHolderName);
-    if (stakeHolderIsSelected) {
-      setSelectedStakeholders(selectedStakeholders.filter((sh) => sh.stakeHolderName !== stakeHolder.stakeHolderName));
-    } else {
-      setSelectedStakeholders([...selectedStakeholders, stakeHolder]);
-    }
-  };
-
-  const [sideEffectsForSelectedStakeholders, setSideEffectsForSelectedStakeholders] = useState([]);
-
-  useEffect(() => {
-    const selectedStakeholderNames = (selectedStakeholders ?? []).map((sh) => sh.stakeHolderName);
-    const sideEffectsForSelectedStakeholders = boardData?.sideEffects.filter((se) => selectedStakeholderNames.includes(se.stakeHolderName));
-    setSideEffectsForSelectedStakeholders(sideEffectsForSelectedStakeholders ?? []);
-  }, [boardData, selectedStakeholders]);
-
-  return (
-    <Flex
-      direction="column"
-      align="stretch"
-      justify="start"
-      gap="md"
-    >
-
-      <Title order={3}>{boardData?.boardName}</Title>
-      <Text>{boardData?.boardDescription}</Text>
-      <Flex h="420">
-        {/* Graphic */}
-        <Flex w="60%">
-          <Canvas
-            shadows
-            style={{ width: "100%", height: "100%" }}
-          >
-            <color attach="background" args={["#DEDEDE"]} />
-            <OrthographicCamera
-              makeDefault
-              position={[0, 10, 0]}
-              rotation={[-Math.PI / 2, 0, 0]}
-              zoom={10}
-            />
-            <Environment preset="sunset" environmentIntensity={0.3} />
-            <SoftShadows size={52} samples={16} />
-            <directionalLight
-              position={[5, 5, 5]}
-              intensity={2.2}
-              castShadow
-              shadow-mapSize-height={2048}
-              shadow-mapSize-width={2048}
-              shadow-bias={-0.0001}
-            />
-            <directionalLight position={[-5, 5, 5]} intensity={0.7} />
-            <directionalLight position={[1, 0.1, -5]} intensity={3} />
-            <directionalLight position={[-1, 0.1, -5]} intensity={8} />
-            {/* <axesHelper args={[10]} /> */}
-            {
-              getSeatingConfiguration(boardData?.stakeHolders)
-                .map((seat, idx) => (
-                  <Kuon3D_StakeHolder key={idx} position={seat.position} stakeHolder={seat.stakeHolder} />
-                ))
-            }
-          </Canvas>
-        </Flex>
-
-        {/* Table */}
-        <Flex
-          w="40%"
-          p="md"
-        >
-          <Tabs defaultValue="stakeholders">
-            <Tabs.List>
-              <Tabs.Tab value="stakeholders">
-                Stakeholders
-              </Tabs.Tab>
-              <Tabs.Tab value="sideeffects">
-                Effects
-              </Tabs.Tab>
-            </Tabs.List>
-
-            <Tabs.Panel value="stakeholders">
-              {(boardData?.stakeHolders ?? []).map((stakeHolder, idx) => (
-                <Flex
-                  key={idx}
-                  direction="row"
-                  align="center"
-                  justify="space-between"
-                  onClick={() => onClick_Stakeholder(stakeHolder)}
-                >
-                  {
-                    (selectedStakeholders.find(sh => sh.stakeHolderName === stakeHolder.stakeHolderName))
-                      ?
-                      <Text style={{ fontWeight: "bold" }}>{stakeHolder.stakeHolderName}</Text>
-                      :
-                      <Text>{stakeHolder.stakeHolderName}</Text>
-                  }
-                </Flex>
-              ))}
-            </Tabs.Panel>
-
-            <Tabs.Panel value="sideeffects">
-              {(boardData?.sideEffects ?? []).map((sideEffect, idx) => (
-                <Flex
-                  key={idx}
-                  direction="row"
-                  align="center"
-                  justify="space-between"
-                >
-                  <Text>{sideEffect.sideEffectTitle}</Text>
-                </Flex>
-              ))}
-            </Tabs.Panel>
-          </Tabs>
-        </Flex>
-
-      </Flex>
-
-      <Flex
-        gap="md"
-      >
-        {/* Selected Stakeholders */}
-        <Flex
-          direction="column"
-          align="start"
-          justify="flex-start"
-          w="40%"
-        >
-          {(selectedStakeholders ?? []).map((selectedStakeholder, idx) => (
-            <Flex
-              key={idx}
-              direction="column"
-              align="start"
-              justify="flex-start"
-              style={{ margin: "1rem 0 1rem 0" }}
-              onClick={() => onClick_Stakeholder(selectedStakeholder)}
-            >
-              <Text>{selectedStakeholder.stakeHolderName}</Text>
-              <Text>{selectedStakeholder.description}</Text>
-            </Flex>
-          ))}
-        </Flex>
-
-        {/* Side Effects for Selected Stakeholders */}
-        <Flex
-          direction="column"
-          align="start"
-          justify="flex-start"
-          w="60%"
-        >
-          {(sideEffectsForSelectedStakeholders ?? []).map((sideEffect, idx) => (
-            <Flex
-              key={idx}
-              direction="row"
-              align="center"
-              justify="flex-start"
-            >
-              <Text>{sideEffect.sideEffectTitle}</Text>
-            </Flex>
-          ))}
-        </Flex>
-      </Flex>
-    </Flex>
-  );
-};
-
-const Board = () => {
-
-  const { boardId } = useParams();
-
-  const [boardData, setBoardData] = useState();
 
   const llmRef = React.useRef();
-
-  // Create or Navigate Board
-  useEffect(() => {
-
-    if (!boardId) return;
-
-    const storedBoards = localStorage.getItem(kuonKeys.KUON_KEY_STORED_BOARDS_LCLSTR) ?? [];
-    const foundBoard = storedBoards.find((board) => board.boardId === boardId);
-    if (foundBoard) {
-      setBoardData(foundBoard);
-    }
-
-  }, [boardId]);
-
 
   const tabVals = ["first", "second", "third"];
   const [active, setActive] = useState(0);
@@ -329,8 +145,6 @@ const Board = () => {
   useEffect(() => {
     setActiveTabVal(tabVals[active]);
   }, [active, tabVals]);
-
-  // INIT STUFF
 
   const [userInitText, setUserInitText] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
@@ -474,15 +288,7 @@ const Board = () => {
   };
 
   return (
-    // Board Main Pane
-    <Flex
-      direction="column"
-      align="stretch"
-      justify="start"
-      gap="md"
-    >
-
-
+    <>
       <Flex
         direction="column"
         align="stretch"
@@ -778,6 +584,213 @@ const Board = () => {
           <Tabs.Panel value="third">Third panel</Tabs.Panel>
         </Tabs>
       </Flex>
+    </>
+  );
+};
+
+const Board_Edit = ({ boardData }) => {
+
+  const [selectedStakeholders, setSelectedStakeholders] = useState([]);
+
+  const onClick_Stakeholder = (stakeHolder) => {
+    const stakeHolderIsSelected = selectedStakeholders.find(sh => sh.stakeHolderName === stakeHolder.stakeHolderName);
+    if (stakeHolderIsSelected) {
+      setSelectedStakeholders(selectedStakeholders.filter((sh) => sh.stakeHolderName !== stakeHolder.stakeHolderName));
+    } else {
+      setSelectedStakeholders([...selectedStakeholders, stakeHolder]);
+    }
+  };
+
+  const [sideEffectsForSelectedStakeholders, setSideEffectsForSelectedStakeholders] = useState([]);
+
+  useEffect(() => {
+    const selectedStakeholderNames = (selectedStakeholders ?? []).map((sh) => sh.stakeHolderName);
+    const sideEffectsForSelectedStakeholders = boardData?.sideEffects.filter((se) => selectedStakeholderNames.includes(se.stakeHolderName));
+    setSideEffectsForSelectedStakeholders(sideEffectsForSelectedStakeholders ?? []);
+  }, [boardData, selectedStakeholders]);
+
+  return (
+    <Flex
+      direction="column"
+      align="stretch"
+      justify="start"
+      gap="md"
+    >
+
+      <Title order={3}>{boardData?.boardName}</Title>
+      <Text>{boardData?.boardDescription}</Text>
+      <Flex h="420">
+        {/* Graphic */}
+        <Flex w="60%">
+          <Canvas
+            shadows
+            style={{ width: "100%", height: "100%" }}
+          >
+            <color attach="background" args={["#DEDEDE"]} />
+            <OrthographicCamera
+              makeDefault
+              position={[0, 10, 0]}
+              rotation={[-Math.PI / 2, 0, 0]}
+              zoom={10}
+            />
+            <Environment preset="sunset" environmentIntensity={0.3} />
+            <SoftShadows size={52} samples={16} />
+            <directionalLight
+              position={[5, 5, 5]}
+              intensity={2.2}
+              castShadow
+              shadow-mapSize-height={2048}
+              shadow-mapSize-width={2048}
+              shadow-bias={-0.0001}
+            />
+            <directionalLight position={[-5, 5, 5]} intensity={0.7} />
+            <directionalLight position={[1, 0.1, -5]} intensity={3} />
+            <directionalLight position={[-1, 0.1, -5]} intensity={8} />
+            {/* <axesHelper args={[10]} /> */}
+            {
+              getSeatingConfiguration(boardData?.stakeHolders)
+                .map((seat, idx) => (
+                  <Kuon3D_StakeHolder key={idx} position={seat.position} stakeHolder={seat.stakeHolder} />
+                ))
+            }
+          </Canvas>
+        </Flex>
+
+        {/* Table */}
+        <Flex
+          w="40%"
+          p="md"
+        >
+          <Tabs defaultValue="stakeholders">
+            <Tabs.List>
+              <Tabs.Tab value="stakeholders">
+                Stakeholders
+              </Tabs.Tab>
+              <Tabs.Tab value="sideeffects">
+                Effects
+              </Tabs.Tab>
+            </Tabs.List>
+
+            <Tabs.Panel value="stakeholders">
+              {(boardData?.stakeHolders ?? []).map((stakeHolder, idx) => (
+                <Flex
+                  key={idx}
+                  direction="row"
+                  align="center"
+                  justify="space-between"
+                  onClick={() => onClick_Stakeholder(stakeHolder)}
+                >
+                  {
+                    (selectedStakeholders.find(sh => sh.stakeHolderName === stakeHolder.stakeHolderName))
+                      ?
+                      <Text style={{ fontWeight: "bold" }}>{stakeHolder.stakeHolderName}</Text>
+                      :
+                      <Text>{stakeHolder.stakeHolderName}</Text>
+                  }
+                </Flex>
+              ))}
+            </Tabs.Panel>
+
+            <Tabs.Panel value="sideeffects">
+              {(boardData?.sideEffects ?? []).map((sideEffect, idx) => (
+                <Flex
+                  key={idx}
+                  direction="row"
+                  align="center"
+                  justify="space-between"
+                >
+                  <Text>{sideEffect.sideEffectTitle}</Text>
+                </Flex>
+              ))}
+            </Tabs.Panel>
+          </Tabs>
+        </Flex>
+
+      </Flex>
+
+      <Flex
+        gap="md"
+      >
+        {/* Selected Stakeholders */}
+        <Flex
+          direction="column"
+          align="start"
+          justify="flex-start"
+          w="40%"
+        >
+          {(selectedStakeholders ?? []).map((selectedStakeholder, idx) => (
+            <Flex
+              key={idx}
+              direction="column"
+              align="start"
+              justify="flex-start"
+              style={{ margin: "1rem 0 1rem 0" }}
+              onClick={() => onClick_Stakeholder(selectedStakeholder)}
+            >
+              <Text>{selectedStakeholder.stakeHolderName}</Text>
+              <Text>{selectedStakeholder.description}</Text>
+            </Flex>
+          ))}
+        </Flex>
+
+        {/* Side Effects for Selected Stakeholders */}
+        <Flex
+          direction="column"
+          align="start"
+          justify="flex-start"
+          w="60%"
+        >
+          {(sideEffectsForSelectedStakeholders ?? []).map((sideEffect, idx) => (
+            <Flex
+              key={idx}
+              direction="row"
+              align="center"
+              justify="flex-start"
+            >
+              <Text>{sideEffect.sideEffectTitle}</Text>
+            </Flex>
+          ))}
+        </Flex>
+      </Flex>
+    </Flex>
+  );
+};
+
+const Board = () => {
+
+  const { boardId } = useParams();
+
+  const [boardData, setBoardData] = useState();
+
+  // Create or Navigate Board
+  useEffect(() => {
+
+    if (!boardId) return;
+
+    const storedBoards = localStorage.getItem(kuonKeys.KUON_KEY_STORED_BOARDS_LCLSTR) ?? [];
+    const foundBoard = storedBoards.find((board) => board.boardId === boardId);
+    if (foundBoard) {
+      setBoardData(foundBoard);
+    }
+
+  }, [boardId]);
+
+  return (
+    // Board Main Pane
+    <Flex
+      direction="column"
+      align="stretch"
+      justify="start"
+      gap="md"
+    >
+
+      {
+        boardData?.hasBeenInitialized ? (
+          <Board_Edit boardData={boardData} />
+        ) : (
+          <Board_Init boardId={boardId} setBoardData={setBoardData} />
+        )
+      }
     </Flex>
   );
 };
