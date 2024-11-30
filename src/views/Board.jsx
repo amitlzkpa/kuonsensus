@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Button, Divider, Flex, JsonInput, Tabs, Text, Title } from '@mantine/core';
+import { Button, Divider, Flex, JsonInput, Loader, Tabs, Text, Title } from '@mantine/core';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { Canvas } from "@react-three/fiber";
@@ -258,9 +258,7 @@ const Board_Init = ({ setBoardData }) => {
           Reset
         </Button>
         {isProcessing ? (
-          <Flex>
-            ...
-          </Flex>
+          <Loader type="dots" />
         ) : (
           <></>
         )}
