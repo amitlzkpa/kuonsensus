@@ -45,8 +45,15 @@ const Board_Init = ({ setBoardData }) => {
   const llmRef = React.useRef();
 
   const [bufferBoardDataInit, setBufferBoardDataInit] = useState();
-
   const [eachUniqueSideEffect, setEachUniqueSideEffect] = useState([]);
+
+  useEffect(() => {
+    if (llmRef.current) return;
+
+    (async () => {
+      llmRef.current = await ai.languageModel.create();
+    })();
+  }, []);
 
   useEffect(() => {
 
@@ -67,30 +74,6 @@ const Board_Init = ({ setBoardData }) => {
     setEachUniqueSideEffect(uqSideEffectList);
 
   }, [bufferBoardDataInit]);
-
-  const handleFinalizeBoardSetup = async () => {
-    const storedBoards = localStorage.getItem(kuonKeys.KUON_KEY_STORED_BOARDS_LCLSTR) ?? [];
-    const foundBoard = storedBoards.find((board) => board.boardId === boardId);
-    if (foundBoard) {
-      bufferBoardDataInit.boardId = boardId;
-      bufferBoardDataInit.proposalPrompt = userInitText;
-      bufferBoardDataInit.hasBeenInitialized = true;
-      bufferBoardDataInit.creationDate = new Date().toISOString();
-      const updatedBoardData = { ...foundBoard, ...bufferBoardDataInit };
-      const updStoredBoards = [...storedBoards, updatedBoardData];
-      localStorage.setItem(kuonKeys.KUON_KEY_STORED_BOARDS_LCLSTR, updStoredBoards);
-      setBoardData(updatedBoardData);
-    }
-
-  };
-
-  useEffect(() => {
-    if (llmRef.current) return;
-
-    (async () => {
-      llmRef.current = await ai.languageModel.create();
-    })();
-  }, []);
 
   const handleSubmit = async () => {
     if (isProcessing) return;
@@ -144,6 +127,23 @@ const Board_Init = ({ setBoardData }) => {
     } finally {
       setIsProcessing(false);
     }
+  };
+
+
+  const handleFinalizeBoardSetup = async () => {
+    const storedBoards = localStorage.getItem(kuonKeys.KUON_KEY_STORED_BOARDS_LCLSTR) ?? [];
+    const foundBoard = storedBoards.find((board) => board.boardId === boardId);
+    if (foundBoard) {
+      bufferBoardDataInit.boardId = boardId;
+      bufferBoardDataInit.proposalPrompt = userInitText;
+      bufferBoardDataInit.hasBeenInitialized = true;
+      bufferBoardDataInit.creationDate = new Date().toISOString();
+      const updatedBoardData = { ...foundBoard, ...bufferBoardDataInit };
+      const updStoredBoards = [...storedBoards, updatedBoardData];
+      localStorage.setItem(kuonKeys.KUON_KEY_STORED_BOARDS_LCLSTR, updStoredBoards);
+      setBoardData(updatedBoardData);
+    }
+
   };
 
   const handleReset = () => {
