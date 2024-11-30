@@ -346,12 +346,10 @@ const Board_Init = ({ setBoardData }) => {
         align="start"
         justify="start"
       >
-        <Text>
-          Title:{" "}
+        <Title order={2}>
           <span contentEditable ref={titleEl} />
-        </Text>
+        </Title>
         <Text>
-          Description:{" "}
           <span contentEditable ref={descriptionEl} />
         </Text>
       </Flex>
