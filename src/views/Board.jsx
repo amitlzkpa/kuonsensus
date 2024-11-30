@@ -3,13 +3,13 @@ import {
   Accordion,
   Button,
   Pill,
-  Divider,
   Flex,
   Loader,
   Stepper,
   Tabs,
   Text,
-  Title
+  Title,
+  Skeleton,
 } from '@mantine/core';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -657,6 +657,7 @@ const Board = () => {
                 direction="column"
                 gap="sm"
                 w="100%"
+                mt="lg"
               >
                 <Title order={4}>
                   Stakeholders
@@ -702,22 +703,55 @@ const Board = () => {
                               >
                                 {/* Positives */}
                                 <Flex w="50%">
-                                  <ImplicationList sideEffects={(bufferBoardDataInit?.sideEffects ?? [])
-                                    .filter((sideEffect) => sideEffect.stakeHolderName === stakeHolder.stakeHolderName)
-                                    .filter((sideEffect) => sideEffect.implication === "positive")
+
+                                  {
+                                    isProcessing ? (
+                                      <Flex
+                                        direction="column"
+                                        align="stretch"
+                                        gap="sm"
+                                        w="100%"
+                                      >
+                                        <Skeleton height={16} radius="xl" />
+                                        <Skeleton height={16} radius="xl" />
+                                        <Skeleton height={16} radius="xl" />
+                                        <Skeleton height={16} radius="xl" />
+                                      </Flex>
+                                    ) : (
+                                      <ImplicationList sideEffects={(bufferBoardDataInit?.sideEffects ?? [])
+                                        .filter((sideEffect) => sideEffect.stakeHolderName === stakeHolder.stakeHolderName)
+                                        .filter((sideEffect) => sideEffect.implication === "positive")
+                                      }
+                                        handleRemoveSideEffect={handleRemoveSideEffect}
+                                      />
+                                    )
                                   }
-                                    handleRemoveSideEffect={handleRemoveSideEffect}
-                                  />
+
                                 </Flex>
 
                                 {/* Negatives */}
                                 <Flex w="50%">
-                                  <ImplicationList sideEffects={(bufferBoardDataInit?.sideEffects ?? [])
-                                    .filter((sideEffect) => sideEffect.stakeHolderName === stakeHolder.stakeHolderName)
-                                    .filter((sideEffect) => sideEffect.implication === "negative")
+                                  {
+                                    isProcessing ? (<Flex
+                                      direction="column"
+                                      align="stretch"
+                                      gap="sm"
+                                      w="100%"
+                                    >
+                                      <Skeleton height={16} radius="xl" />
+                                      <Skeleton height={16} radius="xl" />
+                                      <Skeleton height={16} radius="xl" />
+                                      <Skeleton height={16} radius="xl" />
+                                    </Flex>
+                                    ) : (
+                                      <ImplicationList sideEffects={(bufferBoardDataInit?.sideEffects ?? [])
+                                        .filter((sideEffect) => sideEffect.stakeHolderName === stakeHolder.stakeHolderName)
+                                        .filter((sideEffect) => sideEffect.implication === "negative")
+                                      }
+                                        handleRemoveSideEffect={handleRemoveSideEffect}
+                                      />
+                                    )
                                   }
-                                    handleRemoveSideEffect={handleRemoveSideEffect}
-                                  />
                                 </Flex>
                               </Flex>
 
@@ -729,6 +763,15 @@ const Board = () => {
                     )
                   }
                 </Accordion>
+
+                <Flex>
+                  <Button
+                    onClick={() => handleStepChange(2)}
+                    disabled={bufferBoardDataInit?.stakeHolders?.length === 0}
+                  >
+                    Next
+                  </Button>
+                </Flex>
               </Flex>
             </Flex>
           </Tabs.Panel>
