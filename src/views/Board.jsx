@@ -304,13 +304,30 @@ const Board = () => {
 
   }, [boardId]);
 
+
+  const tabVals = ["first", "second", "third"];
   const [active, setActive] = useState(0);
   const [activeTabVal, setActiveTabVal] = useState("first");
 
+  const [highestStepVisited, setHighestStepVisited] = useState(active);
+
+  const handleStepChange = (nextStep) => {
+    const isOutOfBounds = nextStep > tabVals.length || nextStep < 0;
+
+    if (isOutOfBounds) {
+      return;
+    }
+
+    setActive(nextStep);
+    setHighestStepVisited((hSC) => Math.max(hSC, nextStep));
+  };
+
+  const shouldAllowSelectStep = (step) => highestStepVisited >= step && active !== step;
+
+
   useEffect(() => {
-    const tabVals = ["first", "second", "third"];
     setActiveTabVal(tabVals[active]);
-  }, [active]);
+  }, [active, tabVals]);
 
   // INIT STUFF
 
@@ -367,7 +384,7 @@ const Board = () => {
 
   const handleSubmit = async () => {
     if (isProcessing) return;
-    setActive(1);
+    handleStepChange(1);
     setIsProcessing(true);
 
     try {
@@ -485,22 +502,25 @@ const Board = () => {
         mt="sm"
         mb="lg"
       >
-        <Stepper active={active} onStepClick={setActive} allowNextStepsSelect={false}>
+        <Stepper active={active} onStepClick={handleStepChange}>
           <Stepper.Step
             label="First step"
             description="Give an outline"
+            allowStepSelect={shouldAllowSelectStep(0)}
           >
             Step 1: Start with an outline of your proposal
           </Stepper.Step>
           <Stepper.Step
             label="Second step"
             description="Review stakeholders"
+            allowStepSelect={shouldAllowSelectStep(1)}
           >
             Step 2: Review who is involved
           </Stepper.Step>
           <Stepper.Step
             label="Third step"
             description="Set priorities"
+            allowStepSelect={shouldAllowSelectStep(2)}
           >
             Step 3: Set priorities and your goals
           </Stepper.Step>
