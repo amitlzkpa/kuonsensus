@@ -486,12 +486,25 @@ const Board = () => {
         >
           <Title order={3}>Set Up Your Board</Title>
 
-          <Button
-            onClick={handleFinalizeBoardSetup}
-            disabled={active !== 2}
+          <Flex
+            direction="row"
+            align="center"
+            gap="sm"
           >
-            Done
-          </Button>
+            {isProcessing ? (
+              <Loader type="dots" />
+            ) : (
+              <></>
+            )}
+
+            <Button
+              onClick={handleFinalizeBoardSetup}
+              disabled={active !== 2}
+            >
+              Done
+            </Button>
+          </Flex>
+
         </Flex>
       </Flex>
 
@@ -549,7 +562,7 @@ const Board = () => {
                 justify="start"
               >
                 <Text>
-                  Enter the text of your proposal below.
+                  Enter details of your proposal below.
                 </Text>
                 <Text>
                   You can start with a simple outline and use the magic button to polish it.
@@ -594,11 +607,6 @@ const Board = () => {
               >
                 Reset
               </Button>
-              {isProcessing ? (
-                <Loader type="dots" />
-              ) : (
-                <></>
-              )}
             </Flex>
 
             {/* Bottom Instructions */}
