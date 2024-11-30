@@ -234,9 +234,9 @@ const Board_Init = ({ setBoardData }) => {
 
           {
             (bufferBoardDataInit?.stakeHolders ?? []).map(
-              (stakeholder) => (
+              (stakeholder, idx) => (
                 <Flex
-                  key={stakeholder.stakeholderName}
+                  key={idx}
                   direction="column"
                   align="start"
                   justify="flex-start"
@@ -253,9 +253,9 @@ const Board_Init = ({ setBoardData }) => {
                       (bufferBoardDataInit?.sideEffects ?? [])
                         .filter((sideEffect) => sideEffect.stakeholderName === stakeholder.stakeholderName)
                         .map(
-                          (sideEffect) => (
+                          (sideEffect, idx) => (
                             <Flex
-                              key={sideEffect.sideEffectTitle}
+                              key={idx}
                               direction="column"
                               align="start"
                               justify="start"
@@ -327,7 +327,7 @@ const Board_Edit = ({ boardData }) => {
   const [sideEffectsForSelectedStakeholders, setSideEffectsForSelectedStakeholders] = useState([]);
 
   useEffect(() => {
-    const selectedStakeholderNames = selectedStakeholders.map((sh) => sh.stakeholderName);
+    const selectedStakeholderNames = (selectedStakeholders ?? []).map((sh) => sh.stakeholderName);
     const sideEffectsForSelectedStakeholders = boardData?.sideEffects.filter((se) => selectedStakeholderNames.includes(se.stakeholderName));
     setSideEffectsForSelectedStakeholders(sideEffectsForSelectedStakeholders ?? []);
   }, [boardData, selectedStakeholders]);
@@ -391,9 +391,9 @@ const Board_Edit = ({ boardData }) => {
             </Tabs.List>
 
             <Tabs.Panel value="stakeholders">
-              {boardData?.stakeholders.map((stakeholder) => (
+              {(boardData?.stakeHolders ?? []).map((stakeholder, idx) => (
                 <Flex
-                  key={stakeholder.stakeholderName}
+                  key={idx}
                   direction="row"
                   align="center"
                   justify="space-between"
@@ -411,9 +411,9 @@ const Board_Edit = ({ boardData }) => {
             </Tabs.Panel>
 
             <Tabs.Panel value="sideeffects">
-              {boardData?.sideEffects.map((sideEffect) => (
+              {(boardData?.sideEffects ?? []).map((sideEffect, idx) => (
                 <Flex
-                  key={sideEffect.sideEffectTitle}
+                  key={idx}
                   direction="row"
                   align="center"
                   justify="space-between"
@@ -434,9 +434,9 @@ const Board_Edit = ({ boardData }) => {
           justify="flex-start"
           style={{ flexGrow: 1 }}
         >
-          {selectedStakeholders.map((selectedStakeholder) => (
+          {(selectedStakeholders ?? []).map((selectedStakeholder, idx) => (
             <Flex
-              key={selectedStakeholder.stakeholderName}
+              key={idx}
               direction="column"
               align="start"
               justify="flex-start"
@@ -455,9 +455,9 @@ const Board_Edit = ({ boardData }) => {
           justify="flex-start"
           style={{ flexGrow: 1 }}
         >
-          {sideEffectsForSelectedStakeholders.map((sideEffect) => (
+          {(sideEffectsForSelectedStakeholders ?? []).map((sideEffect, idx) => (
             <Flex
-              key={sideEffect.sideEffectTitle}
+              key={idx}
               direction="row"
               align="center"
               justify="flex-start"
