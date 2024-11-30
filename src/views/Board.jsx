@@ -115,319 +115,6 @@ const ImplicationList = ({ sideEffects, handleRemoveSideEffect }) => {
   );
 }
 
-const Board_Init = ({ setBoardData }) => {
-  const { boardId } = useParams();
-
-  const [userInitText, setUserInitText] = useState("");
-  const [isProcessing, setIsProcessing] = useState(false);
-
-  const llmRef = React.useRef();
-
-  const [bufferBoardDataInit, setBufferBoardDataInit] = useState();
-  const [eachUniqueSideEffect, setEachUniqueSideEffect] = useState([]);
-
-  useEffect(() => {
-    if (llmRef.current) return;
-
-    (async () => {
-      llmRef.current = await ai.languageModel.create();
-    })();
-  }, []);
-
-  useEffect(() => {
-
-    const uqSideEffectList = [];
-    for (let sideEffect of bufferBoardDataInit?.sideEffects ?? []) {
-      let currSdEf = uqSideEffectList.find(uqEff => uqEff.sideEffectTitle === sideEffect.sideEffectTitle);
-      if (!currSdEf) {
-        let uqSdEf = {
-          sideEffectTitle: sideEffect.sideEffectTitle,
-          sideEffectItemList: [sideEffect]
-        }
-        uqSideEffectList.push(uqSdEf);
-      }
-      else {
-        currSdEf.sideEffectItemList.push(sideEffect);
-      }
-    }
-    setEachUniqueSideEffect(uqSideEffectList);
-
-  }, [bufferBoardDataInit]);
-
-
-  const titleEl = useRef(null);
-  const descriptionEl = useRef(null);
-
-  const handleSubmit = async () => {
-    if (isProcessing) return;
-    setIsProcessing(true);
-
-    try {
-
-      const creationBuffer = {};
-
-      const boardName = await generateTitle(userInitText, llmRef);
-      creationBuffer.boardName = boardName;
-
-      new Typed(titleEl.current, {
-        strings: [boardName],
-        typeSpeed: 50,
-        loop: false,
-        showCursor: false,
-      });
-
-      setBufferBoardDataInit({
-        ...bufferBoardDataInit,
-        ...creationBuffer,
-      });
-
-      const boardDescription = await generateDescription(userInitText, llmRef);
-      creationBuffer.boardDescription = boardDescription;
-
-      new Typed(descriptionEl.current, {
-        strings: [boardDescription],
-        typeSpeed: 20,
-        loop: false,
-        showCursor: false,
-      });
-
-      setBufferBoardDataInit({
-        ...bufferBoardDataInit,
-        ...creationBuffer,
-      });
-
-      const stakeHolders = await extractStakeholders(userInitText, llmRef);
-      // const stakeHolders = sampleStakeHolders;
-      creationBuffer.stakeHolders = stakeHolders;
-
-      setBufferBoardDataInit({
-        ...bufferBoardDataInit,
-        ...creationBuffer,
-      });
-
-      const allSideEffects = [];
-      for (const stakeHolder of stakeHolders) {
-        const stakeHolderSideEffects = await extractSideEffects(userInitText, stakeHolder, llmRef);
-        allSideEffects.push(stakeHolderSideEffects);
-      }
-
-      const sideEffects = allSideEffects.flat();
-      creationBuffer.sideEffects = sideEffects;
-
-      console.log(creationBuffer);
-
-      setBufferBoardDataInit(creationBuffer);
-    } catch (error) {
-      console.error(error?.message);
-    } finally {
-      setIsProcessing(false);
-    }
-  };
-
-  const handleFinalizeBoardSetup = async () => {
-    const storedBoards = localStorage.getItem(kuonKeys.KUON_KEY_STORED_BOARDS_LCLSTR) ?? [];
-    const boardIdx = storedBoards.findIndex((board) => board.boardId === boardId);
-    const foundBoard = storedBoards[boardIdx] ?? {};
-    bufferBoardDataInit.boardId = boardId;
-    bufferBoardDataInit.proposalPrompt = userInitText;
-    bufferBoardDataInit.hasBeenInitialized = true;
-    const consolidatedBoardData = { ...foundBoard, ...bufferBoardDataInit };
-    const updStoredBoards = [...storedBoards];
-    updStoredBoards[boardIdx] = consolidatedBoardData;
-    localStorage.setItem(kuonKeys.KUON_KEY_STORED_BOARDS_LCLSTR, updStoredBoards);
-    setBoardData(consolidatedBoardData);
-  };
-
-  const handleReset = () => {
-    setUserInitText("");
-    setBufferBoardDataInit();
-  };
-
-  const handleRemoveSideEffect = (sideEffect) => {
-    const updSideEffects = bufferBoardDataInit.sideEffects.filter((se) => se.sideEffectTitle !== sideEffect.sideEffectTitle);
-    setBufferBoardDataInit({
-      ...bufferBoardDataInit,
-      sideEffects: updSideEffects
-    });
-  };
-
-  return (
-    <Flex
-      direction="column"
-      align="stretch"
-      justify="start"
-      gap="md"
-    >
-      {/* Top Row */}
-      <Flex
-        direction="row"
-        align="center"
-        justify="space-between"
-      >
-        <Title order={3}>Set Up Your Board</Title>
-
-        <Button
-          onClick={handleFinalizeBoardSetup}
-          disabled={isProcessing}
-        >
-          Done
-        </Button>
-      </Flex>
-
-      {/* Prompt Area */}
-      <Flex
-        direction="column"
-        align="stretch"
-        justify="start"
-        gap="sm"
-      >
-        <Flex
-          direction="column"
-          align="stretch"
-          justify="start"
-        >
-          <Text>
-            Enter the text of your proposal below.
-          </Text>
-          <Text>
-            You can start with a simple outline and use the magic button to polish it.
-          </Text>
-        </Flex>
-
-        <PromptReady_TextArea
-          height="10rem"
-          textareaProps={{
-            onChange: (e) => setUserInitText(e.currentTarget.value),
-            value: userInitText,
-            placeholder: sampleStartingPrompt,
-            minRows: 4,
-            maxRows: 12,
-            rows: 7,
-          }}
-        />
-      </Flex>
-
-      {/* Buttons Row */}
-      <Flex
-        gap="sm"
-        justify="flex-start"
-        align="center"
-        direction="row"
-      >
-        <Button
-          onClick={handleSubmit}
-          disabled={isProcessing}
-        >
-          Submit
-        </Button>
-        <Button
-          onClick={handleReset}
-          disabled={isProcessing}
-        >
-          Reset
-        </Button>
-        {isProcessing ? (
-          <Loader type="dots" />
-        ) : (
-          <></>
-        )}
-      </Flex>
-
-      {/* Bottom Instructions */}
-      <Flex
-        direction="column"
-        align="stretch"
-        justify="start"
-      >
-        <Text>
-          Hit Submit when you are ready.
-        </Text>
-        <Text>
-          We will analyze it to help you identify stakeholders and potential side effects.
-        </Text>
-      </Flex>
-
-      <Divider />
-
-      {/* Title and Desc */}
-      <Flex
-        direction="column"
-        align="start"
-        justify="start"
-      >
-        <Title order={2}>
-          <span contentEditable ref={titleEl} />
-        </Title>
-        <Text>
-          <span contentEditable ref={descriptionEl} />
-        </Text>
-      </Flex>
-
-      {/* Stakeholders List */}
-      <Flex gap="md">
-        <Flex
-          direction="column"
-          gap="sm"
-          w="100%"
-        >
-          <Accordion>
-            {
-              (bufferBoardDataInit?.stakeHolders ?? []).map(
-                (stakeHolder, idx) => (
-                  <Accordion.Item key={idx} value={stakeHolder.stakeHolderName}>
-                    <Accordion.Control icon={"→"}>
-                      {stakeHolder.stakeHolderName}
-                    </Accordion.Control>
-                    <Accordion.Panel>
-                      <Flex
-                        key={idx}
-                        direction="column"
-                        align="stretch"
-                        justify="flex-start"
-                      >
-                        <Text>{stakeHolder.description}</Text>
-
-                        <Flex
-                          direction="row"
-                          gap="sm"
-                          p="md"
-                          w="100%"
-                        >
-                          {/* Positives */}
-                          <Flex w="50%">
-                            <ImplicationList sideEffects={(bufferBoardDataInit?.sideEffects ?? [])
-                              .filter((sideEffect) => sideEffect.stakeHolderName === stakeHolder.stakeHolderName)
-                              .filter((sideEffect) => sideEffect.implication === "positive")
-                            }
-                              handleRemoveSideEffect={handleRemoveSideEffect}
-                            />
-                          </Flex>
-
-                          {/* Negatives */}
-                          <Flex w="50%">
-                            <ImplicationList sideEffects={(bufferBoardDataInit?.sideEffects ?? [])
-                              .filter((sideEffect) => sideEffect.stakeHolderName === stakeHolder.stakeHolderName)
-                              .filter((sideEffect) => sideEffect.implication === "negative")
-                            }
-                              handleRemoveSideEffect={handleRemoveSideEffect}
-                            />
-                          </Flex>
-                        </Flex>
-
-                      </Flex>
-                    </Accordion.Panel>
-                  </Accordion.Item>
-
-                )
-              )
-            }
-          </Accordion>
-        </Flex>
-      </Flex>
-    </Flex>
-  );
-};
-
 const Board_Edit = ({ boardData }) => {
 
   const [selectedStakeholders, setSelectedStakeholders] = useState([]);
@@ -598,11 +285,11 @@ const Board_Edit = ({ boardData }) => {
 
 const Board = () => {
 
-
-  const navigate = useNavigate();
   const { boardId } = useParams();
 
   const [boardData, setBoardData] = useState();
+
+  const llmRef = React.useRef();
 
   // Create or Navigate Board
   useEffect(() => {
@@ -617,8 +304,6 @@ const Board = () => {
 
   }, [boardId]);
 
-  const controls = useRef();
-
   const [active, setActive] = useState(0);
   const [activeTabVal, setActiveTabVal] = useState("first");
 
@@ -626,6 +311,139 @@ const Board = () => {
     const tabVals = ["first", "second", "third"];
     setActiveTabVal(tabVals[active]);
   }, [active]);
+
+  // INIT STUFF
+
+  const [userInitText, setUserInitText] = useState("");
+  const [isProcessing, setIsProcessing] = useState(false);
+
+  const [bufferBoardDataInit, setBufferBoardDataInit] = useState();
+  const [eachUniqueSideEffect, setEachUniqueSideEffect] = useState([]);
+
+  useEffect(() => {
+    if (llmRef.current) return;
+
+    (async () => {
+      llmRef.current = await ai.languageModel.create();
+    })();
+  }, []);
+
+  useEffect(() => {
+
+    const uqSideEffectList = [];
+    for (let sideEffect of bufferBoardDataInit?.sideEffects ?? []) {
+      let currSdEf = uqSideEffectList.find(uqEff => uqEff.sideEffectTitle === sideEffect.sideEffectTitle);
+      if (!currSdEf) {
+        let uqSdEf = {
+          sideEffectTitle: sideEffect.sideEffectTitle,
+          sideEffectItemList: [sideEffect]
+        }
+        uqSideEffectList.push(uqSdEf);
+      }
+      else {
+        currSdEf.sideEffectItemList.push(sideEffect);
+      }
+    }
+    setEachUniqueSideEffect(uqSideEffectList);
+
+  }, [bufferBoardDataInit]);
+
+  const handleFinalizeBoardSetup = async () => {
+    const storedBoards = localStorage.getItem(kuonKeys.KUON_KEY_STORED_BOARDS_LCLSTR) ?? [];
+    const boardIdx = storedBoards.findIndex((board) => board.boardId === boardId);
+    const foundBoard = storedBoards[boardIdx] ?? {};
+    bufferBoardDataInit.boardId = boardId;
+    bufferBoardDataInit.proposalPrompt = userInitText;
+    bufferBoardDataInit.hasBeenInitialized = true;
+    const consolidatedBoardData = { ...foundBoard, ...bufferBoardDataInit };
+    const updStoredBoards = [...storedBoards];
+    updStoredBoards[boardIdx] = consolidatedBoardData;
+    localStorage.setItem(kuonKeys.KUON_KEY_STORED_BOARDS_LCLSTR, updStoredBoards);
+    setBoardData(consolidatedBoardData);
+  };
+
+  const titleEl = useRef(null);
+  const descriptionEl = useRef(null);
+
+  const handleSubmit = async () => {
+    if (isProcessing) return;
+    setActive(1);
+    setIsProcessing(true);
+
+    try {
+
+      const creationBuffer = {};
+
+      const boardName = await generateTitle(userInitText, llmRef);
+      creationBuffer.boardName = boardName;
+
+      new Typed(titleEl.current, {
+        strings: [boardName],
+        typeSpeed: 50,
+        loop: false,
+        showCursor: false,
+      });
+
+      setBufferBoardDataInit({
+        ...bufferBoardDataInit,
+        ...creationBuffer,
+      });
+
+      const boardDescription = await generateDescription(userInitText, llmRef);
+      creationBuffer.boardDescription = boardDescription;
+
+      new Typed(descriptionEl.current, {
+        strings: [boardDescription],
+        typeSpeed: 20,
+        loop: false,
+        showCursor: false,
+      });
+
+      setBufferBoardDataInit({
+        ...bufferBoardDataInit,
+        ...creationBuffer,
+      });
+
+      const stakeHolders = await extractStakeholders(userInitText, llmRef);
+      // const stakeHolders = sampleStakeHolders;
+      creationBuffer.stakeHolders = stakeHolders;
+
+      setBufferBoardDataInit({
+        ...bufferBoardDataInit,
+        ...creationBuffer,
+      });
+
+      const allSideEffects = [];
+      for (const stakeHolder of stakeHolders) {
+        const stakeHolderSideEffects = await extractSideEffects(userInitText, stakeHolder, llmRef);
+        allSideEffects.push(stakeHolderSideEffects);
+      }
+
+      const sideEffects = allSideEffects.flat();
+      creationBuffer.sideEffects = sideEffects;
+
+      console.log(creationBuffer);
+
+      setBufferBoardDataInit(creationBuffer);
+    } catch (error) {
+      console.error(error?.message);
+    } finally {
+      setIsProcessing(false);
+    }
+  };
+
+  const handleReset = () => {
+    setUserInitText("");
+    setBufferBoardDataInit();
+  };
+
+  const handleRemoveSideEffect = (sideEffect) => {
+    const updSideEffects = bufferBoardDataInit.sideEffects.filter((se) => se.sideEffectTitle !== sideEffect.sideEffectTitle);
+    setBufferBoardDataInit({
+      ...bufferBoardDataInit,
+      sideEffects: updSideEffects
+    });
+  };
 
   return (
     // Board Main Pane
@@ -635,6 +453,31 @@ const Board = () => {
       justify="start"
       gap="md"
     >
+
+
+      <Flex
+        direction="column"
+        align="stretch"
+        justify="start"
+        gap="md"
+      >
+        {/* Top Row */}
+        <Flex
+          direction="row"
+          align="center"
+          justify="space-between"
+        >
+          <Title order={3}>Set Up Your Board</Title>
+
+          <Button
+            onClick={handleFinalizeBoardSetup}
+            disabled={active !== 2}
+          >
+            Done
+          </Button>
+        </Flex>
+      </Flex>
+
       {/* Stepper */}
       <Flex
         direction="column"
@@ -672,23 +515,164 @@ const Board = () => {
       >
         <Tabs value={activeTabVal}>
           <Tabs.Panel value="first">
-            {
-              boardData?.hasBeenInitialized
-                ?
-                <Board_Edit boardData={boardData} />
-                :
+
+            {/* Prompt Area */}
+            <Flex
+              direction="column"
+              align="stretch"
+              justify="start"
+              gap="sm"
+            >
+              <Flex
+                direction="column"
+                align="stretch"
+                justify="start"
+              >
+                <Text>
+                  Enter the text of your proposal below.
+                </Text>
+                <Text>
+                  You can start with a simple outline and use the magic button to polish it.
+                </Text>
+              </Flex>
+            </Flex>
+
+            <Flex
+              direction="column"
+              align="stretch"
+              justify="start"
+            >
+              <PromptReady_TextArea
+                height="10rem"
+                textareaProps={{
+                  onChange: (e) => setUserInitText(e.currentTarget.value),
+                  value: userInitText,
+                  placeholder: sampleStartingPrompt,
+                  minRows: 4,
+                  maxRows: 12,
+                  rows: 6,
+                }}
+              />
+            </Flex>
+
+            {/* Buttons Row */}
+            <Flex
+              gap="sm"
+              justify="flex-start"
+              align="center"
+              direction="row"
+            >
+              <Button
+                onClick={handleSubmit}
+                disabled={isProcessing}
+              >
+                Submit
+              </Button>
+              <Button
+                onClick={handleReset}
+                disabled={isProcessing}
+              >
+                Reset
+              </Button>
+              {isProcessing ? (
+                <Loader type="dots" />
+              ) : (
                 <></>
-            }
-            <Board_Init setBoardData={setBoardData} />
+              )}
+            </Flex>
+
+            {/* Bottom Instructions */}
+            <Flex
+              direction="column"
+              align="stretch"
+              justify="start"
+            >
+              <Text>
+                Hit Submit when you are ready.
+              </Text>
+              <Text>
+                We will analyze it to help you identify stakeholders and potential side effects.
+              </Text>
+            </Flex>
           </Tabs.Panel>
           <Tabs.Panel value="second">
-            {
-              boardData?.hasBeenInitialized
-                ?
-                <></>
-                :
-                <Board_Init setBoardData={setBoardData} />
-            }
+
+
+            {/* Title and Desc */}
+            <Flex
+              direction="column"
+              align="start"
+              justify="start"
+            >
+              <Title order={2}>
+                <span contentEditable ref={titleEl} />
+              </Title>
+              <Text>
+                <span contentEditable ref={descriptionEl} />
+              </Text>
+            </Flex>
+
+            {/* Stakeholders List */}
+            <Flex gap="md">
+              <Flex
+                direction="column"
+                gap="sm"
+                w="100%"
+              >
+                <Accordion>
+                  {
+                    (bufferBoardDataInit?.stakeHolders ?? []).map(
+                      (stakeHolder, idx) => (
+                        <Accordion.Item key={idx} value={stakeHolder.stakeHolderName}>
+                          <Accordion.Control icon={"→"}>
+                            {stakeHolder.stakeHolderName}
+                          </Accordion.Control>
+                          <Accordion.Panel>
+                            <Flex
+                              key={idx}
+                              direction="column"
+                              align="stretch"
+                              justify="flex-start"
+                            >
+                              <Text>{stakeHolder.description}</Text>
+
+                              <Flex
+                                direction="row"
+                                gap="sm"
+                                p="md"
+                                w="100%"
+                              >
+                                {/* Positives */}
+                                <Flex w="50%">
+                                  <ImplicationList sideEffects={(bufferBoardDataInit?.sideEffects ?? [])
+                                    .filter((sideEffect) => sideEffect.stakeHolderName === stakeHolder.stakeHolderName)
+                                    .filter((sideEffect) => sideEffect.implication === "positive")
+                                  }
+                                    handleRemoveSideEffect={handleRemoveSideEffect}
+                                  />
+                                </Flex>
+
+                                {/* Negatives */}
+                                <Flex w="50%">
+                                  <ImplicationList sideEffects={(bufferBoardDataInit?.sideEffects ?? [])
+                                    .filter((sideEffect) => sideEffect.stakeHolderName === stakeHolder.stakeHolderName)
+                                    .filter((sideEffect) => sideEffect.implication === "negative")
+                                  }
+                                    handleRemoveSideEffect={handleRemoveSideEffect}
+                                  />
+                                </Flex>
+                              </Flex>
+
+                            </Flex>
+                          </Accordion.Panel>
+                        </Accordion.Item>
+
+                      )
+                    )
+                  }
+                </Accordion>
+              </Flex>
+            </Flex>
           </Tabs.Panel>
           <Tabs.Panel value="third">Third panel</Tabs.Panel>
         </Tabs>
