@@ -51,9 +51,9 @@ export function App() {
       fontWeight: '800',
       fontFamily: 'Bitter',
       sizes: {
-        h1: { fontSize: rem(38), lineHeight: '0.7' },
-        h2: { fontSize: rem(34), lineHeight: '0.7' },
-        h3: { fontSize: rem(30), lineHeight: '0.7' },
+        h1: { fontSize: rem(38), lineHeight: '0.9' },
+        h2: { fontSize: rem(34), lineHeight: '0.9' },
+        h3: { fontSize: rem(30), lineHeight: '0.9' },
         h4: { fontSize: rem(26), lineHeight: '0.7' },
         h5: { fontSize: rem(22), lineHeight: '0.7' },
         h6: { fontSize: rem(18), lineHeight: '0.7' },
@@ -166,11 +166,10 @@ export function App() {
               href="/"
               radius="xl"
               size="md"
-              variant="outline"
               pr={14}
               h={48}
               styles={{
-                root: { color: "black", borderColor: "black" },
+                // root: { color: "black", borderColor: "black" },
                 section: { marginLeft: 22 }
               }}
             >
@@ -181,8 +180,12 @@ export function App() {
 
         <AppShell.Navbar pl="md" py="md">
           <Button
+            radius="xl"
+            size="md"
+            variant="outline"
             m="md"
-            mr="xl"
+            h={88}
+            mr="2rem"
             href="/board/_new"
             onClick={handleCreateNewBoard}
           >
@@ -276,8 +279,8 @@ export function App() {
           </Flex>
 
           <Flex w="100%" justify="flex-end" gap="md">
-            <Button onClick={close}>Cancel</Button>
-            <Button color="red.4" onClick={handleBoardDelete}>Delete</Button>
+            <Button onClick={close} variant="outline">Cancel</Button>
+            <Button onClick={handleBoardDelete}>Delete</Button>
           </Flex>
         </Flex>
       </Modal>
