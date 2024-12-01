@@ -75,14 +75,6 @@ propose requiring developers to include measures such as
 - contributions to local conservation funds
 `;
 
-const conversationHistoryTemplate = {
-  conversationId: "",
-  conversationMessages: [],
-  conversationStakeholders: [],
-  conversationParticipants: [],
-  currConversationOutline: [],
-};
-
 const ImplicationList = ({ sideEffects, handleRemoveSideEffect }) => {
   return (
     <Flex
@@ -540,7 +532,59 @@ const Board_Init = ({ boardId, setBoardData }) => {
                                       w="100%"
                                     >
                                       {/* Positives */}
-                                      <Flex w="50%">
+                                      <Flex
+                                        w="50%"
+                                        direction="column"
+                                        gap="sm"
+                                      >
+                                        <Accordion variant="filled" chevron={null} defaultValue="second" w="100%">
+                                          <Accordion.Item key="first" value="first">
+                                            <Accordion.Control icon="+">
+                                              <Text c="gray.5" fz="sm">
+                                                <Pill c="green.9">positive</Pill>
+                                              </Text>
+                                            </Accordion.Control>
+                                            <Accordion.Panel>
+                                              <Flex
+                                                direction="column"
+                                                align="stretch"
+                                                justify="flex-start"
+                                                gap="sm"
+                                                p="md"
+                                                h="13rem"
+                                                w="100%"
+                                              >
+                                                <Flex
+                                                  direction="row"
+                                                  align="center"
+                                                  gap="sm"
+                                                >
+                                                  <Button onClick={() => { console.log('foo'); }}>
+                                                    Add
+                                                  </Button>
+                                                </Flex>
+                                                <PromptReady_TextInput
+                                                  inputProps={{
+                                                    onChange: (e) => { console.log(e.currentTarget.value); },
+                                                    value: "<sideEffect>",
+                                                    placeholder: "Effect label",
+                                                  }}
+                                                />
+                                                <PromptReady_TextArea
+                                                  height="4rem"
+                                                  textareaProps={{
+                                                    onChange: (e) => { console.log(e.currentTarget.value); },
+                                                    value: "<sideEffectReason>",
+                                                    placeholder: "Enter reasoning for effect",
+                                                    minRows: 4,
+                                                    maxRows: 12,
+                                                    rows: 4,
+                                                  }}
+                                                />
+                                              </Flex>
+                                            </Accordion.Panel>
+                                          </Accordion.Item>
+                                        </Accordion>
 
                                         {
                                           isProcessing ? (
@@ -568,7 +612,60 @@ const Board_Init = ({ boardId, setBoardData }) => {
                                       </Flex>
 
                                       {/* Negatives */}
-                                      <Flex w="50%">
+                                      <Flex
+                                        w="50%"
+                                        direction="column"
+                                        gap="sm"
+                                      >
+                                        <Accordion variant="filled" chevron={null} defaultValue="second" w="100%">
+                                          <Accordion.Item key="first" value="first">
+                                            <Accordion.Control icon="+">
+                                              <Text c="gray.5" fz="sm">
+                                                <Pill c="orange.7">negative</Pill>
+                                              </Text>
+                                            </Accordion.Control>
+                                            <Accordion.Panel>
+                                              <Flex
+                                                direction="column"
+                                                align="stretch"
+                                                justify="flex-start"
+                                                gap="sm"
+                                                p="md"
+                                                h="13rem"
+                                                w="100%"
+                                              >
+                                                <Flex
+                                                  direction="row"
+                                                  align="center"
+                                                  gap="sm"
+                                                >
+                                                  <Button onClick={() => { console.log('foo'); }}>
+                                                    Add
+                                                  </Button>
+                                                </Flex>
+                                                <PromptReady_TextInput
+                                                  inputProps={{
+                                                    onChange: (e) => { console.log(e.currentTarget.value); },
+                                                    value: "<sideEffect>",
+                                                    placeholder: "Effect label",
+                                                  }}
+                                                />
+                                                <PromptReady_TextArea
+                                                  height="4rem"
+                                                  textareaProps={{
+                                                    onChange: (e) => { console.log(e.currentTarget.value); },
+                                                    value: "<sideEffectReason>",
+                                                    placeholder: "Enter reasoning for effect",
+                                                    minRows: 4,
+                                                    maxRows: 12,
+                                                    rows: 4,
+                                                  }}
+                                                />
+                                              </Flex>
+                                            </Accordion.Panel>
+                                          </Accordion.Item>
+                                        </Accordion>
+
                                         {
                                           isProcessing ? (<Flex
                                             direction="column"
