@@ -1,16 +1,93 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Button, Flex, JsonInput, Tabs, Text, Textarea, Title, Space } from '@mantine/core';
+import React, { useEffect, useState } from 'react';
+import { useDebounce } from "@uidotdev/usehooks";
+import { FaPen } from 'react-icons/fa';
+import { Textarea } from '@mantine/core';
 
-export const PromptReady_TextArea = (props) => {
+import { useLLMRef } from "../hooks/llmRef";
+
+export const PromptReady_TextArea = ({
+  height = "10rem",
+  enableAiGeneration = true,
+  promptBase = "",
+  promptSamples = "",
+  onChange_debounced,
+  onGeneratedValueChange,
+  textareaProps = {},
+  ...props
+}) => {
+
+  const llmRef = useLLMRef();
+
+  const [inputValue, setInputValue] = useState(textareaProps?.value ?? "");
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [generatedValue, setGeneratedValue] = useState("");
+  const debouncedInputValue = useDebounce(inputValue, 500);
+
+  useEffect(() => {
+    if (onChange_debounced) {
+      onChange_debounced(debouncedInputValue);
+    }
+  }, [debouncedInputValue, onChange_debounced]);
+
+  const handleGenerationClick = async () => {
+    if (llmRef.current) {
+      try {
+        setIsGenerating(true);
+        setGeneratedValue("");
+        const inputGenPromptText = [
+          "## Prompt Instructions:",
+          promptBase ?? "",
+          "",
+          "## Sample:",
+          promptSamples ?? "",
+          "",
+          "## Strict Instructions:",
+          "Return only unformatted response text in English."
+        ].join("\n");
+        console.log(inputGenPromptText);
+        const generatedText = await llmRef.current?.prompt(inputGenPromptText);
+        console.log(generatedText);
+        setInputValue(generatedText);
+        setGeneratedValue(generatedText);
+        if (onGeneratedValueChange) {
+          onGeneratedValueChange(generatedText);
+        }
+      } catch (error) {
+        console.error(error.message);
+      }
+      finally {
+        setIsGenerating(false);
+      }
+    }
+  };
+
   return (
-    <div style={{ position: "relative", height: props.height ?? "10rem", resize: "vertical" }}>
+    <div style={{ position: "relative", height, overflowY: "clip" }}>
       <Textarea
+        resize="vertical"
         style={{ position: "absolute", top: 0, right: 0, left: 0, bottom: 0 }}
         {...props.textareaProps}
+        onChange={(e) => setInputValue(e.target.value)}
+        value={inputValue}
+        disabled={isGenerating}
       />
-      <div style={{ position: "absolute", top: 0, right: 0 }}>
-        <Button>P</Button>
-      </div>
+      {
+        enableAiGeneration
+          ?
+          (
+
+            <div
+              onClick={handleGenerationClick}
+              style={{ position: "absolute", top: "15%", right: 15, cursor: "pointer" }}
+            >
+              <FaPen size="0.6rem" color="primary" />
+            </div>
+          )
+          :
+          (
+            <></>
+          )
+      }
     </div>
   );
 };
