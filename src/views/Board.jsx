@@ -265,10 +265,15 @@ const Board_Init = ({ boardId, setBoardData }) => {
       for (const stakeHolder of stakeHolders) {
         const stakeHolderSideEffects = await extractSideEffects(userInitText, stakeHolder, llmRef);
         allSideEffects.push(stakeHolderSideEffects);
-      }
 
-      const sideEffects = allSideEffects.flat();
-      creationBuffer.sideEffects = sideEffects;
+        const sideEffects = allSideEffects.flat();
+        creationBuffer.sideEffects = sideEffects;
+
+        setBufferBoardDataInit({
+          ...bufferBoardDataInit,
+          ...creationBuffer,
+        });
+      }
 
       console.log(creationBuffer);
 
@@ -416,11 +421,11 @@ const Board_Init = ({ boardId, setBoardData }) => {
           </Stepper.Step>
           <Stepper.Step
             label="Third step"
-            description="Set priorities"
+            description="View the effects"
             allowStepSelect={shouldAllowSelectStep(2)}
           >
             <Center>
-              Step 3: Set priorities and your goals
+              Step 3: Go through side effects
             </Center>
           </Stepper.Step>
         </Stepper>
@@ -897,55 +902,79 @@ const Board_Init = ({ boardId, setBoardData }) => {
                   ) : (
                     <Accordion multiple>
                       {
-                        eachUniqueSideEffect.map(
-                          (uqEff, idx) => (
-                            <Accordion.Item key={idx} value={uqEff.sideEffectTitle}>
-                              <Accordion.Control icon={"→"}>
-                                {uqEff.sideEffectTitle}
-                              </Accordion.Control>
-                              <Accordion.Panel>
-                                <Flex
-                                  key={idx}
-                                  direction="row"
-                                  justify="flex-start"
-                                  gap="sm"
-                                >
-                                  {
-                                    uqEff.sideEffectItemList.map(
-                                      (sideEffect, idx) => (
-                                        <HoverCard key={idx} width={280} height={50} shadow="md">
-                                          <HoverCard.Target>
-                                            <Card w="10rem" padding="md" bd="1px solid #DEDEDE" shadow="sm">
+                        (eachUniqueSideEffect ?? [])
+                          .sort((a, b) => a?.sideEffectItemList?.length - b?.sideEffectItemList?.length)
+                          .map(
+                            (uqEff, idx) => (
+                              <Accordion.Item key={idx} value={uqEff.sideEffectTitle}>
+                                <Accordion.Control icon={"→"}>
+                                  <Flex
+                                    direction="row"
+                                    align="center"
+                                    pr="md"
+                                    gap="md"
+                                  >
+                                    {uqEff.sideEffectTitle}
+                                    <div style={{ flex: "1" }}></div>
+                                    <Pill c="green.9">
+                                      {
+                                        uqEff.sideEffectItemList.filter((se) => se.implication === "positive").length
+                                      }
+                                      {" "}
+                                      positive
+                                    </Pill>
+                                    <Pill c="orange.7">
+                                      {
+                                        uqEff.sideEffectItemList.filter((se) => se.implication === "negative").length
+                                      }
+                                      {" "}
+                                      negative
+                                    </Pill>
+                                  </Flex>
+                                </Accordion.Control>
+                                <Accordion.Panel>
+                                  <Flex
+                                    key={idx}
+                                    direction="row"
+                                    justify="flex-start"
+                                    gap="sm"
+                                  >
+                                    {
+                                      uqEff.sideEffectItemList.map(
+                                        (sideEffect, idx) => (
+                                          <HoverCard key={idx} width={280} height={50} shadow="md">
+                                            <HoverCard.Target>
+                                              <Card w="16rem" padding="md" bd="1px solid #DEDEDE" shadow="sm">
+                                                <Flex
+                                                  direction="column"
+                                                  gap="sm"
+                                                >
+                                                  <Pill c={sideEffect.implication === "positive" ? "green.9" : "orange.7"}>
+                                                    {sideEffect.implication}
+                                                  </Pill>
+                                                  <Title order={5}>{sideEffect.stakeHolderName}</Title>
+                                                </Flex>
+                                              </Card>
+                                            </HoverCard.Target>
+                                            <HoverCard.Dropdown style={{ maxHeight: "10rem", overflowY: "auto" }}>
                                               <Flex
                                                 direction="column"
-                                                gap="sm"
+                                                w="100%"
                                               >
-                                                <Pill c={sideEffect.implication === "positive" ? "green.9" : "orange.7"}>
-                                                  {sideEffect.implication}
-                                                </Pill>
-                                                <Title order={5}>{sideEffect.stakeHolderName}</Title>
+                                                <Text size="md">
+                                                  {sideEffect.implicationReason}
+                                                </Text>
                                               </Flex>
-                                            </Card>
-                                          </HoverCard.Target>
-                                          <HoverCard.Dropdown style={{ maxHeight: "10rem", overflowY: "auto" }}>
-                                            <Flex
-                                              direction="column"
-                                              w="100%"
-                                            >
-                                              <Text size="md">
-                                                {sideEffect.implicationReason}
-                                              </Text>
-                                            </Flex>
-                                          </HoverCard.Dropdown>
-                                        </HoverCard>
+                                            </HoverCard.Dropdown>
+                                          </HoverCard>
+                                        )
                                       )
-                                    )
-                                  }
-                                </Flex>
-                              </Accordion.Panel>
-                            </Accordion.Item>
+                                    }
+                                  </Flex>
+                                </Accordion.Panel>
+                              </Accordion.Item>
+                            )
                           )
-                        )
                       }
                     </Accordion>
                   )
