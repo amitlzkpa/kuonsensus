@@ -677,13 +677,16 @@ const Board_Init = ({ boardId, setBoardData }) => {
                                         </Accordion>
 
                                         {
-                                          isProcessing ? (
+                                          isProcessing && ((bufferBoardDataInit?.sideEffects ?? [])
+                                            .filter((sideEffect) => sideEffect.stakeHolderName === stakeHolder.stakeHolderName)
+                                            .filter((sideEffect) => sideEffect.implication === "positive")).length < 1 ? (
                                             <Flex
                                               direction="column"
                                               align="stretch"
                                               gap="sm"
                                               w="100%"
                                             >
+                                              <Skeleton w="50%" height={16} radius="xl" />
                                               <Skeleton height={16} radius="xl" />
                                               <Skeleton height={16} radius="xl" />
                                               <Skeleton height={16} radius="xl" />
@@ -764,17 +767,21 @@ const Board_Init = ({ boardId, setBoardData }) => {
                                         </Accordion>
 
                                         {
-                                          isProcessing ? (<Flex
-                                            direction="column"
-                                            align="stretch"
-                                            gap="sm"
-                                            w="100%"
-                                          >
-                                            <Skeleton height={16} radius="xl" />
-                                            <Skeleton height={16} radius="xl" />
-                                            <Skeleton height={16} radius="xl" />
-                                            <Skeleton height={16} radius="xl" />
-                                          </Flex>
+                                          isProcessing && ((bufferBoardDataInit?.sideEffects ?? [])
+                                            .filter((sideEffect) => sideEffect.stakeHolderName === stakeHolder.stakeHolderName)
+                                            .filter((sideEffect) => sideEffect.implication === "negative")).length < 1 ? (
+                                            <Flex
+                                              direction="column"
+                                              align="stretch"
+                                              gap="sm"
+                                              w="100%"
+                                            >
+                                              <Skeleton w="50%" height={16} radius="xl" />
+                                              <Skeleton height={16} radius="xl" />
+                                              <Skeleton height={16} radius="xl" />
+                                              <Skeleton height={16} radius="xl" />
+                                              <Skeleton height={16} radius="xl" />
+                                            </Flex>
                                           ) : (
                                             <ImplicationList sideEffects={(bufferBoardDataInit?.sideEffects ?? [])
                                               .filter((sideEffect) => sideEffect.stakeHolderName === stakeHolder.stakeHolderName)
