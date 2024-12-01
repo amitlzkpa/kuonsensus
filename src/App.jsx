@@ -145,19 +145,18 @@ export function App() {
                     justify="space-between"
                     gap="sm"
                   >
-                    <HoverCard width={280} shadow="md">
+                    <HoverCard width={280} height={50} shadow="md">
                       <HoverCard.Target>
                         <div>
                           <FaInfoCircle size="0.9rem" color="#ababab" />
                         </div>
                       </HoverCard.Target>
-                      <HoverCard.Dropdown>
+                      <HoverCard.Dropdown style={{ maxHeight: "10rem", overflowY: "auto" }}>
                         <Flex
                           direction="column"
-                          gap="sm"
                           w="100%"
                         >
-                          <Text size="sm" c="gray.7" style={{ fontStyle: "italic" }}>{boardToDelete.boardId}</Text>
+                          <Text size="sm" c="gray.7" style={{ fontStyle: "italic" }}>{board.boardId}</Text>
                           <Text size="md">
                             {board.boardDescription}
                           </Text>
