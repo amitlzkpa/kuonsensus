@@ -276,11 +276,11 @@ export const extractSideEffects = async (inText, stakeHolder, llmRef) => {
 };
 
 const promptForBoardDescriptionGeneration = `
-Provide a 2-3-line description for a proposal around the issue described below.
+Provide a 2-3 line description for a proposal around the issue described below.
 Don't use any special characters or text-formatting.
 Return the response in simple English.
 Do not use any punctuations in the title.
-Return only the title in the response.
+Return only the description in the response.
 
 ## Sample Response
 Proposal to implement a renewable energy project. The project aims to reduce carbon emissions and promote sustainability. The project will involve the installation of solar panels and energy-efficient systems.
