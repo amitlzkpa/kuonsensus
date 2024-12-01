@@ -54,9 +54,9 @@ export function App() {
         h1: { fontSize: rem(38), lineHeight: '0.9' },
         h2: { fontSize: rem(34), lineHeight: '0.9' },
         h3: { fontSize: rem(30), lineHeight: '0.9' },
-        h4: { fontSize: rem(26), lineHeight: '0.7' },
-        h5: { fontSize: rem(22), lineHeight: '0.7' },
-        h6: { fontSize: rem(18), lineHeight: '0.7' },
+        h4: { fontSize: rem(26), lineHeight: '0.9' },
+        h5: { fontSize: rem(22), lineHeight: '0.9' },
+        h6: { fontSize: rem(18), lineHeight: '0.9' },
       },
     },
     fontSizes: {
