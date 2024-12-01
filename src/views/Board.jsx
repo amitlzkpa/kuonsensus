@@ -576,7 +576,7 @@ const Board_Init = ({ boardId, setBoardData }) => {
                                                   </Button>
                                                 </Flex>
                                                 <PromptReady_TextInput
-                                                  enableAiGeneration={true}
+                                                  enableAiGeneration={false}
                                                   promptBase={`Generate positive side effect for ${stakeHolder.stakeHolderName} based on the following proposal: ${bufferBoardDataInit?.proposalPrompt}`}
                                                   promptSamples="Increased Revenue, Improved Customer Satisfaction, Reduced Costs etc."
                                                   onGeneratedValueChange={(generatedText) => { console.log(generatedText); }}
@@ -660,7 +660,7 @@ const Board_Init = ({ boardId, setBoardData }) => {
                                                   </Button>
                                                 </Flex>
                                                 <PromptReady_TextInput
-                                                  enableAiGeneration={true}
+                                                  enableAiGeneration={false}
                                                   promptBase={`Generate negative side effect for ${stakeHolder.stakeHolderName} based on the following proposal: ${bufferBoardDataInit?.proposalPrompt}`}
                                                   promptSamples="Increased Costs, Reduced Revenue, Customer Dissatisfaction etc."
                                                   onGeneratedValueChange={(generatedText) => { console.log(generatedText); }}
@@ -745,7 +745,7 @@ const Board_Init = ({ boardId, setBoardData }) => {
                                 </Button>
                               </Flex>
                               <PromptReady_TextInput
-                                enableAiGeneration={true}
+                                enableAiGeneration={false}
                                 promptBase="Generate a real-sounding first name last name combination."
                                 promptSamples="Michael Brown, Jake Smith, Sarah Johnson"
                                 onGeneratedValueChange={(generatedText) => { console.log(generatedText); }}
