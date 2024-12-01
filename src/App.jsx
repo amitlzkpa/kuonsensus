@@ -127,7 +127,7 @@ export function App() {
           </Group>
         </AppShell.Header>
 
-        <AppShell.Navbar p="md">
+        <AppShell.Navbar pl="md" py="md">
           <Button
             m="md"
             href="/board/_new"
@@ -139,7 +139,7 @@ export function App() {
           {[storedBoards_localStorage ?? []].length > 0
             ?
             (
-              <Flex direction={"column"} gap={"md"}>
+              <Flex direction={"column"} gap={"md"} pr="sm" style={{ overflowY: "auto" }}>
                 {storedBoards_localStorage.map((board) => (
                   <Flex
                     key={board.boardId}
