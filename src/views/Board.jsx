@@ -26,6 +26,7 @@ import {
 } from "../utils/extractionHelpers";
 import * as kuonKeys from "../config/kuonKeys";
 import * as localStorage from "../utils/localStorageHelpers";
+import { useStoredBoards, triggerStorageUpdate } from '../hooks/localStorage';
 import { PromptReady_TextArea } from "../components/PromptReady_TextArea";
 import { PromptReady_TextInput } from "../components/PromptReady_TextInput";
 import { Kuon3D_StakeHolder } from "../components/Kuon3D_StakeHolder";
@@ -113,6 +114,8 @@ const ImplicationList = ({ sideEffects, handleRemoveSideEffect }) => {
 const Board_Init = ({ boardId, setBoardData }) => {
 
 
+  const storedBoards = useStoredBoards();
+
   const llmRef = React.useRef();
 
   const tabVals = ["first", "second", "third"];
@@ -174,7 +177,6 @@ const Board_Init = ({ boardId, setBoardData }) => {
   }, [bufferBoardDataInit]);
 
   const handleFinalizeBoardSetup = async () => {
-    const storedBoards = localStorage.getItem(kuonKeys.KUON_KEY_STORED_BOARDS_LCLSTR) ?? [];
     const boardIdx = storedBoards.findIndex((board) => board.boardId === boardId);
     const foundBoard = storedBoards[boardIdx] ?? {};
     bufferBoardDataInit.boardId = boardId;
@@ -184,6 +186,7 @@ const Board_Init = ({ boardId, setBoardData }) => {
     const updStoredBoards = [...storedBoards];
     updStoredBoards[boardIdx] = consolidatedBoardData;
     localStorage.setItem(kuonKeys.KUON_KEY_STORED_BOARDS_LCLSTR, updStoredBoards);
+    triggerStorageUpdate();
     setBoardData(consolidatedBoardData);
   };
 
@@ -1027,18 +1030,19 @@ const Board = () => {
 
   const [boardData, setBoardData] = useState();
 
+  const storedBoards = useStoredBoards();
+
   // Create or Navigate Board
   useEffect(() => {
 
     if (!boardId) return;
 
-    const storedBoards = localStorage.getItem(kuonKeys.KUON_KEY_STORED_BOARDS_LCLSTR) ?? [];
     const foundBoard = storedBoards.find((board) => board.boardId === boardId);
     if (foundBoard) {
       setBoardData(foundBoard);
     }
 
-  }, [boardId]);
+  }, [boardId, storedBoards]);
 
   return (
     // Board Main Pane

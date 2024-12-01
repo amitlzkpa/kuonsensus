@@ -22,6 +22,7 @@ import { useDisclosure } from '@mantine/hooks';
 import * as kuonKeys from "./config/kuonKeys";
 import * as localStorage from "./utils/localStorageHelpers";
 
+import { useStoredBoards, triggerStorageUpdate } from './hooks/localStorage';
 import Board from "./views/Board";
 import Dev from "./views/Dev";
 import Landing from "./views/Landing";
@@ -44,14 +45,15 @@ export function App() {
 
   const [storedBoards_localStorage, setStoredBoards_localStorage] = useState([]);
 
+  const storedBoards = useStoredBoards();
+
   useEffect(() => {
-    let storedBoards = localStorage.getItem(kuonKeys.KUON_KEY_STORED_BOARDS_LCLSTR);
     if (!storedBoards) {
       localStorage.setItem(kuonKeys.KUON_KEY_STORED_BOARDS_LCLSTR, []);
-      storedBoards = [];
+      triggerStorageUpdate();
     }
     setStoredBoards_localStorage(storedBoards);
-  }, []);
+  }, [storedBoards]);
 
   const router = createBrowserRouter([
     {
@@ -76,9 +78,9 @@ export function App() {
       creationDate: new Date().toISOString()
     };
 
-    const storedBoards = localStorage.getItem(kuonKeys.KUON_KEY_STORED_BOARDS_LCLSTR) ?? [];
     const updStoredBoards = [...storedBoards, newBoard];
     localStorage.setItem(kuonKeys.KUON_KEY_STORED_BOARDS_LCLSTR, updStoredBoards);
+    triggerStorageUpdate();
     router.navigate(`/board/${newBoardId}`);
   };
 
@@ -86,9 +88,9 @@ export function App() {
   const [opened, { open, close }] = useDisclosure(false);
 
   const handleBoardDelete = () => {
-    const storedBoards = localStorage.getItem(kuonKeys.KUON_KEY_STORED_BOARDS_LCLSTR) ?? [];
     const updStoredBoards = storedBoards.filter((board) => board.boardId !== boardToDelete.boardId);
     localStorage.setItem(kuonKeys.KUON_KEY_STORED_BOARDS_LCLSTR, updStoredBoards);
+    triggerStorageUpdate();
     close();
   }
 
