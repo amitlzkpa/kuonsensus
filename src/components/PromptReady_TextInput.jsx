@@ -13,7 +13,6 @@ export const PromptReady_TextInput = ({
   onChange_debounced,
   onGeneratedValueChange,
   inputProps = {},
-  ...props
 }) => {
 
   const llmRef = useLLMRef();

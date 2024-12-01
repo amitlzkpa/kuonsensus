@@ -15,7 +15,6 @@ export const PromptReady_TextArea = ({
   inputValue,
   setInputValue,
   textareaProps = {},
-  ...props
 }) => {
 
   const llmRef = useLLMRef();
@@ -67,7 +66,7 @@ export const PromptReady_TextArea = ({
       <Textarea
         resize="vertical"
         style={{ position: "absolute", top: 0, right: 0, left: 0, bottom: 0 }}
-        {...props.textareaProps}
+        {...textareaProps}
         onChange={(e) => setInputValue(e.target.value)}
         value={inputValue}
         disabled={isGenerating}
