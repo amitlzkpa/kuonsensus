@@ -315,11 +315,12 @@ const Board_Init = ({ boardId, setBoardData }) => {
   const [positiveSideEffectTitleBuffer, setPositiveSideEffectTitleBuffer] = useState("");
   const [positiveSideEffectReasonBuffer, setPositiveSideEffectReasonBuffer] = useState("");
 
-  const handlePositiveSideEffectAdd = () => {
+  const handlePositiveSideEffectAdd = (stakeHolderName) => {
     const updSideEffects = [...bufferBoardDataInit.sideEffects, {
       sideEffectTitle: positiveSideEffectTitleBuffer,
       implication: "positive",
-      implicationReason: positiveSideEffectReasonBuffer
+      implicationReason: positiveSideEffectReasonBuffer,
+      stakeHolderName
     }];
     setBufferBoardDataInit({
       ...bufferBoardDataInit,
@@ -332,11 +333,12 @@ const Board_Init = ({ boardId, setBoardData }) => {
   const [negativeSideEffectTitleBuffer, setNegativeSideEffectTitleBuffer] = useState("");
   const [negativeSideEffectReasonBuffer, setNegativeSideEffectReasonBuffer] = useState("");
 
-  const handleNegativeSideEffectAdd = () => {
+  const handleNegativeSideEffectAdd = (stakeHolderName) => {
     const updSideEffects = [...bufferBoardDataInit.sideEffects, {
       sideEffectTitle: negativeSideEffectTitleBuffer,
       implication: "negative",
-      implicationReason: negativeSideEffectReasonBuffer
+      implicationReason: negativeSideEffectReasonBuffer,
+      stakeHolderName
     }];
     setBufferBoardDataInit({
       ...bufferBoardDataInit,
@@ -604,7 +606,7 @@ const Board_Init = ({ boardId, setBoardData }) => {
                                                   align="center"
                                                   gap="sm"
                                                 >
-                                                  <Button onClick={handlePositiveSideEffectAdd}>
+                                                  <Button onClick={() => handlePositiveSideEffectAdd(stakeHolder.stakeHolderName)}>
                                                     Add
                                                   </Button>
                                                 </Flex>
@@ -690,7 +692,7 @@ const Board_Init = ({ boardId, setBoardData }) => {
                                                   align="center"
                                                   gap="sm"
                                                 >
-                                                  <Button onClick={handleNegativeSideEffectAdd}>
+                                                  <Button onClick={() => handleNegativeSideEffectAdd(stakeHolder.stakeHolderName)}>
                                                     Add
                                                   </Button>
                                                 </Flex>
