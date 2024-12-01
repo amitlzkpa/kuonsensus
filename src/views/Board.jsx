@@ -135,7 +135,9 @@ const ImplicationList = ({ sideEffects, handleRemoveSideEffect }) => {
               <HoverCard width={280} height={50} shadow="md">
                 <HoverCard.Target>
                   <div>
-                    <Text>{sideEffect.sideEffectTitle}</Text>
+                    <Text>
+                      <TypingText text={sideEffect.sideEffectTitle} typeSpeed={[20, 50, 60][Math.floor(Math.random() * 3)]} />
+                    </Text>
                   </div>
                 </HoverCard.Target>
                 <HoverCard.Dropdown style={{ maxHeight: "10rem", overflowY: "auto" }}>
@@ -606,7 +608,7 @@ const Board_Init = ({ boardId, setBoardData }) => {
                             (stakeHolder, idx) => (
                               <Accordion.Item key={idx} value={stakeHolder.stakeHolderName}>
                                 <Accordion.Control icon={"→"}>
-                                  <TypingText text={stakeHolder.stakeHolderName} />
+                                  <TypingText text={stakeHolder.stakeHolderName} typeSpeed={[20, 50, 60][Math.floor(Math.random() * 3)]} />
                                 </Accordion.Control>
                                 <Accordion.Panel>
                                   <Flex
@@ -632,7 +634,7 @@ const Board_Init = ({ boardId, setBoardData }) => {
                                       </Flex>
                                     </Flex>
                                     <Text>
-                                      <TypingText text={stakeHolder.description} />
+                                      <TypingText text={stakeHolder.description} typeSpeed={[20, 50, 60][Math.floor(Math.random() * 3)]} />
                                     </Text>
 
                                     <Flex
