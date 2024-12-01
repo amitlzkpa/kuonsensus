@@ -73,6 +73,23 @@ export function App() {
       lg: '1.8',
       xl: '1.85',
     },
+    defaultRadius: 'xl',
+    primaryColor: 'kuonsensus-maroon',
+    colors: {
+      'kuonsensus-maroon': [
+        "#ffeaec",
+        "#fcd4d7",
+        "#f4a7ac",
+        "#ec777e",
+        "#e64f57",
+        "#e3353f",
+        "#e22732",
+        "#c91a25",
+        "#b41220",
+        "#9e0419"
+      ],
+    },
+
   });
 
   const [mobileOpened, { toggle: toggleMobile }] = useDisclosure();
@@ -165,6 +182,7 @@ export function App() {
         <AppShell.Navbar pl="md" py="md">
           <Button
             m="md"
+            mr="xl"
             href="/board/_new"
             onClick={handleCreateNewBoard}
           >

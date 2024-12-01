@@ -17,9 +17,21 @@ export const Kuon3D_StakeHolder = ({ position, stakeHolder }) => {
     >
       <cylinderGeometry attach="geometry" args={[4, 4, 1, 128]} />
       <meshStandardMaterial attach="material" color={"#DEDEDE"} />
-      <Edges linewidth={clicked ? 3 : hovered ? 4 : 2} threshold={15} color={clicked ? "#0002ef" : hovered ? "#c02040" : "black"} />
-      <Html center style={{ pointerEvents: "none" }}>
-        <div style={{ color: "black", fontSize: "0.5rem" }}>
+      <Edges linewidth={clicked ? 3 : hovered ? 4 : 2} threshold={15} color={clicked ? "#b41220" : hovered ? "#c91a25" : "black"} />
+      <Html
+        center
+        style={{
+          width: "6rem",
+          pointerEvents: "none"
+        }}>
+        <div style={{
+          color: "black",
+          lineHeight: "0.9rem",
+          fontSize: "0.8rem",
+          fontWeight: "bold",
+          fontFamily: "Nunito",
+          textAlign: "center",
+        }}>
           {stakeHolder.stakeHolderName}
         </div>
       </Html>
