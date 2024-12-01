@@ -760,7 +760,7 @@ const Board_Init = ({ boardId, setBoardData }) => {
                                 enableAiGeneration={false}
                                 promptBase="Generate a real-sounding first name last name combination."
                                 promptSamples="Michael Brown, Jake Smith, Sarah Johnson"
-                                onGeneratedValueChange={(generatedText) => { console.log(generatedText); }}
+                                onGeneratedValueChange={(generatedText) => setNewStakeholderName(generatedText)}
                                 inputProps={{
                                   onChange: (e) => setNewStakeholderName(e.currentTarget.value),
                                   value: newStakeholderName,
