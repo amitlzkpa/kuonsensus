@@ -10,6 +10,7 @@ export const PromptReady_TextInput = ({
   enableAiGeneration = true,
   promptBase = "",
   promptSamples = "",
+  forceEditDisabled = false,
   onChange_debounced,
   onGeneratedValueChange,
   inputValue,
@@ -30,6 +31,7 @@ export const PromptReady_TextInput = ({
   }, [debouncedInputValue, onChange_debounced]);
 
   const handleGenerationClick = async () => {
+    if (isGenerating || forceEditDisabled) return;
     if (llmRef.current) {
       try {
         setIsGenerating(true);
@@ -68,7 +70,7 @@ export const PromptReady_TextInput = ({
         {...inputProps}
         onChange={(e) => setInputValue(e.target.value)}
         value={inputValue}
-        disabled={isGenerating}
+        disabled={isGenerating || forceEditDisabled}
       />
       {
         enableAiGeneration

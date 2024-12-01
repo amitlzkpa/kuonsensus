@@ -16,7 +16,7 @@ import {
 import { useNavigate, useParams } from 'react-router-dom';
 
 import Typed from "typed.js";
-import { FaTrashAlt } from 'react-icons/fa';
+import { FaPen, FaTrashAlt } from 'react-icons/fa';
 import { Canvas } from "@react-three/fiber";
 import { OrthographicCamera, Environment, SoftShadows } from '@react-three/drei';
 
@@ -442,7 +442,7 @@ const Board_Init = ({ boardId, setBoardData }) => {
                   Enter details of your proposal below.
                 </Text>
                 <Text>
-                  You can start with a simple outline and use the magic button to polish it.
+                  You can start with a simple outline and use the <FaPen size="0.7rem" /> button to polish it.
                 </Text>
               </Flex>
             </Flex>
@@ -627,6 +627,7 @@ const Board_Init = ({ boardId, setBoardData }) => {
                                                   promptSamples={"Renewable energy systems can reduce long-term energy costs, providing financial benefits to investors.\nNew construction projects can create job opportunities for the local community, boosting the local economy\nTree planting can improve air quality, benefiting the health and well-being of the local community"}
                                                   inputValue={positiveSideEffectReasonBuffer}
                                                   setInputValue={setPositiveSideEffectReasonBuffer}
+                                                  forceEditDisabled={!positiveSideEffectTitleBuffer}
                                                   textareaProps={{
                                                     placeholder: "Enter reasoning for effect",
                                                     minRows: 2,
@@ -713,6 +714,7 @@ const Board_Init = ({ boardId, setBoardData }) => {
                                                   promptSamples={"Increased costs may lead to higher prices for goods and services, impacting the local community negatively\nIncreased costs can affect the project budget and timeline, creating challenges for the project team\nIncreased costs can reduce the return on investment for investors, impacting their financial interests"}
                                                   inputValue={negativeSideEffectReasonBuffer}
                                                   setInputValue={setNegativeSideEffectReasonBuffer}
+                                                  forceEditDisabled={!negativeSideEffectTitleBuffer}
                                                   textareaProps={{
                                                     placeholder: "Enter reasoning for effect",
                                                     minRows: 2,
@@ -798,6 +800,7 @@ const Board_Init = ({ boardId, setBoardData }) => {
                                 promptSamples={"Investors are key stakeholders in the project as they provide the necessary funding for the project. Their input is critical for decision-making and project success.\nThe local community is directly impacted by the project. Their input is important to address any concerns and ensure that the project benefits the community.\nThe project team is responsible for executing the project. Their input is essential for planning and implementation."}
                                 inputValue={newStakeholderDescription}
                                 setInputValue={setNewStakeholderDescription}
+                                forceEditDisabled={!newStakeholderName}
                                 textareaProps={{
                                   placeholder: "Enter a description",
                                   minRows: 4,
