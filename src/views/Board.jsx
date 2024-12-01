@@ -12,6 +12,8 @@ import {
   Text,
   Title,
   Skeleton,
+  Center,
+  Divider,
 } from '@mantine/core';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -362,7 +364,7 @@ const Board_Init = ({ boardId, setBoardData }) => {
           align="center"
           justify="space-between"
         >
-          <Title order={3}>Set Up Your Board</Title>
+          <Title order={4}>Set Up Your Board</Title>
 
           <Flex
             direction="row"
@@ -399,7 +401,9 @@ const Board_Init = ({ boardId, setBoardData }) => {
             description="Give an outline"
             allowStepSelect={shouldAllowSelectStep(0)}
           >
-            Step 1: Start with an outline of your proposal
+            <Center>
+              Step 1: Start with an outline of your proposal
+            </Center>
           </Stepper.Step>
           <Stepper.Step
             label="Second step"
@@ -417,6 +421,10 @@ const Board_Init = ({ boardId, setBoardData }) => {
           </Stepper.Step>
         </Stepper>
       </Flex>
+
+      <Center>
+        <Divider w="80%" mb="lg" />
+      </Center>
 
       {/* Step content */}
       <Flex
@@ -442,7 +450,7 @@ const Board_Init = ({ boardId, setBoardData }) => {
                   Enter details of your proposal below.
                 </Text>
                 <Text>
-                  You can start with a simple outline and use the <FaPen size="0.7rem" /> button to polish it.
+                  You can start with a simple outline and use the <FaPen size="0.8rem" style={{ margin: "0 0.2rem 0 0.2rem" }} /> button to polish it.
                 </Text>
               </Flex>
             </Flex>
@@ -451,9 +459,10 @@ const Board_Init = ({ boardId, setBoardData }) => {
               direction="column"
               align="stretch"
               justify="start"
+              mb="sm"
             >
               <PromptReady_TextArea
-                height="10rem"
+                height="12rem"
                 enableAiGeneration={true}
                 promptBase={`Provide a 2-3 line description for a proposal on the topic given below\nStructure it similar to the sample below.\n\n## Topic:\n\n${!userInitText ? ["A new construction project.", "A new product launch.", "A new marketing campaign.", "A new business venture."][Math.floor(Math.random() * 4)] : userInitText}\n`}
                 promptSamples="To align competing departmental priorities, propose prioritizing high-margin product lines that offer the greatest profitability potential. This approach ensures financial stability while enabling reinvestment in broader initiatives over time. Marketing and R&D efforts could focus on these strategic products to maximize impact.\n\nPropose an investment of $2 million to expand our reach into high-potential markets, leveraging the proven success of our flagship product. This funding will focus on scaling marketing efforts and establishing strategic partnerships in regions where demand is underserved.\n\nPropose that our organization formalize a hybrid work model, allowing employees to work from home two to three days a week. This approach can reduce office utility costs, ease the burden of commuting, and increase overall job satisfaction."
@@ -506,7 +515,7 @@ const Board_Init = ({ boardId, setBoardData }) => {
               justify="start"
               gap="sm"
             >
-              <Title order={2} style={{ backgroundColor: "#efefef", borderRadius: "6px", padding: "1px 4px 1px 4px" }}>
+              <Title order={2} style={{ backgroundColor: "#efefef", borderRadius: "6px", padding: "8px 4px 8px 4px" }}>
                 <span
                   ref={titleEl}
                   contentEditable={true}
@@ -639,7 +648,7 @@ const Board_Init = ({ boardId, setBoardData }) => {
                                                   }}
                                                 />
                                                 <PromptReady_TextArea
-                                                  height="4rem"
+                                                  height="5rem"
                                                   enableAiGeneration={true}
                                                   promptBase={`Provide a 1-line reason as to why ${positiveSideEffectTitleBuffer} affects ${stakeHolder.stakeHolderName} positively in context of the following proposal: ${bufferBoardDataInit?.boardDescription}`}
                                                   promptSamples={"Renewable energy systems can reduce long-term energy costs, providing financial benefits to investors.\nNew construction projects can create job opportunities for the local community, boosting the local economy\nTree planting can improve air quality, benefiting the health and well-being of the local community"}
@@ -726,7 +735,7 @@ const Board_Init = ({ boardId, setBoardData }) => {
                                                   }}
                                                 />
                                                 <PromptReady_TextArea
-                                                  height="4rem"
+                                                  height="5rem"
                                                   enableAiGeneration={true}
                                                   promptBase={`Provide a 1-line reason as to why ${negativeSideEffectTitleBuffer} affects ${stakeHolder.stakeHolderName} negatively in context of the following proposal: ${bufferBoardDataInit?.boardDescription}`}
                                                   promptSamples={"Increased costs may lead to higher prices for goods and services, impacting the local community negatively\nIncreased costs can affect the project budget and timeline, creating challenges for the project team\nIncreased costs can reduce the return on investment for investors, impacting their financial interests"}
@@ -792,7 +801,6 @@ const Board_Init = ({ boardId, setBoardData }) => {
                               justify="flex-start"
                               gap="sm"
                               p="md"
-                              h="13rem"
                             >
                               <Flex
                                 direction="row"
@@ -812,7 +820,7 @@ const Board_Init = ({ boardId, setBoardData }) => {
                                 }}
                               />
                               <PromptReady_TextArea
-                                height="4rem"
+                                height="8.5rem"
                                 enableAiGeneration={true}
                                 promptBase={`Give a 1-line description for ${newStakeholderName} as one of the stakeholders in the following proposal: ${bufferBoardDataInit?.proposalPrompt}`}
                                 promptSamples={"Investors are key stakeholders in the project as they provide the necessary funding for the project. Their input is critical for decision-making and project success.\nThe local community is directly impacted by the project. Their input is important to address any concerns and ensure that the project benefits the community.\nThe project team is responsible for executing the project. Their input is essential for planning and implementation."}

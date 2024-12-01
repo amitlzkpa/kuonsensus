@@ -51,12 +51,12 @@ export function App() {
       fontWeight: '800',
       fontFamily: 'Bitter',
       sizes: {
-        h1: { fontSize: rem(30), lineHeight: '0.7' },
-        h2: { fontSize: rem(32), lineHeight: '0.7' },
-        h3: { fontSize: rem(33), lineHeight: '0.7' },
-        h4: { fontSize: rem(35), lineHeight: '0.7' },
-        h5: { fontSize: rem(37), lineHeight: '0.7' },
-        h6: { fontSize: rem(38), lineHeight: '0.7' },
+        h1: { fontSize: rem(38), lineHeight: '0.7' },
+        h2: { fontSize: rem(34), lineHeight: '0.7' },
+        h3: { fontSize: rem(30), lineHeight: '0.7' },
+        h4: { fontSize: rem(26), lineHeight: '0.7' },
+        h5: { fontSize: rem(22), lineHeight: '0.7' },
+        h6: { fontSize: rem(18), lineHeight: '0.7' },
       },
     },
     fontSizes: {
