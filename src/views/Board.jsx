@@ -410,14 +410,18 @@ const Board_Init = ({ boardId, setBoardData }) => {
             description="Review stakeholders"
             allowStepSelect={shouldAllowSelectStep(1)}
           >
-            Step 2: Review who is involved
+            <Center>
+              Step 2: Review who is involved
+            </Center>
           </Stepper.Step>
           <Stepper.Step
             label="Third step"
             description="Set priorities"
             allowStepSelect={shouldAllowSelectStep(2)}
           >
-            Step 3: Set priorities and your goals
+            <Center>
+              Step 3: Set priorities and your goals
+            </Center>
           </Stepper.Step>
         </Stepper>
       </Flex>
@@ -1133,7 +1137,6 @@ const Board = () => {
 
   const storedBoards = useStoredBoards();
 
-  // Create or Navigate Board
   useEffect(() => {
 
     if (!boardId) return;
