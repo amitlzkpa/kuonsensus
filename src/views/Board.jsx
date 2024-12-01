@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import {
   Accordion,
   Button,
+  Card,
   Pill,
   Flex,
   HoverCard,
@@ -822,26 +823,38 @@ const Board_Init = ({ boardId, setBoardData }) => {
                               <Accordion.Panel>
                                 <Flex
                                   key={idx}
-                                  direction="column"
-                                  align="stretch"
+                                  direction="row"
                                   justify="flex-start"
+                                  gap="sm"
                                 >
                                   {
                                     uqEff.sideEffectItemList.map(
                                       (sideEffect, idx) => (
+                                        <HoverCard key={idx} width={280} height={50} shadow="md">
+                                          <HoverCard.Target>
+                                            <Card w="10rem" padding="md" bd="1px solid #DEDEDE" shadow="sm">
                                         <Flex
-                                          key={idx}
                                           direction="column"
-                                          align="stretch"
-                                          justify="flex-start"
+                                                gap="sm"
                                         >
-                                          <Text>{sideEffect.stakeHolderName}</Text>
                                           <Pill c={sideEffect.implication === "positive" ? "green.9" : "orange.7"}>
                                             {sideEffect.implication}
                                           </Pill>
-                                          <Text>{sideEffect.sideEffectTitle}</Text>
-                                          <Text>{sideEffect.sideEffectReason}</Text>
+                                                <Title order={5}>{sideEffect.stakeHolderName}</Title>
                                         </Flex>
+                                            </Card>
+                                          </HoverCard.Target>
+                                          <HoverCard.Dropdown style={{ maxHeight: "10rem", overflowY: "auto" }}>
+                                            <Flex
+                                              direction="column"
+                                              w="100%"
+                                            >
+                                              <Text size="md">
+                                                {sideEffect.implicationReason}
+                                              </Text>
+                                            </Flex>
+                                          </HoverCard.Dropdown>
+                                        </HoverCard>
                                       )
                                     )
                                   }
