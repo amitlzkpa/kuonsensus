@@ -13,7 +13,6 @@ export function useStoredBoards() {
   const [storedBoards, setStoredBoards] = useState(getStoredBoards());
 
   triggerStorageUpdate = () => {
-    console.log('foo');
     setStoredBoards(getStoredBoards());
   };
 
