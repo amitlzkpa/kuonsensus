@@ -81,6 +81,31 @@ propose requiring developers to include measures such as
 - contributions to local conservation funds
 `;
 
+const TypingText = ({ text, typeSpeed = 50 }) => {
+
+  const el = useRef(null);
+
+  useEffect(() => {
+    const t = new Typed(el.current, {
+      strings: [text],
+      typeSpeed: typeSpeed,
+      loop: false,
+      showCursor: false,
+    });
+
+    return () => {
+      t.destroy();
+    };
+
+  }, [text, typeSpeed]);
+
+  return (
+    <span
+      ref={el}
+    />
+  );
+}
+
 const ImplicationList = ({ sideEffects, handleRemoveSideEffect }) => {
   return (
     <Flex
@@ -581,7 +606,7 @@ const Board_Init = ({ boardId, setBoardData }) => {
                             (stakeHolder, idx) => (
                               <Accordion.Item key={idx} value={stakeHolder.stakeHolderName}>
                                 <Accordion.Control icon={"→"}>
-                                  {stakeHolder.stakeHolderName}
+                                  <TypingText text={stakeHolder.stakeHolderName} />
                                 </Accordion.Control>
                                 <Accordion.Panel>
                                   <Flex
@@ -606,7 +631,9 @@ const Board_Init = ({ boardId, setBoardData }) => {
                                         />
                                       </Flex>
                                     </Flex>
-                                    <Text>{stakeHolder.description}</Text>
+                                    <Text>
+                                      <TypingText text={stakeHolder.description} />
+                                    </Text>
 
                                     <Flex
                                       direction="row"
