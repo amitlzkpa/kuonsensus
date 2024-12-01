@@ -453,12 +453,11 @@ const Board_Init = ({ boardId, setBoardData }) => {
               <PromptReady_TextArea
                 height="10rem"
                 enableAiGeneration={true}
-                promptBase={`Provide a 2-3 line description for a proposal around ${["a new construction project", "a new product launch", "a new marketing campaign", "a new business venture"][Math.floor(Math.random() * 4)]}. Structure it similar to the sample below.`}
+                promptBase={`Provide a 2-3 line description for a proposal on the following topic:\n\n${["A new construction project", "A new product launch", "A new marketing campaign", "A new business venture"][Math.floor(Math.random() * 4)]}.\n\nStructure it similar to the sample below.`}
                 promptSamples="To align competing departmental priorities, propose prioritizing high-margin product lines that offer the greatest profitability potential. This approach ensures financial stability while enabling reinvestment in broader initiatives over time. Marketing and R&D efforts could focus on these strategic products to maximize impact.\n\nPropose an investment of $2 million to expand our reach into high-potential markets, leveraging the proven success of our flagship product. This funding will focus on scaling marketing efforts and establishing strategic partnerships in regions where demand is underserved.\n\nPropose that our organization formalize a hybrid work model, allowing employees to work from home two to three days a week. This approach can reduce office utility costs, ease the burden of commuting, and increase overall job satisfaction."
-                onGeneratedValueChange={(generatedText) => { setUserInitText(generatedText); }}
+                inputValue={userInitText}
+                setInputValue={setUserInitText}
                 textareaProps={{
-                  onChange: (e) => setUserInitText(e.currentTarget.value),
-                  value: userInitText,
                   placeholder: sampleStartingPrompt,
                   minRows: 4,
                   maxRows: 12,

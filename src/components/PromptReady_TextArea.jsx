@@ -12,13 +12,14 @@ export const PromptReady_TextArea = ({
   promptSamples = "",
   onChange_debounced,
   onGeneratedValueChange,
+  inputValue,
+  setInputValue,
   textareaProps = {},
   ...props
 }) => {
 
   const llmRef = useLLMRef();
 
-  const [inputValue, setInputValue] = useState(textareaProps?.value ?? "");
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedValue, setGeneratedValue] = useState("");
   const debouncedInputValue = useDebounce(inputValue, 500);
