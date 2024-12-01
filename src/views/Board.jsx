@@ -624,10 +624,9 @@ const Board_Init = ({ boardId, setBoardData }) => {
                                                   enableAiGeneration={true}
                                                   promptBase={`Provide a reason as to why ${positiveSideEffectTitleBuffer} affects ${stakeHolder.stakeHolderName} positively in context of the following proposal: ${bufferBoardDataInit?.proposalPrompt}`}
                                                   promptSamples={"Renewable energy systems can reduce long-term energy costs, providing financial benefits to investors.\nNew construction projects can create job opportunities for the local community, boosting the local economy\nTree planting can improve air quality, benefiting the health and well-being of the local community"}
-                                                  onGeneratedValueChange={(generatedText) => { setPositiveSideEffectReasonBuffer(generatedText); }}
+                                                  inputValue={positiveSideEffectReasonBuffer}
+                                                  setInputValue={setPositiveSideEffectReasonBuffer}
                                                   textareaProps={{
-                                                    onChange: (e) => { setPositiveSideEffectReasonBuffer(e.currentTarget.value); },
-                                                    value: positiveSideEffectReasonBuffer,
                                                     placeholder: "Enter reasoning for effect",
                                                     minRows: 4,
                                                     maxRows: 12,
@@ -712,10 +711,9 @@ const Board_Init = ({ boardId, setBoardData }) => {
                                                   enableAiGeneration={true}
                                                   promptBase={`Provide a reason as to why ${negativeSideEffectTitleBuffer} affects ${stakeHolder.stakeHolderName} negatively in context of the following proposal: ${bufferBoardDataInit?.proposalPrompt}`}
                                                   promptSamples={"Increased costs may lead to higher prices for goods and services, impacting the local community negatively\nIncreased costs can affect the project budget and timeline, creating challenges for the project team\nIncreased costs can reduce the return on investment for investors, impacting their financial interests"}
-                                                  onGeneratedValueChange={(generatedText) => { setNegativeSideEffectReasonBuffer(generatedText); }}
+                                                  inputValue={negativeSideEffectReasonBuffer}
+                                                  setInputValue={setNegativeSideEffectReasonBuffer}
                                                   textareaProps={{
-                                                    onChange: (e) => { setNegativeSideEffectReasonBuffer(e.currentTarget.value); },
-                                                    value: negativeSideEffectReasonBuffer,
                                                     placeholder: "Enter reasoning for effect",
                                                     minRows: 4,
                                                     maxRows: 12,
@@ -801,10 +799,9 @@ const Board_Init = ({ boardId, setBoardData }) => {
                                 enableAiGeneration={true}
                                 promptBase={`Give a short description for ${newStakeholderName} as one of the stakeholders in the following proposal: ${bufferBoardDataInit?.proposalPrompt}`}
                                 promptSamples={"Investors are key stakeholders in the project as they provide the necessary funding for the project. Their input is critical for decision-making and project success.\nThe local community is directly impacted by the project. Their input is important to address any concerns and ensure that the project benefits the community.\nThe project team is responsible for executing the project. Their input is essential for planning and implementation."}
-                                onGeneratedValueChange={(generatedText) => { setNewStakeholderDescription(generatedText); }}
+                                inputValue={newStakeholderDescription}
+                                setInputValue={setNewStakeholderDescription}
                                 textareaProps={{
-                                  onChange: (e) => setNewStakeholderDescription(e.currentTarget.value),
-                                  value: newStakeholderDescription,
                                   placeholder: "Enter a description",
                                   minRows: 4,
                                   maxRows: 12,
