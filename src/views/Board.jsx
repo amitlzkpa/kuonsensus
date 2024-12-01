@@ -212,6 +212,13 @@ const Board_Init = ({ boardId, setBoardData }) => {
     try {
 
       const creationBuffer = {};
+      creationBuffer.sideEffects = [];
+      creationBuffer.stakeHolders = [];
+
+      setBufferBoardDataInit({
+        ...bufferBoardDataInit,
+        ...creationBuffer,
+      });
 
       const boardName = await generateTitle(userInitText, llmRef);
       creationBuffer.boardName = boardName;
@@ -269,11 +276,6 @@ const Board_Init = ({ boardId, setBoardData }) => {
     } finally {
       setIsProcessing(false);
     }
-  };
-
-  const handleReset = () => {
-    setUserInitText("");
-    setBufferBoardDataInit();
   };
 
   const handleRemoveSideEffect = (sideEffect) => {
@@ -474,15 +476,9 @@ const Board_Init = ({ boardId, setBoardData }) => {
             >
               <Button
                 onClick={handleSubmit}
-                disabled={isProcessing}
+                disabled={isProcessing || !userInitText}
               >
                 Submit
-              </Button>
-              <Button
-                onClick={handleReset}
-                disabled={isProcessing}
-              >
-                Reset
               </Button>
             </Flex>
 
