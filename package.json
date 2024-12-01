@@ -30,6 +30,7 @@
     "@tiptap/react": "^2.10.3",
     "@tiptap/starter-kit": "^2.10.3",
     "@types/three": "^0.170.0",
+    "@uidotdev/usehooks": "^2.4.1",
     "convert-csv-to-json": "^2.49.0",
     "leva": "^0.9.35",
     "react": "^18.3.1",
