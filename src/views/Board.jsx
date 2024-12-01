@@ -504,12 +504,30 @@ const Board_Init = ({ boardId, setBoardData }) => {
               direction="column"
               align="start"
               justify="start"
+              gap="sm"
             >
-              <Title order={2}>
-                <span contentEditable ref={titleEl} />
+              <Title order={2} style={{ backgroundColor: "#efefef", borderRadius: "6px", padding: "1px 4px 1px 4px" }}>
+                <span
+                  ref={titleEl}
+                  contentEditable={true}
+                  suppressContentEditableWarning={true}
+                  onInput={e => setBufferBoardDataInit({
+                    ...bufferBoardDataInit,
+                    boardName: (e.currentTarget.textContent ?? "").toString().trim()
+                  })}
+                />
               </Title>
-              <Text>
-                <span contentEditable ref={descriptionEl} />
+              <Text style={{ backgroundColor: "#efefef", borderRadius: "6px", padding: "1px 4px 1px 4px" }}>
+                <span
+                  ref={descriptionEl}
+                  contentEditable={true}
+                  suppressContentEditableWarning={true}
+                  style={{ backgroundColor: "gray.2", borderRadius: "2px" }}
+                  onInput={e => setBufferBoardDataInit({
+                    ...bufferBoardDataInit,
+                    boardDescription: (e.currentTarget.textContent ?? "").toString().trim()
+                  })}
+                />
               </Text>
             </Flex>
 
