@@ -1,4 +1,5 @@
 import '@mantine/core/styles.css';
+import './index.css';
 import React, { useEffect, useState } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
@@ -7,6 +8,7 @@ import {
   Button,
   Burger,
   Center,
+  Container,
   Flex,
   Group,
   HoverCard,
@@ -14,7 +16,9 @@ import {
   Modal,
   NavLink,
   Text,
-  Title
+  Title,
+  createTheme,
+  rem,
 } from '@mantine/core';
 import { FaInfoCircle, FaTrashAlt } from 'react-icons/fa';
 import { useDisclosure } from '@mantine/hooks';
@@ -39,6 +43,37 @@ const boardTemplate = {
 };
 
 export function App() {
+
+  const theme = createTheme({
+    fontFamily: 'Nunito, sans-serif',
+    fontFamilyMonospace: 'Monaco, Courier, monospace',
+    headings: {
+      fontWeight: '800',
+      fontFamily: 'Bitter',
+      sizes: {
+        h1: { fontSize: rem(30), lineHeight: '0.7' },
+        h2: { fontSize: rem(32), lineHeight: '0.7' },
+        h3: { fontSize: rem(33), lineHeight: '0.7' },
+        h4: { fontSize: rem(35), lineHeight: '0.7' },
+        h5: { fontSize: rem(37), lineHeight: '0.7' },
+        h6: { fontSize: rem(38), lineHeight: '0.7' },
+      },
+    },
+    fontSizes: {
+      xs: rem(16),
+      sm: rem(17),
+      md: rem(20),
+      lg: rem(22),
+      xl: rem(26),
+    },
+    lineHeights: {
+      xs: '1.6',
+      sm: '1.65',
+      md: '1.75',
+      lg: '1.8',
+      xl: '1.85',
+    },
+  });
 
   const [mobileOpened, { toggle: toggleMobile }] = useDisclosure();
   const [desktopOpened, { toggle: toggleDesktop }] = useDisclosure(true);
@@ -95,7 +130,7 @@ export function App() {
   }
 
   return (
-    <MantineProvider>
+    <MantineProvider theme={theme}>
       <AppShell
         header={{ height: 60 }}
         navbar={{
@@ -194,7 +229,9 @@ export function App() {
         </AppShell.Navbar>
 
         <AppShell.Main>
-          <RouterProvider router={router} />
+          <Container size="60rem">
+            <RouterProvider router={router} />
+          </Container>
         </AppShell.Main>
 
       </AppShell>
