@@ -1,12 +1,13 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDebounce } from "@uidotdev/usehooks";
 import { FaPen } from 'react-icons/fa';
-import { Button, Flex, Input, TextInput } from '@mantine/core';
+import { Input } from '@mantine/core';
 
 import { useLLMRef } from "../hooks/llmRef";
 
 export const PromptReady_TextInput = ({
   height = "2.25rem",
+  enableAiGeneration = true,
   promptBase = "",
   promptSamples = "",
   onChange_debounced,
@@ -67,12 +68,23 @@ export const PromptReady_TextInput = ({
         {...inputProps}
         disabled={isGenerating}
       />
-      <div
-        onClick={handleGenerationClick}
-        style={{ position: "absolute", top: "15%", right: 15, cursor: "pointer" }}
-      >
-        <FaPen size="0.6rem" color="primary" />
-      </div>
+      {
+        enableAiGeneration
+          ?
+          (
+
+            <div
+              onClick={handleGenerationClick}
+              style={{ position: "absolute", top: "15%", right: 15, cursor: "pointer" }}
+            >
+              <FaPen size="0.6rem" color="primary" />
+            </div>
+          )
+          :
+          (
+            <></>
+          )
+      }
     </div>
   );
 }
