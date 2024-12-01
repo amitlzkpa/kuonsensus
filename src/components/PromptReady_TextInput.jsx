@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDebounce } from "@uidotdev/usehooks";
 import { FaPen } from 'react-icons/fa';
-import { Input } from '@mantine/core';
+import { Loader, Input } from '@mantine/core';
 
 import { useLLMRef } from "../hooks/llmRef";
 
@@ -76,13 +76,34 @@ export const PromptReady_TextInput = ({
         enableAiGeneration
           ?
           (
-
-            <div
-              onClick={handleGenerationClick}
-              style={{ position: "absolute", top: "15%", right: 15, cursor: "pointer" }}
-            >
-              <FaPen size="0.6rem" color="primary" />
-            </div>
+            isGenerating
+              ?
+              (
+                <div
+                  style={{
+                    position: "absolute",
+                    top: 7,
+                    right: 15,
+                    cursor: "not-allowed"
+                  }}
+                >
+                  <Loader size="xs" type="oval" />
+                </div>
+              )
+              :
+              (
+                <div
+                  onClick={handleGenerationClick}
+                  style={{
+                    position: "absolute",
+                    top: 7,
+                    right: 15,
+                    cursor: "pointer"
+                  }}
+                >
+                  <FaPen size="0.7rem" style={{ color: "#b41220" }} />
+                </div>
+              )
           )
           :
           (
