@@ -310,6 +310,40 @@ const Board_Init = ({ boardId, setBoardData }) => {
     setNewStakeholderDescription("");
   };
 
+  const [positiveSideEffectTitleBuffer, setPositiveSideEffectTitleBuffer] = useState("");
+  const [positiveSideEffectReasonBuffer, setPositiveSideEffectReasonBuffer] = useState("");
+
+  const handlePositiveSideEffectAdd = () => {
+    const updSideEffects = [...bufferBoardDataInit.sideEffects, {
+      sideEffectTitle: positiveSideEffectTitleBuffer,
+      implication: "positive",
+      implicationReason: positiveSideEffectReasonBuffer
+    }];
+    setBufferBoardDataInit({
+      ...bufferBoardDataInit,
+      sideEffects: updSideEffects
+    });
+    setPositiveSideEffectTitleBuffer("");
+    setPositiveSideEffectReasonBuffer("");
+  };
+
+  const [negativeSideEffectTitleBuffer, setNegativeSideEffectTitleBuffer] = useState("");
+  const [negativeSideEffectReasonBuffer, setNegativeSideEffectReasonBuffer] = useState("");
+
+  const handleNegativeSideEffectAdd = () => {
+    const updSideEffects = [...bufferBoardDataInit.sideEffects, {
+      sideEffectTitle: negativeSideEffectTitleBuffer,
+      implication: "negative",
+      implicationReason: negativeSideEffectReasonBuffer
+    }];
+    setBufferBoardDataInit({
+      ...bufferBoardDataInit,
+      sideEffects: updSideEffects
+    });
+    setNegativeSideEffectTitleBuffer("");
+    setNegativeSideEffectReasonBuffer("");
+  };
+
   return (
     <>
       <Flex
@@ -575,7 +609,7 @@ const Board_Init = ({ boardId, setBoardData }) => {
                                                   align="center"
                                                   gap="sm"
                                                 >
-                                                  <Button onClick={() => { console.log('foo'); }}>
+                                                  <Button onClick={handlePositiveSideEffectAdd}>
                                                     Add
                                                   </Button>
                                                 </Flex>
@@ -583,22 +617,22 @@ const Board_Init = ({ boardId, setBoardData }) => {
                                                   enableAiGeneration={false}
                                                   promptBase={`Generate positive side effect for ${stakeHolder.stakeHolderName} based on the following proposal: ${bufferBoardDataInit?.proposalPrompt}`}
                                                   promptSamples="Increased Revenue, Improved Customer Satisfaction, Reduced Costs etc."
-                                                  onGeneratedValueChange={(generatedText) => { console.log(generatedText); }}
+                                                  onGeneratedValueChange={(generatedText) => { setPositiveSideEffectTitleBuffer(generatedText); }}
                                                   inputProps={{
-                                                    onChange: (e) => { console.log(e.currentTarget.value); },
-                                                    value: "<sideEffect>",
+                                                    onChange: (e) => { setPositiveSideEffectTitleBuffer(e.currentTarget.value); },
+                                                    value: positiveSideEffectTitleBuffer,
                                                     placeholder: "Effect label",
                                                   }}
                                                 />
                                                 <PromptReady_TextArea
                                                   height="4rem"
                                                   enableAiGeneration={true}
-                                                  promptBase={`Provide a reason as to why ${"<sideEffectReason>"} affects ${stakeHolder.stakeHolderName} positively in context of the following proposal: ${bufferBoardDataInit?.proposalPrompt}`}
+                                                  promptBase={`Provide a reason as to why ${positiveSideEffectTitleBuffer} affects ${stakeHolder.stakeHolderName} positively in context of the following proposal: ${bufferBoardDataInit?.proposalPrompt}`}
                                                   promptSamples={"Renewable energy systems can reduce long-term energy costs, providing financial benefits to investors.\nNew construction projects can create job opportunities for the local community, boosting the local economy\nTree planting can improve air quality, benefiting the health and well-being of the local community"}
-                                                  onGeneratedValueChange={(generatedText) => { console.log(generatedText); }}
+                                                  onGeneratedValueChange={(generatedText) => { setPositiveSideEffectReasonBuffer(generatedText); }}
                                                   textareaProps={{
-                                                    onChange: (e) => { console.log(e.currentTarget.value); },
-                                                    value: "<sideEffectReason>",
+                                                    onChange: (e) => { setPositiveSideEffectReasonBuffer(e.currentTarget.value); },
+                                                    value: positiveSideEffectReasonBuffer,
                                                     placeholder: "Enter reasoning for effect",
                                                     minRows: 4,
                                                     maxRows: 12,
@@ -663,7 +697,7 @@ const Board_Init = ({ boardId, setBoardData }) => {
                                                   align="center"
                                                   gap="sm"
                                                 >
-                                                  <Button onClick={() => { console.log('foo'); }}>
+                                                  <Button onClick={handleNegativeSideEffectAdd}>
                                                     Add
                                                   </Button>
                                                 </Flex>
@@ -671,22 +705,22 @@ const Board_Init = ({ boardId, setBoardData }) => {
                                                   enableAiGeneration={false}
                                                   promptBase={`Generate negative side effect for ${stakeHolder.stakeHolderName} based on the following proposal: ${bufferBoardDataInit?.proposalPrompt}`}
                                                   promptSamples="Increased Costs, Reduced Revenue, Customer Dissatisfaction etc."
-                                                  onGeneratedValueChange={(generatedText) => { console.log(generatedText); }}
+                                                  onGeneratedValueChange={(generatedText) => { setNegativeSideEffectTitleBuffer(generatedText); }}
                                                   inputProps={{
-                                                    onChange: (e) => { console.log(e.currentTarget.value); },
-                                                    value: "<sideEffect>",
+                                                    onChange: (e) => { setNegativeSideEffectTitleBuffer(e.currentTarget.value); },
+                                                    value: negativeSideEffectTitleBuffer,
                                                     placeholder: "Effect label",
                                                   }}
                                                 />
                                                 <PromptReady_TextArea
                                                   height="4rem"
                                                   enableAiGeneration={true}
-                                                  promptBase={`Provide a reason as to why ${"<sideEffectReason>"} affects ${stakeHolder.stakeHolderName} negatively in context of the following proposal: ${bufferBoardDataInit?.proposalPrompt}`}
+                                                  promptBase={`Provide a reason as to why ${negativeSideEffectTitleBuffer} affects ${stakeHolder.stakeHolderName} negatively in context of the following proposal: ${bufferBoardDataInit?.proposalPrompt}`}
                                                   promptSamples={"Increased costs may lead to higher prices for goods and services, impacting the local community negatively\nIncreased costs can affect the project budget and timeline, creating challenges for the project team\nIncreased costs can reduce the return on investment for investors, impacting their financial interests"}
-                                                  onGeneratedValueChange={(generatedText) => { console.log(generatedText); }}
+                                                  onGeneratedValueChange={(generatedText) => { setNegativeSideEffectReasonBuffer(generatedText); }}
                                                   textareaProps={{
-                                                    onChange: (e) => { console.log(e.currentTarget.value); },
-                                                    value: "<sideEffectReason>",
+                                                    onChange: (e) => { setNegativeSideEffectReasonBuffer(e.currentTarget.value); },
+                                                    value: negativeSideEffectReasonBuffer,
                                                     placeholder: "Enter reasoning for effect",
                                                     minRows: 4,
                                                     maxRows: 12,
