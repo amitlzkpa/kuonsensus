@@ -612,7 +612,7 @@ const Board_Init = ({ boardId, setBoardData }) => {
                                                 </Flex>
                                                 <PromptReady_TextInput
                                                   enableAiGeneration={false}
-                                                  promptBase={`Generate title describing a positive side effect for ${stakeHolder.stakeHolderName}${positiveSideEffectTitleBuffer ? ` around ${positiveSideEffectTitleBuffer}` : ''} based on the following proposal: ${bufferBoardDataInit?.proposalPrompt}`}
+                                                  promptBase={`Generate title describing a positive side effect for ${stakeHolder.stakeHolderName}${positiveSideEffectTitleBuffer ? ` around ${positiveSideEffectTitleBuffer}` : ''} based on the following proposal: ${bufferBoardDataInit?.boardDescription}`}
                                                   promptSamples="Increased Revenue, Improved Customer Satisfaction, Reduced Costs etc."
                                                   inputValue={positiveSideEffectTitleBuffer}
                                                   setInputValue={setPositiveSideEffectTitleBuffer}
@@ -623,7 +623,7 @@ const Board_Init = ({ boardId, setBoardData }) => {
                                                 <PromptReady_TextArea
                                                   height="4rem"
                                                   enableAiGeneration={true}
-                                                  promptBase={`Provide a 1-line reason as to why ${positiveSideEffectTitleBuffer} affects ${stakeHolder.stakeHolderName} positively in context of the following proposal: ${bufferBoardDataInit?.proposalPrompt}`}
+                                                  promptBase={`Provide a 1-line reason as to why ${positiveSideEffectTitleBuffer} affects ${stakeHolder.stakeHolderName} positively in context of the following proposal: ${bufferBoardDataInit?.boardDescription}`}
                                                   promptSamples={"Renewable energy systems can reduce long-term energy costs, providing financial benefits to investors.\nNew construction projects can create job opportunities for the local community, boosting the local economy\nTree planting can improve air quality, benefiting the health and well-being of the local community"}
                                                   inputValue={positiveSideEffectReasonBuffer}
                                                   setInputValue={setPositiveSideEffectReasonBuffer}
@@ -698,7 +698,7 @@ const Board_Init = ({ boardId, setBoardData }) => {
                                                 </Flex>
                                                 <PromptReady_TextInput
                                                   enableAiGeneration={false}
-                                                  promptBase={`Generate title describing a negative side effect for ${stakeHolder.stakeHolderName}${positiveSideEffectTitleBuffer ? ` around ${negativeSideEffectTitleBuffer}` : ''} based on the following proposal: ${bufferBoardDataInit?.proposalPrompt}`}
+                                                  promptBase={`Generate title describing a negative side effect for ${stakeHolder.stakeHolderName}${positiveSideEffectTitleBuffer ? ` around ${negativeSideEffectTitleBuffer}` : ''} based on the following proposal: ${bufferBoardDataInit?.boardDescription}`}
                                                   promptSamples="Increased Costs, Reduced Revenue, Customer Dissatisfaction etc."
                                                   inputValue={negativeSideEffectTitleBuffer}
                                                   setInputValue={setNegativeSideEffectTitleBuffer}
@@ -709,7 +709,7 @@ const Board_Init = ({ boardId, setBoardData }) => {
                                                 <PromptReady_TextArea
                                                   height="4rem"
                                                   enableAiGeneration={true}
-                                                  promptBase={`Provide a 1-line reason as to why ${negativeSideEffectTitleBuffer} affects ${stakeHolder.stakeHolderName} negatively in context of the following proposal: ${bufferBoardDataInit?.proposalPrompt}`}
+                                                  promptBase={`Provide a 1-line reason as to why ${negativeSideEffectTitleBuffer} affects ${stakeHolder.stakeHolderName} negatively in context of the following proposal: ${bufferBoardDataInit?.boardDescription}`}
                                                   promptSamples={"Increased costs may lead to higher prices for goods and services, impacting the local community negatively\nIncreased costs can affect the project budget and timeline, creating challenges for the project team\nIncreased costs can reduce the return on investment for investors, impacting their financial interests"}
                                                   inputValue={negativeSideEffectReasonBuffer}
                                                   setInputValue={setNegativeSideEffectReasonBuffer}
