@@ -453,7 +453,7 @@ const Board_Init = ({ boardId, setBoardData }) => {
               <PromptReady_TextArea
                 height="10rem"
                 enableAiGeneration={true}
-                promptBase={`Provide a 2-3 line description for a proposal on the following topic:\n\n${["A new construction project", "A new product launch", "A new marketing campaign", "A new business venture"][Math.floor(Math.random() * 4)]}.\n\nStructure it similar to the sample below.`}
+                promptBase={`Provide a 2-3 line description for a proposal on the topic given below\nStructure it similar to the sample below.\n\n## Topic:\n\n${userInitText ?? ["A new construction project", "A new product launch", "A new marketing campaign", "A new business venture"][Math.floor(Math.random() * 4)]}.\n`}
                 promptSamples="To align competing departmental priorities, propose prioritizing high-margin product lines that offer the greatest profitability potential. This approach ensures financial stability while enabling reinvestment in broader initiatives over time. Marketing and R&D efforts could focus on these strategic products to maximize impact.\n\nPropose an investment of $2 million to expand our reach into high-potential markets, leveraging the proven success of our flagship product. This funding will focus on scaling marketing efforts and establishing strategic partnerships in regions where demand is underserved.\n\nPropose that our organization formalize a hybrid work model, allowing employees to work from home two to three days a week. This approach can reduce office utility costs, ease the burden of commuting, and increase overall job satisfaction."
                 inputValue={userInitText}
                 setInputValue={setUserInitText}
@@ -610,7 +610,7 @@ const Board_Init = ({ boardId, setBoardData }) => {
                                                 </Flex>
                                                 <PromptReady_TextInput
                                                   enableAiGeneration={false}
-                                                  promptBase={`Generate positive side effect for ${stakeHolder.stakeHolderName} based on the following proposal: ${bufferBoardDataInit?.proposalPrompt}`}
+                                                  promptBase={`Generate positive side effect for ${stakeHolder.stakeHolderName}${positiveSideEffectTitleBuffer ?? ` around ${positiveSideEffectTitleBuffer}`} based on the following proposal: ${bufferBoardDataInit?.proposalPrompt}`}
                                                   promptSamples="Increased Revenue, Improved Customer Satisfaction, Reduced Costs etc."
                                                   inputValue={positiveSideEffectTitleBuffer}
                                                   setInputValue={setPositiveSideEffectTitleBuffer}
@@ -696,7 +696,7 @@ const Board_Init = ({ boardId, setBoardData }) => {
                                                 </Flex>
                                                 <PromptReady_TextInput
                                                   enableAiGeneration={false}
-                                                  promptBase={`Generate negative side effect for ${stakeHolder.stakeHolderName} based on the following proposal: ${bufferBoardDataInit?.proposalPrompt}`}
+                                                  promptBase={`Generate negative side effect for ${stakeHolder.stakeHolderName}${positiveSideEffectTitleBuffer ?? ` around ${negativeSideEffectTitleBuffer}`} based on the following proposal: ${bufferBoardDataInit?.proposalPrompt}`}
                                                   promptSamples="Increased Costs, Reduced Revenue, Customer Dissatisfaction etc."
                                                   inputValue={negativeSideEffectTitleBuffer}
                                                   setInputValue={setNegativeSideEffectTitleBuffer}
@@ -794,7 +794,7 @@ const Board_Init = ({ boardId, setBoardData }) => {
                               <PromptReady_TextArea
                                 height="4rem"
                                 enableAiGeneration={true}
-                                promptBase={`Give a short description for ${newStakeholderName} as one of the stakeholders in the following proposal: ${bufferBoardDataInit?.proposalPrompt}`}
+                                promptBase={`Give a 1-line description for ${newStakeholderName} as one of the stakeholders in the following proposal: ${bufferBoardDataInit?.proposalPrompt}`}
                                 promptSamples={"Investors are key stakeholders in the project as they provide the necessary funding for the project. Their input is critical for decision-making and project success.\nThe local community is directly impacted by the project. Their input is important to address any concerns and ensure that the project benefits the community.\nThe project team is responsible for executing the project. Their input is essential for planning and implementation."}
                                 inputValue={newStakeholderDescription}
                                 setInputValue={setNewStakeholderDescription}
