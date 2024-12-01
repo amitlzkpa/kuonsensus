@@ -26,6 +26,7 @@ import {
 } from "../utils/extractionHelpers";
 import * as kuonKeys from "../config/kuonKeys";
 import * as localStorage from "../utils/localStorageHelpers";
+import { useLLMRef } from "../hooks/llmRef";
 import { useStoredBoards, triggerStorageUpdate } from '../hooks/localStorage';
 import { PromptReady_TextArea } from "../components/PromptReady_TextArea";
 import { PromptReady_TextInput } from "../components/PromptReady_TextInput";
@@ -113,10 +114,9 @@ const ImplicationList = ({ sideEffects, handleRemoveSideEffect }) => {
 
 const Board_Init = ({ boardId, setBoardData }) => {
 
+  const llmRef = useLLMRef();
 
   const storedBoards = useStoredBoards();
-
-  const llmRef = React.useRef();
 
   const tabVals = ["first", "second", "third"];
   const [active, setActive] = useState(0);
@@ -147,14 +147,6 @@ const Board_Init = ({ boardId, setBoardData }) => {
 
   const [bufferBoardDataInit, setBufferBoardDataInit] = useState();
   const [eachUniqueSideEffect, setEachUniqueSideEffect] = useState([]);
-
-  useEffect(() => {
-    if (llmRef.current) return;
-
-    (async () => {
-      llmRef.current = await ai.languageModel.create();
-    })();
-  }, []);
 
   useEffect(() => {
 
