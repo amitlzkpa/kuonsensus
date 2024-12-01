@@ -108,7 +108,7 @@ const ImplicationList = ({ sideEffects, handleRemoveSideEffect }) => {
               <HoverCard width={280} height={50} shadow="md">
                 <HoverCard.Target>
                   <div>
-              <Text>{sideEffect.sideEffectTitle}</Text>
+                    <Text>{sideEffect.sideEffectTitle}</Text>
                   </div>
                 </HoverCard.Target>
                 <HoverCard.Dropdown style={{ maxHeight: "10rem", overflowY: "auto" }}>
@@ -576,6 +576,10 @@ const Board_Init = ({ boardId, setBoardData }) => {
                                                   </Button>
                                                 </Flex>
                                                 <PromptReady_TextInput
+                                                  enableAiGeneration={true}
+                                                  promptBase={`Generate positive side effect for ${stakeHolder.stakeHolderName} based on the following proposal: ${bufferBoardDataInit?.proposalPrompt}`}
+                                                  promptSamples="Increased Revenue, Improved Customer Satisfaction, Reduced Costs etc."
+                                                  onGeneratedValueChange={(generatedText) => { console.log(generatedText); }}
                                                   inputProps={{
                                                     onChange: (e) => { console.log(e.currentTarget.value); },
                                                     value: "<sideEffect>",
@@ -656,6 +660,10 @@ const Board_Init = ({ boardId, setBoardData }) => {
                                                   </Button>
                                                 </Flex>
                                                 <PromptReady_TextInput
+                                                  enableAiGeneration={true}
+                                                  promptBase={`Generate negative side effect for ${stakeHolder.stakeHolderName} based on the following proposal: ${bufferBoardDataInit?.proposalPrompt}`}
+                                                  promptSamples="Increased Costs, Reduced Revenue, Customer Dissatisfaction etc."
+                                                  onGeneratedValueChange={(generatedText) => { console.log(generatedText); }}
                                                   inputProps={{
                                                     onChange: (e) => { console.log(e.currentTarget.value); },
                                                     value: "<sideEffect>",
@@ -737,6 +745,10 @@ const Board_Init = ({ boardId, setBoardData }) => {
                                 </Button>
                               </Flex>
                               <PromptReady_TextInput
+                                enableAiGeneration={true}
+                                promptBase="Generate a real-sounding first name last name combination."
+                                promptSamples="Michael Brown, Jake Smith, Sarah Johnson"
+                                onGeneratedValueChange={(generatedText) => { console.log(generatedText); }}
                                 inputProps={{
                                   onChange: (e) => setNewStakeholderName(e.currentTarget.value),
                                   value: newStakeholderName,
@@ -833,15 +845,15 @@ const Board_Init = ({ boardId, setBoardData }) => {
                                         <HoverCard key={idx} width={280} height={50} shadow="md">
                                           <HoverCard.Target>
                                             <Card w="10rem" padding="md" bd="1px solid #DEDEDE" shadow="sm">
-                                        <Flex
-                                          direction="column"
+                                              <Flex
+                                                direction="column"
                                                 gap="sm"
-                                        >
-                                          <Pill c={sideEffect.implication === "positive" ? "green.9" : "orange.7"}>
-                                            {sideEffect.implication}
-                                          </Pill>
+                                              >
+                                                <Pill c={sideEffect.implication === "positive" ? "green.9" : "orange.7"}>
+                                                  {sideEffect.implication}
+                                                </Pill>
                                                 <Title order={5}>{sideEffect.stakeHolderName}</Title>
-                                        </Flex>
+                                              </Flex>
                                             </Card>
                                           </HoverCard.Target>
                                           <HoverCard.Dropdown style={{ maxHeight: "10rem", overflowY: "auto" }}>
