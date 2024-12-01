@@ -66,6 +66,7 @@ export const PromptReady_TextInput = ({
       <Input
         style={{ position: "absolute", top: 0, right: 0, left: 0, bottom: 0 }}
         {...inputProps}
+        // value={inputValue}
         disabled={isGenerating}
       />
       {
