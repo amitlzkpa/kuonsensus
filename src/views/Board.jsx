@@ -4,6 +4,7 @@ import {
   Button,
   Pill,
   Flex,
+  HoverCard,
   Loader,
   Stepper,
   Tabs,
@@ -102,7 +103,24 @@ const ImplicationList = ({ sideEffects, handleRemoveSideEffect }) => {
               >
                 {sideEffect.implication}
               </Pill>
+
+              <HoverCard width={280} height={50} shadow="md">
+                <HoverCard.Target>
+                  <div>
               <Text>{sideEffect.sideEffectTitle}</Text>
+                  </div>
+                </HoverCard.Target>
+                <HoverCard.Dropdown style={{ maxHeight: "10rem", overflowY: "auto" }}>
+                  <Flex
+                    direction="column"
+                    w="100%"
+                  >
+                    <Text size="md">
+                      {sideEffect.implicationReason}
+                    </Text>
+                  </Flex>
+                </HoverCard.Dropdown>
+              </HoverCard>
             </Flex>
           )
         )
