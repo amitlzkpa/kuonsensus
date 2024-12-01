@@ -374,7 +374,6 @@ const Board_Init = ({ boardId, setBoardData }) => {
       >
         <Tabs value={activeTabVal}>
           <Tabs.Panel value="first">
-
             {/* Prompt Area */}
             <Flex
               direction="column"
@@ -449,9 +448,8 @@ const Board_Init = ({ boardId, setBoardData }) => {
               </Text>
             </Flex>
           </Tabs.Panel>
+
           <Tabs.Panel value="second">
-
-
             {/* Title and Desc */}
             <Flex
               direction="column"
@@ -761,7 +759,94 @@ const Board_Init = ({ boardId, setBoardData }) => {
               </Flex>
             </Flex>
           </Tabs.Panel>
-          <Tabs.Panel value="third">Third panel</Tabs.Panel>
+
+          <Tabs.Panel value="third">
+            {/* Title and Desc */}
+            <Flex
+              direction="column"
+              align="start"
+              justify="start"
+            >
+              <Title order={2}>
+                {bufferBoardDataInit?.boardName}
+              </Title>
+            </Flex>
+
+            {/* Effects List */}
+            <Flex gap="md">
+              <Flex
+                direction="column"
+                gap="sm"
+                w="100%"
+                mt="lg"
+              >
+                <Title order={4}>
+
+                  Effects
+                </Title>
+
+                {
+                  isProcessing && (bufferBoardDataInit?.sideEffects ?? []).length < 1 ? (
+                    <Flex
+                      direction="column"
+                      align="stretch"
+                      gap="sm"
+                    >
+                      <Skeleton height={16} radius="xl" />
+                      <Skeleton height={16} radius="xl" />
+                      <Skeleton height={16} radius="xl" />
+                      <Skeleton height={16} radius="xl" />
+                    </Flex>
+                  ) : (
+                    <Accordion multiple>
+                      {
+                        eachUniqueSideEffect.map(
+                          (uqEff, idx) => (
+                            <Accordion.Item key={idx} value={uqEff.sideEffectTitle}>
+                              <Accordion.Control icon={"→"}>
+                                {uqEff.sideEffectTitle}
+                              </Accordion.Control>
+                              <Accordion.Panel>
+                                <Flex
+                                  key={idx}
+                                  direction="column"
+                                  align="stretch"
+                                  justify="flex-start"
+                                >
+                                  {
+                                    uqEff.sideEffectItemList.map(
+                                      (sideEffect, idx) => (
+                                        <Flex
+                                          key={idx}
+                                          direction="column"
+                                          align="stretch"
+                                          justify="flex-start"
+                                        >
+                                          <Text>{sideEffect.stakeHolderName}</Text>
+                                          <Pill c={sideEffect.implication === "positive" ? "green.9" : "orange.7"}>
+                                            {sideEffect.implication}
+                                          </Pill>
+                                          <Text>{sideEffect.sideEffectTitle}</Text>
+                                          <Text>{sideEffect.sideEffectReason}</Text>
+                                        </Flex>
+                                      )
+                                    )
+                                  }
+                                </Flex>
+                              </Accordion.Panel>
+                            </Accordion.Item>
+                          )
+                        )
+                      }
+                    </Accordion>
+                  )
+
+
+                }
+              </Flex>
+            </Flex>
+
+          </Tabs.Panel>
         </Tabs>
       </Flex>
     </>
