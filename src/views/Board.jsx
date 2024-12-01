@@ -592,7 +592,7 @@ const Board_Init = ({ boardId, setBoardData }) => {
                                                 />
                                                 <PromptReady_TextArea
                                                   height="4rem"
-                                                  enableAiGeneration={false}
+                                                  enableAiGeneration={true}
                                                   promptBase={`Provide a reason as to why ${"<sideEffectReason>"} affects ${stakeHolder.stakeHolderName} positively in context of the following proposal: ${bufferBoardDataInit?.proposalPrompt}`}
                                                   promptSamples={"Renewable energy systems can reduce long-term energy costs, providing financial benefits to investors.\nNew construction projects can create job opportunities for the local community, boosting the local economy\nTree planting can improve air quality, benefiting the health and well-being of the local community"}
                                                   onGeneratedValueChange={(generatedText) => { console.log(generatedText); }}
@@ -680,7 +680,7 @@ const Board_Init = ({ boardId, setBoardData }) => {
                                                 />
                                                 <PromptReady_TextArea
                                                   height="4rem"
-                                                  enableAiGeneration={false}
+                                                  enableAiGeneration={true}
                                                   promptBase={`Provide a reason as to why ${"<sideEffectReason>"} affects ${stakeHolder.stakeHolderName} negatively in context of the following proposal: ${bufferBoardDataInit?.proposalPrompt}`}
                                                   promptSamples={"Increased costs may lead to higher prices for goods and services, impacting the local community negatively\nIncreased costs can affect the project budget and timeline, creating challenges for the project team\nIncreased costs can reduce the return on investment for investors, impacting their financial interests"}
                                                   onGeneratedValueChange={(generatedText) => { console.log(generatedText); }}
