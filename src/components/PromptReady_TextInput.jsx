@@ -12,12 +12,13 @@ export const PromptReady_TextInput = ({
   promptSamples = "",
   onChange_debounced,
   onGeneratedValueChange,
+  inputValue,
+  setInputValue,
   inputProps = {},
 }) => {
 
   const llmRef = useLLMRef();
 
-  const [inputValue, setInputValue] = useState(inputProps?.value ?? "");
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedValue, setGeneratedValue] = useState("");
   const debouncedInputValue = useDebounce(inputValue, 500);

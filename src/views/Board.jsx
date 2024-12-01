@@ -612,10 +612,9 @@ const Board_Init = ({ boardId, setBoardData }) => {
                                                   enableAiGeneration={false}
                                                   promptBase={`Generate positive side effect for ${stakeHolder.stakeHolderName} based on the following proposal: ${bufferBoardDataInit?.proposalPrompt}`}
                                                   promptSamples="Increased Revenue, Improved Customer Satisfaction, Reduced Costs etc."
-                                                  onGeneratedValueChange={(generatedText) => { setPositiveSideEffectTitleBuffer(generatedText); }}
+                                                  inputValue={positiveSideEffectTitleBuffer}
+                                                  setInputValue={setPositiveSideEffectTitleBuffer}
                                                   inputProps={{
-                                                    onChange: (e) => { setPositiveSideEffectTitleBuffer(e.currentTarget.value); },
-                                                    value: positiveSideEffectTitleBuffer,
                                                     placeholder: "Effect label",
                                                   }}
                                                 />
@@ -699,10 +698,9 @@ const Board_Init = ({ boardId, setBoardData }) => {
                                                   enableAiGeneration={false}
                                                   promptBase={`Generate negative side effect for ${stakeHolder.stakeHolderName} based on the following proposal: ${bufferBoardDataInit?.proposalPrompt}`}
                                                   promptSamples="Increased Costs, Reduced Revenue, Customer Dissatisfaction etc."
-                                                  onGeneratedValueChange={(generatedText) => { setNegativeSideEffectTitleBuffer(generatedText); }}
+                                                  inputValue={negativeSideEffectTitleBuffer}
+                                                  setInputValue={setNegativeSideEffectTitleBuffer}
                                                   inputProps={{
-                                                    onChange: (e) => { setNegativeSideEffectTitleBuffer(e.currentTarget.value); },
-                                                    value: negativeSideEffectTitleBuffer,
                                                     placeholder: "Effect label",
                                                   }}
                                                 />
@@ -787,10 +785,9 @@ const Board_Init = ({ boardId, setBoardData }) => {
                                 enableAiGeneration={false}
                                 promptBase="Generate a real-sounding first name last name combination."
                                 promptSamples="Michael Brown, Jake Smith, Sarah Johnson"
-                                onGeneratedValueChange={(generatedText) => setNewStakeholderName(generatedText)}
+                                inputValue={newStakeholderName}
+                                setInputValue={setNewStakeholderName}
                                 inputProps={{
-                                  onChange: (e) => setNewStakeholderName(e.currentTarget.value),
-                                  value: newStakeholderName,
                                   placeholder: "Enter a name",
                                 }}
                               />
