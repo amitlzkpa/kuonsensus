@@ -288,6 +288,22 @@ const Board_Init = ({ boardId, setBoardData }) => {
     });
   };
 
+  const [newStakeholderName, setNewStakeholderName] = useState("");
+  const [newStakeholderDescription, setNewStakeholderDescription] = useState("");
+
+  const handleAddStakeholder = () => {
+    const updStakeHolders = [...bufferBoardDataInit.stakeHolders, {
+      stakeHolderName: newStakeholderName,
+      description: newStakeholderDescription
+    }];
+    setBufferBoardDataInit({
+      ...bufferBoardDataInit,
+      stakeHolders: updStakeHolders
+    });
+    setNewStakeholderName("");
+    setNewStakeholderDescription("");
+  };
+
   return (
     <>
       <Flex
@@ -600,12 +616,35 @@ const Board_Init = ({ boardId, setBoardData }) => {
                               justify="flex-start"
                               gap="sm"
                               p="md"
+                              h="13rem"
                             >
-                              <Text>
-                                Add a new stakeholder
-                              </Text>
-                              <PromptReady_TextInput />
-                              <PromptReady_TextArea height="3rem" />
+                              <Flex
+                                direction="row"
+                                align="center"
+                                gap="sm"
+                              >
+                                <Button onClick={handleAddStakeholder}>
+                                  Add New Stakeholder
+                                </Button>
+                              </Flex>
+                              <PromptReady_TextInput
+                                inputProps={{
+                                  onChange: (e) => setNewStakeholderName(e.currentTarget.value),
+                                  value: newStakeholderName,
+                                  placeholder: "Enter a name",
+                                }}
+                              />
+                              <PromptReady_TextArea
+                                height="4rem"
+                                textareaProps={{
+                                  onChange: (e) => setNewStakeholderDescription(e.currentTarget.value),
+                                  value: newStakeholderDescription,
+                                  placeholder: "Enter a description",
+                                  minRows: 4,
+                                  maxRows: 12,
+                                  rows: 4,
+                                }}
+                              />
                             </Flex>
                           </Accordion.Panel>
                         </Accordion.Item>
