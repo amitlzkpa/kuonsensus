@@ -611,7 +611,7 @@ const Board_Init = ({ boardId, setBoardData }) => {
                                                   </Button>
                                                 </Flex>
                                                 <PromptReady_TextInput
-                                                  enableAiGeneration={true}
+                                                  enableAiGeneration={false}
                                                   promptBase={`Generate title describing a positive side effect for ${stakeHolder.stakeHolderName}${positiveSideEffectTitleBuffer ? ` around ${positiveSideEffectTitleBuffer}` : ''} based on the following proposal: ${bufferBoardDataInit?.proposalPrompt}`}
                                                   promptSamples="Increased Revenue, Improved Customer Satisfaction, Reduced Costs etc."
                                                   inputValue={positiveSideEffectTitleBuffer}
@@ -697,7 +697,7 @@ const Board_Init = ({ boardId, setBoardData }) => {
                                                   </Button>
                                                 </Flex>
                                                 <PromptReady_TextInput
-                                                  enableAiGeneration={true}
+                                                  enableAiGeneration={false}
                                                   promptBase={`Generate title describing a negative side effect for ${stakeHolder.stakeHolderName}${positiveSideEffectTitleBuffer ? ` around ${negativeSideEffectTitleBuffer}` : ''} based on the following proposal: ${bufferBoardDataInit?.proposalPrompt}`}
                                                   promptSamples="Increased Costs, Reduced Revenue, Customer Dissatisfaction etc."
                                                   inputValue={negativeSideEffectTitleBuffer}
