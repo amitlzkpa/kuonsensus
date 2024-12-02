@@ -1057,7 +1057,7 @@ const Board_Edit = ({ boardData }) => {
 
       <Title order={3}>{boardData?.boardName}</Title>
       <Text>{boardData?.boardDescription}</Text>
-      <Flex h="420">
+      <Flex h="27rem">
         {/* Graphic */}
         <Flex w="60%">
           <Canvas
@@ -1097,7 +1097,8 @@ const Board_Edit = ({ boardData }) => {
         {/* Table */}
         <Flex
           w="40%"
-          p="md"
+          ml="sm"
+          mb="xl"
         >
           <Tabs defaultValue="stakeholders">
             <Tabs.List>
@@ -1109,37 +1110,53 @@ const Board_Edit = ({ boardData }) => {
               </Tabs.Tab>
             </Tabs.List>
 
-            <Tabs.Panel value="stakeholders">
-              {(boardData?.stakeHolders ?? []).map((stakeHolder, idx) => (
-                <Flex
-                  key={idx}
-                  direction="row"
-                  align="center"
-                  justify="space-between"
-                  onClick={() => onClick_Stakeholder(stakeHolder)}
-                >
-                  {
-                    (selectedStakeholders.find(sh => sh.stakeHolderName === stakeHolder.stakeHolderName))
-                      ?
-                      <Text style={{ fontWeight: "bold" }}>{stakeHolder.stakeHolderName}</Text>
-                      :
-                      <Text>{stakeHolder.stakeHolderName}</Text>
-                  }
-                </Flex>
-              ))}
+            <Tabs.Panel value="stakeholders" h="100%" p="md">
+              <Flex
+                direction="column"
+                h="100%"
+                style={{
+                  overflowY: "scroll"
+                }}
+              >
+                {(boardData?.stakeHolders ?? []).map((stakeHolder, idx) => (
+                  <Flex
+                    key={idx}
+                    direction="row"
+                    align="center"
+                    justify="space-between"
+                    onClick={() => onClick_Stakeholder(stakeHolder)}
+                  >
+                    {
+                      (selectedStakeholders.find(sh => sh.stakeHolderName === stakeHolder.stakeHolderName))
+                        ?
+                        <Text style={{ fontWeight: "bold" }}>{stakeHolder.stakeHolderName}</Text>
+                        :
+                        <Text>{stakeHolder.stakeHolderName}</Text>
+                    }
+                  </Flex>
+                ))}
+              </Flex>
             </Tabs.Panel>
 
-            <Tabs.Panel value="sideeffects">
-              {(boardData?.sideEffects ?? []).map((sideEffect, idx) => (
-                <Flex
-                  key={idx}
-                  direction="row"
-                  align="center"
-                  justify="space-between"
-                >
-                  <Text>{sideEffect.sideEffectTitle}</Text>
-                </Flex>
-              ))}
+            <Tabs.Panel value="sideeffects" h="100%" p="md">
+              <Flex
+                direction="column"
+                h="100%"
+                style={{
+                  overflowY: "scroll"
+                }}
+              >
+                {(boardData?.sideEffects ?? []).map((sideEffect, idx) => (
+                  <Flex
+                    key={idx}
+                    direction="row"
+                    align="center"
+                    justify="space-between"
+                  >
+                    <Text>{sideEffect.sideEffectTitle}</Text>
+                  </Flex>
+                ))}
+              </Flex>
             </Tabs.Panel>
           </Tabs>
         </Flex>
