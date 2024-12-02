@@ -1,8 +1,9 @@
 import React, { useEffect, useRef } from 'react';
-import { Center, Container, Flex, Stack, Title, Text, Button, Divider } from '@mantine/core';
+import { Center, Container, Flex, Group, Stack, Title, Text, Button, Divider } from '@mantine/core';
 
-import { FaUsers, FaDiceD20, FaRegHandshake, FaTasks } from 'react-icons/fa';
-import { MdOutlineCompareArrows } from 'react-icons/md';
+import { FaUsers, FaBalanceScale, FaDiceD20, FaRegHandshake, FaTasks } from 'react-icons/fa';
+import { MdOutlineCompareArrows, MdInsights, MdOutlineEditNote } from 'react-icons/md';
+import { AiOutlineRobot } from 'react-icons/ai';
 import { BiLayer } from 'react-icons/bi';
 import { PiEqualizerBold } from "react-icons/pi";
 
@@ -89,7 +90,9 @@ const Landing = () => {
           </Stack>
           <Flex direction="column" align="center">
             <Text size="md">
-              <strong>Kuonsensus</strong> helps you navigate these challenges to ensure every angle is covered.
+              <strong>Kuonsensus</strong> helps you navigate these challenges
+              <br />
+              to ensure every angle is covered.
             </Text>
             <FaRegHandshake size="4rem" />
           </Flex>
@@ -138,19 +141,53 @@ const Landing = () => {
         <Divider w="100%" my="xl" />
 
         {/* What Kuonsensus Offers Section */}
-        <Stack mih="70vh" maw="40rem" py="6rem" spacing="md" align="center" justify="center">
-          <Title order={2}>What Kuonsensus Offers</Title>
-          <Text size="md">
-            Kuonsensus supports your decision-making process by:
-          </Text>
-          <Stack spacing="xs">
-            <Text>- <strong>Identifying what matters to whom</strong></Text>
-            <Text>- <strong>Revealing the likelihood of alignment</strong></Text>
-            <Text>- <strong>Helping you prepare and tailor your pitch</strong> for maximum impact</Text>
-          </Stack>
-          <Text size="md">
-            Let Kuonsensus guide you toward collaboration, clarity, and consensus.
-          </Text>
+        <Stack mih="70vh" maw="80rem" py="6rem" spacing="lg" align="center" justify="center">
+          <Title order={2} mb="xl">What Kuonsensus Offers</Title>
+
+          <Flex w="100%" align="center" justify="space-evenly">
+
+            <Flex w="30%" direction="column" align="center" gap="lg">
+              <FaBalanceScale size="4rem" />
+              <Text size="lg" weight={500}>
+                <strong>Reveal alignment potential</strong>
+                <br />
+                Analyze the likelihood of consensus across the group.
+              </Text>
+            </Flex>
+
+            <Flex w="30%" direction="column" align="center" gap="lg">
+              <MdInsights size="4rem" />
+              <Text size="lg" weight={500}>
+                <strong>Prepare pitches with precision</strong>
+                <br />
+                Tailor your message to resonate with every perspective.
+              </Text>
+            </Flex>
+
+          </Flex>
+
+          <Flex w="100%" align="center" justify="space-evenly">
+
+            <Flex w="30%" direction="column" align="center" gap="lg">
+              <AiOutlineRobot size="4rem" />
+              <Text size="lg" weight={500}>
+                <strong>Leverage our AI assistant</strong>
+                <br />
+                Get context-aware suggestions to refine your strategy.
+              </Text>
+            </Flex>
+
+            <Flex w="30%" direction="column" align="center" gap="lg">
+              <MdOutlineEditNote size="4rem" />
+              <Text size="lg" weight={500}>
+                <strong>AI handles the typing</strong>
+                <br />
+                Focus on thinking and reviewing while AI does the writing for you.
+              </Text>
+            </Flex>
+
+          </Flex>
+
         </Stack>
 
         <Divider w="100%" my="xl" />
