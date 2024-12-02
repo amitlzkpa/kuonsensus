@@ -1,9 +1,16 @@
 import React from 'react';
 import { Container, Stack, Title, Text, Button, Divider } from '@mantine/core';
 
+import { BlockEditor } from '../components/BlockEditor';
+
 const Landing = () => {
   return (
     <Container size="lg" style={{ textAlign: 'center', padding: '2rem' }}>
+
+      <Stack mih="60vh" align="center">
+        <BlockEditor />
+      </Stack>
+
 
       {/* Header Section */}
       <Stack mih="70vh" py="6rem" spacing="md" align="center" justify="center">
