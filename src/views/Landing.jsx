@@ -13,7 +13,7 @@ const Landing = () => {
         </Text>
         <Stack direction="row" spacing="md" justify="center">
           <Button size="lg" variant="outline">Demo</Button>
-          <Button size="lg">Get Started</Button>
+          <Button size="lg" component="a" href="/board/_new">Get Started</Button>
         </Stack>
       </Stack>
 
@@ -89,7 +89,7 @@ const Landing = () => {
           Create your first Board today!
         </Text>
         <Stack direction="row" spacing="md" justify="center">
-          <Button size="lg">Start</Button>
+          <Button size="lg" component="a" href="/board/_new">Start</Button>
         </Stack>
       </Stack>
 
