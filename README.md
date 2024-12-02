@@ -6,9 +6,9 @@ Whether you're proposing ideas in the workplace, community, or team settings, Ku
 
 ---
 
-**Why?**
+## Why?
 
-Group decisions shape many aspects of our lives - from choosing paint colors to setting tax rates. Clear communication drives success by helping you share your perspective and understand other viewpoints. When communication breaks down - even with the best intentions - it can create misunderstandings, fuel distrust and harm relationships within the group.
+Group decisions shape many aspects of our lives - from choosing paint colors to setting tax rates. Clear communication drives success by helping you share your perspective and understand other viewpoints. When communication breaks down - even with the best intentions - it can create misunderstandings, fuel distrust, and harm relationships within the group.
 
 Group dynamics can be complex, with:
 
@@ -20,7 +20,7 @@ Group dynamics can be complex, with:
 
 ---
 
-**How It Works**
+## How It Works
 
 Kuonsensus simplifies the process into three steps:
 
@@ -38,29 +38,29 @@ Our ultimate goal is to help you gain the clarity and preparation needed to **re
 
 ---
 
-**What Kuonsensus Offers**
+## What Kuonsensus Offers
 
-**Reveal alignment potential**
+### Reveal alignment potential
 
 - Analyze the likelihood of consensus across the group.
 
-**Prepare pitches with precision**
+### Prepare pitches with precision
 
 - Tailor your message to resonate with every perspective.
 
-**Leverage our AI assistant**
+### Leverage our AI assistant
 
 - Get context-aware suggestions to refine your strategy.
 
-**AI handles the typing**
+### AI handles the typing
 
 - Focus on thinking and reviewing while AI does the writing for you.
 
 ---
 
-**Sample Scenarios**
+## Sample Scenarios
 
-**Workplace Decisions: HR Policies**
+### Workplace Decisions: HR Policies
 
 1. **Proposal to Implement a Four-Day Workweek for Improved Productivity and Employee Well-being**
 
@@ -76,7 +76,7 @@ Our ultimate goal is to help you gain the clarity and preparation needed to **re
 
 ---
 
-**Team Decisions: Product Launch Strategy**
+### Team Decisions: Product Launch Strategy
 
 1. **Proposal to Prioritize a Cost-Effective Launch with Incremental Updates**
 
@@ -92,7 +92,7 @@ Our ultimate goal is to help you gain the clarity and preparation needed to **re
 
 ---
 
-**Community Discussions: Zoning Changes**
+### Community Discussions: Zoning Changes
 
 1. **Proposal to Designate Mixed-Use Zones to Balance Residential and Commercial Needs**
 
@@ -108,79 +108,15 @@ Our ultimate goal is to help you gain the clarity and preparation needed to **re
 
 ---
 
-**Company Strategy Alignment: Growth Strategy**
+## Development
 
-1. **Proposal to Focus on High-Margin Product Lines for Sustainable Growth**
+This is a Progressive Web App with offline support.
 
-   To align competing departmental priorities, I propose prioritizing high-margin product lines that offer the greatest profitability potential. This approach ensures financial stability while enabling reinvestment in broader initiatives over time. Marketing and R&D efforts could focus on these strategic products to maximize impact.
-
-2. **Proposal for Balanced Resource Allocation Across Departments**
-
-   I propose a balanced growth strategy where resources are allocated proportionally to each department’s contribution to the company’s overall goals. For example, 40% of growth funds could go to R&D for innovation, 30% to marketing for brand expansion, and the rest to operational scalability. This ensures no department feels sidelined while driving unified progress.
-
-3. **Proposal to Prioritize Market Expansion Over Product Diversification**
-
-   I propose focusing our growth efforts on entering untapped markets with existing product lines rather than launching new products. This strategy leverages our current expertise, reduces development risks, and positions us to quickly capture new customer bases, benefiting all departments through increased revenue.
-
----
-
-**Startup Pitches: Fundraising Strategy**
-
-1. **Proposal to Secure Funding for Market Expansion to Scale Proven Product Success**
-
-   I propose an investment of $2 million to expand our reach into high-potential markets, leveraging the proven success of our flagship product. This funding will focus on scaling marketing efforts and establishing strategic partnerships in regions where demand is underserved. With a track record of 200% year-over-year growth in our pilot market, this expansion could position us for a $50 million valuation within 18 months.
-
-2. **Proposal for Funding to Develop AI-Driven Enhancements for Competitive Differentiation**
-
-   I propose a $3 million investment to integrate cutting-edge AI features into our platform, which will set us apart from competitors in a rapidly evolving industry. By improving personalization and automation for users, we can increase customer retention rates by an estimated 35%. These enhancements align with growing market trends and will create additional revenue streams through premium subscriptions.
-
-3. **Proposal to Secure Bridge Funding for Accelerated Product Development and Talent Acquisition**
-
-   I propose a bridge round of $1.5 million to accelerate product development and hire key talent in engineering and sales. This funding will allow us to bring our product to market six months ahead of schedule, capturing first-mover advantage in an emerging $1 billion market. Early traction from our beta tests shows a 75% adoption rate among target users, signaling strong potential for rapid scaling post-launch.
-
----
-
-**Family Decisions**
-
-1. **Let’s Save for a Big Family Vacation Instead of Doing Tons of Gifts**
-
-   How about we skip going all-out on holiday gifts this year and instead save up for a family vacation? Imagine how fun it’d be to spend time together somewhere special next summer. We can still do a few small gifts, but this way, we’d have something big to look forward to as a family!
-
-2. **How About a Weekly Game Night for Some Fun Family Time?**
-
-   What if we make one evening a week “Family Game Night”? We could take turns picking the games, grab some snacks, and just hang out together. It’d be a great way to spend time as a family without everyone glued to their phones or TVs.
-
-3. **Let’s Try a Chore Swap to Make Things Fairer for Everyone**
-
-   What if we set up a simple chore rotation so we’re all sharing the work around the house? We could switch up tasks each week, so no one’s stuck doing the same thing all the time. Plus, it’s a good way to mix things up and maybe even learn something new (like who’s actually good at folding laundry!).
-
----
-
-**Classroom Group Projects**
-
-1. **Let’s Split the Work Based on What We’re Good At**
-
-   Hey, what if we divide up the project based on what each of us is best at? If someone’s great at research, they can dig up the info, while the creative ones can work on the presentation. This way, we can all play to our strengths and make the project awesome without stressing out.
-
-2. **Let’s Set Some Chill Deadlines So We Don’t Fall Behind**
-
-   How about we make a quick timeline with mini-deadlines to keep us on track? Nothing too strict, just enough to avoid cramming everything at the last minute. We could also do a quick check-in each week to see how things are going. Easy and stress-free, right?
-
-3. **Let’s Use a Shared Doc or App to Stay Organized**
-
-   What if we use something like Google Docs or Trello to keep everything in one place? That way, we can all work on our parts, leave notes, and stay on the same page without having to send a million texts. It’ll make the whole project way easier to manage!
-
----
-
-**Development**
-
-This is Progressive Web App with offline support.
-
-**Stack**
+### Stack
 
 - React
 - Web Prompt API
-- Web Summarizaton API
+- Web Summarization API
 - Web Write/Rewrite APIs
 - Mantine
 - React Icons
