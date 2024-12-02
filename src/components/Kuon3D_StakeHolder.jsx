@@ -16,7 +16,7 @@ export const Kuon3D_StakeHolder = ({ position, stakeHolder }) => {
       receiveShadow
     >
       <cylinderGeometry attach="geometry" args={[4, 4, 1, 128]} />
-      <meshStandardMaterial attach="material" color={"#DEDEDE"} />
+      <meshStandardMaterial attach="material" color={"#ffeaec"} />
       <Edges linewidth={clicked ? 3 : hovered ? 4 : 2} threshold={15} color={clicked ? "#b41220" : hovered ? "#c91a25" : "black"} />
       <Html
         center

@@ -1064,7 +1064,7 @@ const Board_Edit = ({ boardData }) => {
             shadows
             style={{ width: "100%", height: "100%" }}
           >
-            <color attach="background" args={["#DEDEDE"]} />
+            <color attach="background" args={["#fefcfa"]} />
             <OrthographicCamera
               makeDefault
               position={[0, 10, 0]}
