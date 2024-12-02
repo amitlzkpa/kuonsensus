@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { Center, Container, Flex, Group, Stack, Title, Text, Button, Divider } from '@mantine/core';
+import { Center, Container, Flex, Stack, Title, Text, Button, Divider } from '@mantine/core';
 
 import { FaUsers, FaBalanceScale, FaDiceD20, FaRegHandshake, FaTasks } from 'react-icons/fa';
 import { MdOutlineCompareArrows, MdInsights, MdOutlineEditNote } from 'react-icons/md';
