@@ -30,6 +30,27 @@ export const SectionEditor = () => {
 
   const [sections, setSections] = useState([]);
 
+  // const handleOnDrag = useCallback((dragIndex, hoverIndex) => {
+  //   const dragItem = sections[dragIndex];
+  //   const hoverItem = sections[hoverIndex];
+  //   setSections((sections) => {
+  //     const updatedSections = [...sections];
+  //     updatedSections[dragIndex] = hoverItem;
+  //     updatedSections[hoverIndex] = dragItem;
+  //     return updatedSections;
+  //   });
+  // }, [sections]);
+
+  const handleOnDrag = (e, widgetData) => {
+    e.dataTransfer.setData("kuonWidgetData", widgetData);
+  };
+
+  const handleOnDrop = (e) => {
+    const widgetData = e.dataTransfer.getData("kuonWidgetData");
+    // const sectionInitDataFromWidget = convertWidgetToSection(widgetData);
+    setSections([...sections, widgetData]);
+  }
+
   return (
     <>
       Boom
