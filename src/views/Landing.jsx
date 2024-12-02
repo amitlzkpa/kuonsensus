@@ -36,12 +36,12 @@ const Landing = () => {
           <img src="/pwa-512x512.png" style={{ width: "100%", height: "100%" }} />
         </Center>
         <Text
-          style={{
-            fontWeight: 900,
-            fontSize: 42,
-            color: "#b41220"
-          }}
-        >Kuonsensus</Text>
+          fw={900}
+          fz={42}
+          c="#b41220"
+        >
+          Kuonsensus
+        </Text>
         <Text size="xl" weight={500}>
           Kuonsensus helps you prepare impactful pitches<br /> for building consensus <strong ref={adverbsSpanRef}></strong>
         </Text>
