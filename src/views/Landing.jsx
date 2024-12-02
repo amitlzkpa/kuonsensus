@@ -40,7 +40,7 @@ const Landing = () => {
       >
 
         {/* Header Section */}
-        <Stack mih="70vh" pb="6rem" spacing="md" align="center" justify="center">
+        <Stack mih="70vh" maw="40rem" pb="6rem" spacing="md" align="center" justify="center">
           <Center h="22rem" w="22rem">
             <img src="/pwa-512x512.png" style={{ width: "100%", height: "100%" }} />
           </Center>
@@ -96,7 +96,7 @@ const Landing = () => {
         <Divider w="100%" my="xl" />
 
         {/* How It Works Section */}
-        <Stack mih="70vh" py="6rem" spacing="md" align="center" justify="center">
+        <Stack mih="70vh" maw="40rem" py="6rem" spacing="md" align="center" justify="center">
           <Title order={2}>How It Works</Title>
           <Text size="md">Kuonsensus simplifies the process into three easy steps:</Text>
           <Stack spacing="xs">
@@ -120,7 +120,7 @@ const Landing = () => {
         <Divider w="100%" my="xl" />
 
         {/* What Kuonsensus Offers Section */}
-        <Stack mih="70vh" py="6rem" spacing="md" align="center" justify="center">
+        <Stack mih="70vh" maw="40rem" py="6rem" spacing="md" align="center" justify="center">
           <Title order={2}>What Kuonsensus Offers</Title>
           <Text size="md">
             Kuonsensus supports your decision-making process by:
@@ -138,7 +138,7 @@ const Landing = () => {
         <Divider w="100%" my="xl" />
 
         {/* CTA Section */}
-        <Stack mih="70vh" py="6rem" spacing="md" align="center" justify="center">
+        <Stack mih="70vh" maw="40rem" py="6rem" spacing="md" align="center" justify="center">
           <Title order={1}>Give it a try</Title>
           <Text size="lg" weight={500}>
             Create your first Board today!
