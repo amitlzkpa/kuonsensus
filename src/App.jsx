@@ -163,6 +163,7 @@ export function App() {
             <Burger opened={desktopOpened} onClick={toggleDesktop} visibleFrom="sm" size="sm" />
             <Button
               component="a"
+              variant="outline"
               href="/"
               radius="xl"
               size="md"
@@ -179,7 +180,7 @@ export function App() {
           <Button
             radius="xl"
             size="md"
-            variant="outline"
+            variant="subtle"
             m="md"
             h={88}
             mr="2rem"
