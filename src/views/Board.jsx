@@ -14,6 +14,8 @@ import {
   Skeleton,
   Center,
   Divider,
+  Tooltip,
+  Radio
 } from '@mantine/core';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -1100,7 +1102,7 @@ const Board_Edit = ({ boardData }) => {
           ml="sm"
           mb="xl"
         >
-          <Tabs defaultValue="stakeholders">
+          <Tabs defaultValue="stakeholders" w="100%">
             <Tabs.List>
               <Tabs.Tab value="stakeholders">
                 Stakeholders
@@ -1123,15 +1125,30 @@ const Board_Edit = ({ boardData }) => {
                     key={idx}
                     direction="row"
                     align="center"
-                    justify="space-between"
-                    onClick={() => onClick_Stakeholder(stakeHolder)}
+                    gap="sm"
                   >
                     {
                       (selectedStakeholders.find(sh => sh.stakeHolderName === stakeHolder.stakeHolderName))
                         ?
-                        <Text style={{ fontWeight: "bold" }}>{stakeHolder.stakeHolderName}</Text>
+                        <>
+                          <Tooltip
+                            onClick={() => onClick_Stakeholder(stakeHolder)}
+                            label={`Click to remove ${stakeHolder.stakeHolderName} from selections.`}
+                          >
+                            <Radio checked={true} />
+                          </Tooltip>
+                          <Text style={{ fontWeight: "bold" }}>{stakeHolder.stakeHolderName}</Text>
+                        </>
                         :
-                        <Text>{stakeHolder.stakeHolderName}</Text>
+                        <>
+                          <Tooltip
+                            onClick={() => onClick_Stakeholder(stakeHolder)}
+                            label={`Click to add ${stakeHolder.stakeHolderName} to selections.`}
+                          >
+                            <Radio checked={false} />
+                          </Tooltip>
+                          <Text>{stakeHolder.stakeHolderName}</Text>
+                        </>
                     }
                   </Flex>
                 ))}
@@ -1163,15 +1180,13 @@ const Board_Edit = ({ boardData }) => {
 
       </Flex>
 
-      <Flex
-        gap="md"
-      >
+      <Flex gap="md">
         {/* Selected Stakeholders */}
         <Flex
           direction="column"
-          align="start"
+          align="stretch"
           justify="flex-start"
-          w="40%"
+          w="100%"
         >
           {(selectedStakeholders ?? []).map((selectedStakeholder, idx) => (
             <Flex
@@ -1180,16 +1195,187 @@ const Board_Edit = ({ boardData }) => {
               align="start"
               justify="flex-start"
               style={{ margin: "1rem 0 1rem 0" }}
-              onClick={() => onClick_Stakeholder(selectedStakeholder)}
             >
-              <Text>{selectedStakeholder.stakeHolderName}</Text>
-              <Text>{selectedStakeholder.description}</Text>
+              <Flex
+                direction="column"
+                align="stretch"
+                gap="sm"
+                p="md"
+              >
+                <Title order={4}>
+                  {selectedStakeholder.stakeHolderName}
+                </Title>
+
+                <Flex w="100%">
+                  <Flex w="40%" direction="column" justify="center">
+                    <Text p="lg">
+                      {selectedStakeholder.description}
+                    </Text>
+                  </Flex>
+
+                  <Flex
+                    direction="column"
+                    gap="sm"
+                    p="md"
+                    w="60%"
+                  >
+                    {/* Positives */}
+                    <Flex
+                      direction="column"
+                      gap="sm"
+                    >
+                      <Accordion variant="filled" chevron={null} defaultValue="second" w="100%">
+                        <Accordion.Item key="first" value="first">
+                          <Accordion.Control icon="+">
+                            <Text c="gray.5" fz="sm">
+                              <Pill c="green.9">positive</Pill>
+                            </Text>
+                          </Accordion.Control>
+                          <Accordion.Panel>
+                            <Flex
+                              direction="column"
+                              align="stretch"
+                              justify="flex-start"
+                              gap="sm"
+                              p="md"
+                              h="13rem"
+                              w="100%"
+                            >
+                              <Flex
+                                direction="row"
+                                align="center"
+                                gap="sm"
+                              >
+                                <Button
+                                // onClick={() => handlePositiveSideEffectAdd(stakeHolder.stakeHolderName)}
+                                >
+                                  Add
+                                </Button>
+                              </Flex>
+                              <PromptReady_TextInput
+                                enableAiGeneration={false}
+                                // promptBase={`Generate title describing a positive side effect for ${stakeHolder.stakeHolderName}${positiveSideEffectTitleBuffer ? ` around ${positiveSideEffectTitleBuffer}` : ''} based on the following proposal: ${bufferBoardDataInit?.boardDescription}`}
+                                // promptSamples="Increased Revenue, Improved Customer Satisfaction, Reduced Costs etc."
+                                // inputValue={positiveSideEffectTitleBuffer}
+                                // setInputValue={setPositiveSideEffectTitleBuffer}
+                                inputProps={{
+                                  placeholder: "Effect label",
+                                }}
+                              />
+                              <PromptReady_TextArea
+                                height="5rem"
+                                enableAiGeneration={true}
+                                // promptBase={`Provide a 1-line reason as to why ${positiveSideEffectTitleBuffer} affects ${stakeHolder.stakeHolderName} positively in context of the following proposal: ${bufferBoardDataInit?.boardDescription}`}
+                                // promptSamples={"Renewable energy systems can reduce long-term energy costs, providing financial benefits to investors.\nNew construction projects can create job opportunities for the local community, boosting the local economy\nTree planting can improve air quality, benefiting the health and well-being of the local community"}
+                                // inputValue={positiveSideEffectReasonBuffer}
+                                // setInputValue={setPositiveSideEffectReasonBuffer}
+                                // forceEditDisabled={!positiveSideEffectTitleBuffer}
+                                textareaProps={{
+                                  placeholder: "Enter reasoning for effect",
+                                  minRows: 2,
+                                  maxRows: 12,
+                                  rows: 2,
+                                }}
+                              />
+                            </Flex>
+                          </Accordion.Panel>
+                        </Accordion.Item>
+                      </Accordion>
+
+                      {
+                        <ImplicationList sideEffects={(boardData?.sideEffects ?? [])
+                          .filter((sideEffect) => sideEffect.stakeHolderName === selectedStakeholder.stakeHolderName)
+                          .filter((sideEffect) => sideEffect.implication === "positive")
+                        }
+                        // handleRemoveSideEffect={handleRemoveSideEffect}
+                        />
+                      }
+
+                    </Flex>
+
+                    {/* Negatives */}
+                    <Flex
+                      direction="column"
+                      gap="sm"
+                    >
+                      <Accordion variant="filled" chevron={null} defaultValue="second" w="100%">
+                        <Accordion.Item key="first" value="first">
+                          <Accordion.Control icon="+">
+                            <Text c="gray.5" fz="sm">
+                              <Pill c="orange.7">negative</Pill>
+                            </Text>
+                          </Accordion.Control>
+                          <Accordion.Panel>
+                            <Flex
+                              direction="column"
+                              align="stretch"
+                              justify="flex-start"
+                              gap="sm"
+                              p="md"
+                              h="13rem"
+                              w="100%"
+                            >
+                              <Flex
+                                direction="row"
+                                align="center"
+                                gap="sm"
+                              >
+                                <Button
+                                // onClick={() => handleNegativeSideEffectAdd(stakeHolder.stakeHolderName)}
+                                >
+                                  Add
+                                </Button>
+                              </Flex>
+                              <PromptReady_TextInput
+                                enableAiGeneration={false}
+                                // promptBase={`Generate title describing a negative side effect for ${stakeHolder.stakeHolderName}${positiveSideEffectTitleBuffer ? ` around ${negativeSideEffectTitleBuffer}` : ''} based on the following proposal: ${bufferBoardDataInit?.boardDescription}`}
+                                // promptSamples="Increased Costs, Reduced Revenue, Customer Dissatisfaction etc."
+                                // inputValue={negativeSideEffectTitleBuffer}
+                                // setInputValue={setNegativeSideEffectTitleBuffer}
+                                inputProps={{
+                                  placeholder: "Effect label",
+                                }}
+                              />
+                              <PromptReady_TextArea
+                                height="5rem"
+                                enableAiGeneration={true}
+                                // promptBase={`Provide a 1-line reason as to why ${negativeSideEffectTitleBuffer} affects ${stakeHolder.stakeHolderName} negatively in context of the following proposal: ${bufferBoardDataInit?.boardDescription}`}
+                                // promptSamples={"Increased costs may lead to higher prices for goods and services, impacting the local community negatively\nIncreased costs can affect the project budget and timeline, creating challenges for the project team\nIncreased costs can reduce the return on investment for investors, impacting their financial interests"}
+                                // inputValue={negativeSideEffectReasonBuffer}
+                                // setInputValue={setNegativeSideEffectReasonBuffer}
+                                // forceEditDisabled={!negativeSideEffectTitleBuffer}
+                                textareaProps={{
+                                  placeholder: "Enter reasoning for effect",
+                                  minRows: 2,
+                                  maxRows: 12,
+                                  rows: 2,
+                                }}
+                              />
+                            </Flex>
+                          </Accordion.Panel>
+                        </Accordion.Item>
+                      </Accordion>
+
+                      {
+                        <ImplicationList sideEffects={(boardData?.sideEffects ?? [])
+                          .filter((sideEffect) => sideEffect.stakeHolderName === selectedStakeholder.stakeHolderName)
+                          .filter((sideEffect) => sideEffect.implication === "negative")
+                        }
+                        // handleRemoveSideEffect={handleRemoveSideEffect}
+                        />
+                      }
+                    </Flex>
+                  </Flex>
+                </Flex>
+
+              </Flex>
+
             </Flex>
           ))}
         </Flex>
 
         {/* Side Effects for Selected Stakeholders */}
-        <Flex
+        {/* <Flex
           direction="column"
           align="start"
           justify="flex-start"
@@ -1205,7 +1391,7 @@ const Board_Edit = ({ boardData }) => {
               <Text>{sideEffect.sideEffectTitle}</Text>
             </Flex>
           ))}
-        </Flex>
+        </Flex> */}
       </Flex>
     </Flex>
   );
