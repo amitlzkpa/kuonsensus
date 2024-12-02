@@ -108,7 +108,7 @@ const TypingText = ({ text, typeSpeed = 50 }) => {
   );
 }
 
-const ImplicationList = ({ sideEffects, handleRemoveSideEffect }) => {
+const ImplicationList = ({ sideEffects, handleRemoveSideEffect, disableTypingEffect = false }) => {
   return (
     <Flex
       direction="column"
@@ -138,7 +138,12 @@ const ImplicationList = ({ sideEffects, handleRemoveSideEffect }) => {
                 <HoverCard.Target>
                   <div>
                     <Text>
-                      <TypingText text={sideEffect.sideEffectTitle} typeSpeed={[20, 50, 60][Math.floor(Math.random() * 3)]} />
+                      {
+                        disableTypingEffect ? sideEffect.sideEffectTitle :
+                          (
+                            <TypingText text={sideEffect.sideEffectTitle} typeSpeed={[20, 50, 60][Math.floor(Math.random() * 3)]} />
+                          )
+                      }
                     </Text>
                   </div>
                 </HoverCard.Target>
@@ -1283,7 +1288,7 @@ const Board_Edit = ({ boardData }) => {
                       </Accordion>
 
                       {
-                        <ImplicationList sideEffects={(boardData?.sideEffects ?? [])
+                        <ImplicationList disableTypingEffect={true} sideEffects={(boardData?.sideEffects ?? [])
                           .filter((sideEffect) => sideEffect.stakeHolderName === selectedStakeholder.stakeHolderName)
                           .filter((sideEffect) => sideEffect.implication === "positive")
                         }
@@ -1357,7 +1362,7 @@ const Board_Edit = ({ boardData }) => {
                       </Accordion>
 
                       {
-                        <ImplicationList sideEffects={(boardData?.sideEffects ?? [])
+                        <ImplicationList disableTypingEffect={true} sideEffects={(boardData?.sideEffects ?? [])
                           .filter((sideEffect) => sideEffect.stakeHolderName === selectedStakeholder.stakeHolderName)
                           .filter((sideEffect) => sideEffect.implication === "negative")
                         }
