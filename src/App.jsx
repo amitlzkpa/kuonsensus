@@ -166,13 +166,10 @@ export function App() {
               href="/"
               radius="xl"
               size="md"
-              pr={14}
+              pr="2rem"
               h={48}
-              styles={{
-                // root: { color: "black", borderColor: "black" },
-                section: { marginLeft: 22 }
-              }}
             >
+              <img src="/pwa-512x512.png" alt="Kuonsensus" style={{ height: "3rem" }} />
               Kuonsensus
             </Button>
           </Group>
