@@ -1033,7 +1033,11 @@ const Board_Init = ({ boardId, setBoardData }) => {
   );
 };
 
-const Board_Edit = ({ boardData }) => {
+const Board_Edit = ({ boardData, setBoardData }) => {
+
+  const { boardId } = useParams();
+
+  const storedBoards = useStoredBoards();
 
   const [selectedStakeholders, setSelectedStakeholders] = useState([]);
 
@@ -1054,6 +1058,28 @@ const Board_Edit = ({ boardData }) => {
     setSideEffectsForSelectedStakeholders(sideEffectsForSelectedStakeholders ?? []);
   }, [boardData, selectedStakeholders]);
 
+  const onBoardNameChange = (newName) => {
+    const boardIdx = storedBoards.findIndex((board) => board.boardId === boardId);
+    const foundBoard = storedBoards[boardIdx] ?? {};
+    const consolidatedBoardData = { ...foundBoard, ...boardData, boardName: newName };
+    const updStoredBoards = [...storedBoards];
+    updStoredBoards[boardIdx] = consolidatedBoardData;
+    localStorage.setItem(kuonKeys.KUON_KEY_STORED_BOARDS_LCLSTR, updStoredBoards);
+    triggerStorageUpdate();
+    setBoardData(consolidatedBoardData);
+  };
+
+  const onBoardDescriptionChange = (newDescription) => {
+    const boardIdx = storedBoards.findIndex((board) => board.boardId === boardId);
+    const foundBoard = storedBoards[boardIdx] ?? {};
+    const consolidatedBoardData = { ...foundBoard, ...boardData, boardDescription: newDescription };
+    const updStoredBoards = [...storedBoards];
+    updStoredBoards[boardIdx] = consolidatedBoardData;
+    localStorage.setItem(kuonKeys.KUON_KEY_STORED_BOARDS_LCLSTR, updStoredBoards);
+    triggerStorageUpdate();
+    setBoardData(consolidatedBoardData);
+  }
+
   return (
     <Flex
       direction="column"
@@ -1062,8 +1088,16 @@ const Board_Edit = ({ boardData }) => {
       gap="md"
     >
 
-      <Title order={3}>{boardData?.boardName}</Title>
-      <Text>{boardData?.boardDescription}</Text>
+      <Title order={3}
+        contentEditable
+        suppressContentEditableWarning
+        onBlur={e => onBoardNameChange((e.currentTarget.textContent ?? "").toString().trim())}
+      >{boardData?.boardName}</Title>
+      <Text
+        contentEditable
+        suppressContentEditableWarning
+        onBlur={e => onBoardDescriptionChange((e.currentTarget.textContent ?? "").toString().trim())}
+      >{boardData?.boardDescription}</Text>
       <Flex h="27rem">
         {/* Graphic */}
         <Flex w="60%">
@@ -1432,7 +1466,7 @@ const Board = () => {
 
       {
         boardData?.hasBeenInitialized ? (
-          <Board_Edit boardData={boardData} />
+          <Board_Edit boardData={boardData} setBoardData={setBoardData} />
         ) : (
           <Board_Init boardId={boardId} setBoardData={setBoardData} />
         )
