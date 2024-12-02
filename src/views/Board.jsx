@@ -1140,7 +1140,7 @@ const Board_Edit = ({ boardData }) => {
                             onClick={() => onClick_Stakeholder(stakeHolder)}
                             label={`Click to remove ${stakeHolder.stakeHolderName} from selections.`}
                           >
-                            <Radio checked={true} />
+                            <Radio checked={true} readOnly />
                           </Tooltip>
                           <Text style={{ fontWeight: "bold" }}>{stakeHolder.stakeHolderName}</Text>
                         </>
@@ -1150,7 +1150,7 @@ const Board_Edit = ({ boardData }) => {
                             onClick={() => onClick_Stakeholder(stakeHolder)}
                             label={`Click to add ${stakeHolder.stakeHolderName} to selections.`}
                           >
-                            <Radio checked={false} />
+                            <Radio checked={false} readOnly />
                           </Tooltip>
                           <Text>{stakeHolder.stakeHolderName}</Text>
                         </>
