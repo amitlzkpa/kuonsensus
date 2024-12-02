@@ -1,22 +1,49 @@
-import React from 'react';
-import { Container, Stack, Title, Text, Button, Divider } from '@mantine/core';
+import React, { useEffect, useRef } from 'react';
+import { Center, Container, Stack, Title, Text, Button, Divider } from '@mantine/core';
 
-import { SectionEditor } from '../components/SectionEditor';
+import Typed from "typed.js";
+// import { SectionEditor } from '../components/SectionEditor';
 
 const Landing = () => {
+
+  const adverbsSpanRef = useRef();
+
+  useEffect(() => {
+    const t = new Typed(adverbsSpanRef.current, {
+      strings: ["effectively^1400", "thoughtfully^1200", "confidently^1600", "measurably^1000",],
+      typeSpeed: 90,
+      loop: true,
+      showCursor: false,
+    });
+
+    return () => {
+      t.destroy();
+    };
+
+  }, []);
+
   return (
     <Container size="lg" style={{ textAlign: 'center', padding: '2rem' }}>
-
+      {/* 
       <Stack mih="60vh" align="center">
         <SectionEditor />
       </Stack>
-
+      */}
 
       {/* Header Section */}
-      <Stack mih="70vh" py="6rem" spacing="md" align="center" justify="center">
-        <Title order={1}>Kuonsensus</Title>
-        <Text size="lg" weight={500}>
-          <strong>Kuonsensus</strong> is a powerful tool designed to help you prepare impactful pitches that build consensus effectively.
+      <Stack mih="70vh" pb="6rem" spacing="md" align="center" justify="center">
+        <Center h="22rem" w="22rem">
+          <img src="/pwa-512x512.png" style={{ width: "100%", height: "100%" }} />
+        </Center>
+        <Text
+          style={{
+            fontWeight: 900,
+            fontSize: 42,
+            color: "#b41220"
+          }}
+        >Kuonsensus</Text>
+        <Text size="xl" weight={500}>
+          Kuonsensus helps you prepare impactful pitches<br /> for building consensus <strong ref={adverbsSpanRef}></strong>
         </Text>
         <Stack direction="row" spacing="md" justify="center">
           <Button size="lg" variant="outline">Demo</Button>
