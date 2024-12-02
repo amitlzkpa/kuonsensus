@@ -1,8 +1,10 @@
 import React, { useEffect, useRef } from 'react';
 import { Center, Container, Flex, Stack, Title, Text, Button, Divider } from '@mantine/core';
 
-import { FaUsers, FaDiceD20, FaRegHandshake } from 'react-icons/fa';
+import { FaUsers, FaDiceD20, FaRegHandshake, FaTasks } from 'react-icons/fa';
 import { MdOutlineCompareArrows } from 'react-icons/md';
+import { BiLayer } from 'react-icons/bi';
+import { PiEqualizerBold } from "react-icons/pi";
 
 import Typed from "typed.js";
 // import { SectionEditor } from '../components/SectionEditor';
@@ -96,7 +98,7 @@ const Landing = () => {
         <Divider w="100%" my="xl" />
 
         {/* How It Works Section */}
-        <Stack mih="70vh" maw="40rem" py="6rem" spacing="md" align="center" justify="center">
+        <Stack mih="70vh" maw="60rem" py="6rem" spacing="md" align="center" justify="center">
           <Title order={2}>How It Works</Title>
           <Text size="md">Kuonsensus simplifies the process into three easy steps:</Text>
           <Stack spacing="xs">
@@ -104,16 +106,32 @@ const Landing = () => {
             <Text>2. <strong>Identify the stakeholders</strong></Text>
             <Text>3. <strong>Work through the dynamics</strong></Text>
           </Stack>
-          <Text size="md">
-            With Kuonsensus, you can:
+
+          <Text size="md" my="lg">
+            You can:
           </Text>
-          <Stack spacing="xs">
-            <Text>- <strong>Surface multiple viewpoints</strong></Text>
-            <Text>- <strong>Capture the stakes involved</strong></Text>
-            <Text>- <strong>Follow a guided process to align the group</strong></Text>
-          </Stack>
+
+          <Flex align="center" justify="space-evenly" gap="xl">
+            <Flex w="25%" direction="column" align="center" justify="flex-start">
+              <Text mb="1rem"><strong>Surface multiple viewpoints</strong></Text>
+              <BiLayer size="5rem" />
+            </Flex>
+            <Flex w="20%" direction="column" align="center" justify="flex-start">
+              <Text><strong>Capture the stakes involved</strong></Text>
+              <PiEqualizerBold size="6rem" />
+            </Flex>
+            <Flex w="20%" direction="column" align="center" justify="flex-start" pb="1rem">
+              <Text mb="1rem"><strong>Follow a guided process</strong></Text>
+              <FaTasks size="4rem" />
+            </Flex>
+          </Flex>
+
           <Text size="md">
-            The ultimate goal? To achieve the clarity and preparation it takes to <strong>reach consensus</strong>.
+            The ultimate goal?
+            <br />
+            To achieve the clarity and preparation
+            <br />
+            it takes to <strong>reach consensus</strong>.
           </Text>
         </Stack>
 
