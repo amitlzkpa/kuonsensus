@@ -1058,10 +1058,10 @@ const Board_Edit = ({ boardData, setBoardData }) => {
     setSideEffectsForSelectedStakeholders(sideEffectsForSelectedStakeholders ?? []);
   }, [boardData, selectedStakeholders]);
 
-  const onBoardNameChange = (newName) => {
+  const writeBufferedBoardDataToStorage = (newData = {}) => {
     const boardIdx = storedBoards.findIndex((board) => board.boardId === boardId);
     const foundBoard = storedBoards[boardIdx] ?? {};
-    const consolidatedBoardData = { ...foundBoard, ...boardData, boardName: newName };
+    const consolidatedBoardData = { ...foundBoard, ...boardData, ...newData };
     const updStoredBoards = [...storedBoards];
     updStoredBoards[boardIdx] = consolidatedBoardData;
     localStorage.setItem(kuonKeys.KUON_KEY_STORED_BOARDS_LCLSTR, updStoredBoards);
@@ -1069,15 +1069,14 @@ const Board_Edit = ({ boardData, setBoardData }) => {
     setBoardData(consolidatedBoardData);
   };
 
+  const onBoardNameChange = (newName) => {
+    const updatedBoardData = { ...boardData, boardName: newName };
+    writeBufferedBoardDataToStorage(updatedBoardData);
+  };
+
   const onBoardDescriptionChange = (newDescription) => {
-    const boardIdx = storedBoards.findIndex((board) => board.boardId === boardId);
-    const foundBoard = storedBoards[boardIdx] ?? {};
-    const consolidatedBoardData = { ...foundBoard, ...boardData, boardDescription: newDescription };
-    const updStoredBoards = [...storedBoards];
-    updStoredBoards[boardIdx] = consolidatedBoardData;
-    localStorage.setItem(kuonKeys.KUON_KEY_STORED_BOARDS_LCLSTR, updStoredBoards);
-    triggerStorageUpdate();
-    setBoardData(consolidatedBoardData);
+    const updatedBoardData = { ...boardData, boardDescription: newDescription };
+    writeBufferedBoardDataToStorage(updatedBoardData);
   }
 
   return (
