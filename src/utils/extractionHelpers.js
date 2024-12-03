@@ -1,7 +1,7 @@
 import { z } from "zod";
 import csvToJson from "convert-csv-to-json";
 
-let DEBUG_LLM = true;
+let DEBUG_LLM = false;
 
 const makeCallsTillSuccess = async (
   fnLabel,
