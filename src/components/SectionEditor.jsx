@@ -7,6 +7,15 @@ const blockTypeColors = {
   sideEffectBlock: "blue.1",
 };
 
+const contentStubTemplate = {
+  sourceBlockItem: {},
+  generatedText: "",
+  generatedTextFinalized: false,
+  generalPromptText: "Create a short stub of text as part of a document out of following text:",
+  tone: "formal",
+  customPrompt: ""
+};
+
 const BlockInTray = ({ blockData, handleOnDragStart }) => {
 
   return (
@@ -39,6 +48,8 @@ const BlockInTray = ({ blockData, handleOnDragStart }) => {
 };
 
 const SectionOnSheet = ({ sectionData }) => {
+  console.log('-------------');
+  console.log(sectionData);
   return (
     <Card
       mih="5rem"
@@ -52,23 +63,31 @@ const SectionOnSheet = ({ sectionData }) => {
         align="center"
         justify="center"
       >
-        {sectionData.srcPrompt}
+        {sectionData?.sourceBlockItem?.sideEffectObject?.sideEffectTitle}
       </Flex>
     </Card>
   )
 };
 
 const convertBlockToSection = (blockData) => {
+  console.log(blockData);
+  const sectionData = { ...contentStubTemplate };
+  sectionData.sourceBlockItem = blockData;
   switch (blockData?.blockType) {
     case "A":
-      return { srcPrompt: "AA" };
+      // sectionData.generalPromptText = generalPromptText;
+      break;
     case "B":
-      return { srcPrompt: "AB" };
+      // sectionData.generalPromptText = generalPromptText;
+      break;
     case "C":
-      return { srcPrompt: "AC" };
+      // sectionData.generalPromptText = generalPromptText;
+      break;
     default:
-      return { srcPrompt: "AX" };
+      // sectionData.generalPromptText = generalPromptText;
+      break;
   }
+  return sectionData;
 };
 
 const sampleBlocks = [
@@ -83,7 +102,7 @@ export const SectionEditor = ({ boardData = sampleBoardData }) => {
 
   useEffect(() => {
 
-    console.log('sideEffect', boardData.sideEffects[0]);
+    // console.log('sideEffect', boardData.sideEffects[0]);
 
     let effectBlocks = (boardData.sideEffects ?? []).map((bd, idx) => {
 
@@ -103,8 +122,8 @@ export const SectionEditor = ({ boardData = sampleBoardData }) => {
 
     setAvlSideEffectBlocks(effectBlocks);
 
-    console.log('effectBlock', effectBlocks[0]);
-    console.log(effectBlocks.length);
+    // console.log('effectBlock', effectBlocks[0]);
+    // console.log(effectBlocks.length);
 
   }, [boardData]);
 
@@ -118,6 +137,7 @@ export const SectionEditor = ({ boardData = sampleBoardData }) => {
   const handleOnDropEnd = (e) => {
     const blockData = JSON.parse(e.dataTransfer.getData("kuonBlockData"));
     const sectionInitDataFromBlock = convertBlockToSection(blockData);
+    console.log(sectionInitDataFromBlock);
     setSections([...sections, sectionInitDataFromBlock]);
   };
 
