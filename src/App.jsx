@@ -36,8 +36,6 @@ const boardTemplate = {
   boardName: "",
   boardDescription: "",
   proposalPrompt: "",
-  proposalDatabank: [],
-  storedConversations: [],
   hasBeenInitialized: false,
   creationDate: "",
   generatedArticles: [],
