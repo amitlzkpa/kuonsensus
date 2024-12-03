@@ -3,12 +3,16 @@ import { Card, Flex, Text } from '@mantine/core';
 
 import sampleBoardData from "../assets/samples/c1_boardData.json";
 
+const blockTypeColors = {
+  sideEffectBlock: "blue.1",
+};
+
 const BlockInTray = ({ blockData, handleOnDragStart }) => {
 
   return (
     <Card
       h="5rem"
-      bg="gray.1"
+      bg={blockTypeColors[blockData.blockType] ?? "gray.1"}
       radius="xl"
       style={{ cursor: 'move' }}
       draggable
@@ -19,8 +23,16 @@ const BlockInTray = ({ blockData, handleOnDragStart }) => {
         direction="column"
         align="center"
         justify="center"
+
       >
-        {blockData?.blockType ?? ""}
+        <Text
+          size="sm"
+          c="gray.7"
+          align="center"
+          lh="0.9rem"
+        >
+          {blockData?.sideEffectObject.sideEffectTitle ?? ""}
+        </Text>
       </Flex>
     </Card>
   );
@@ -73,11 +85,11 @@ export const SectionEditor = ({ boardData = sampleBoardData }) => {
 
     console.log('sideEffect', boardData.sideEffects[0]);
 
-    let effectBlocks = (boardData.sideEffects ?? []).map(bd => {
+    let effectBlocks = (boardData.sideEffects ?? []).map((bd, idx) => {
 
       try {
         const effectBlock = {};
-        effectBlock.blockId = `blkId_${bd?.boardName}_${bd?.sideEffectTitle}`;
+        effectBlock.blockId = `blkId_${bd?.boardName}_${bd?.sideEffectTitle}_${idx}`;
         effectBlock.blockType = "sideEffectBlock";
         effectBlock.sideEffectObject = bd;
         return effectBlock;
@@ -142,13 +154,25 @@ export const SectionEditor = ({ boardData = sampleBoardData }) => {
               </Card>
             )
             :
-            avlSideEffectBlocks.map((block) => (
-              <BlockInTray
-                key={block.blockId}
-                blockData={block}
-                handleOnDragStart={(e) => handleOnDragStart(e, block)}
-              />
-            ))
+            (
+              <Flex
+                direction="column"
+                align="stretch"
+                justify="flex-start"
+                gap="sm"
+                style={{ overflowY: "auto", overflowX: "hidden" }}
+              >
+                {
+                  avlSideEffectBlocks.map((block) => (
+                    <BlockInTray
+                      key={block.blockId}
+                      blockData={block}
+                      handleOnDragStart={(e) => handleOnDragStart(e, block)}
+                    />
+                  ))
+                }
+              </Flex>
+            )
         }
       </Flex>
 

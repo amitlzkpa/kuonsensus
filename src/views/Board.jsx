@@ -1120,9 +1120,7 @@ const Board_Edit = ({ boardData, setBoardData }) => {
         {/* Tab content - Draft */}
         <Tabs.Panel value="drafting">
 
-          <Flex>
-            <SectionEditor />
-          </Flex>
+          <SectionEditor />
 
         </Tabs.Panel>
 
