@@ -3,11 +3,12 @@ import {
   Card,
   Flex,
   HoverCard,
+  Pill,
   Text
 } from '@mantine/core';
 
 import sampleBoardData from "../assets/samples/c1_boardData.json";
-import { FaInfoCircle } from 'react-icons/fa';
+// import { FaInfoCircle } from 'react-icons/fa';
 
 const blockTypeColors = {
   sideEffectBlock: "blue.1",
@@ -26,7 +27,7 @@ const BlockInTray = ({ blockData, handleOnDragStart }) => {
 
   return (
     <Card
-      h="5rem"
+      h="8rem"
       bg={blockTypeColors[blockData.blockType] ?? "gray.1"}
       radius="xl"
       style={{ cursor: 'move' }}
@@ -38,13 +39,18 @@ const BlockInTray = ({ blockData, handleOnDragStart }) => {
         direction="column"
         align="center"
         justify="center"
-
+        gap="sm"
       >
         {/* Info box */}
         <HoverCard width="24rem" shadow="md">
           <HoverCard.Target>
             <div style={{ cursor: "default" }}>
-              <FaInfoCircle size="0.9rem" color="#ababab" />
+              <Pill
+                c={blockData?.sideEffectObject?.implication === "positive" ? "green.9" : "orange.7"}
+                withRemoveButton={false}
+              >
+                {blockData?.sideEffectObject?.implication}
+              </Pill>
             </div>
           </HoverCard.Target>
           <HoverCard.Dropdown style={{ height: "18rem", overflowY: "auto" }}>
