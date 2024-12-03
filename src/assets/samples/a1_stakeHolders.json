@@ -1,18 +1,18 @@
 [
   {
-    "stakeholderName": "Developers",
+    "stakeHolderName": "Developers",
     "description": "Developers are the primary source of the environmental impact and are responsible for implementing mitigation strategies. Their input is crucial for developing effective and feasible measures."
   },
   {
-    "stakeholderName": "Environmental Experts",
+    "stakeHolderName": "Environmental Experts",
     "description": "Environmental experts can provide scientific evidence and guidance on the effectiveness and feasibility of different mitigation measures. Their input is vital for making informed decisions about the project."
   },
   {
-    "stakeholderName": "Local Environmental Groups",
+    "stakeHolderName": "Local Environmental Groups",
     "description": "Local environmental groups are directly concerned about the impact of new construction on the environment and local ecosystems. Their input is important for understanding their perspectives and incorporating their concerns."
   },
   {
-    "stakeholderName": "Government Agencies",
+    "stakeHolderName": "Government Agencies",
     "description": "Government agencies such as environmental protection agencies can provide guidance regulations and funding for environmental mitigation projects. Their input is important for ensuring compliance with environmental laws and securing necessary resources for the project."
   }
 ]

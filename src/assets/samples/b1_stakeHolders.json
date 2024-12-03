@@ -1,18 +1,18 @@
 [
   {
-    "stakeholderName": "Marketing Manager",
+    "stakeHolderName": "Marketing Manager",
     "description": "The Marketing Manager will need to assess the impact of the new features on the target audience and develop a marketing plan to promote them."
   },
   {
-    "stakeholderName": "Development Team",
+    "stakeHolderName": "Development Team",
     "description": "The Development Team will need to assess the feasibility and complexity of implementing the new features."
   },
   {
-    "stakeholderName": "Sales Team",
+    "stakeHolderName": "Sales Team",
     "description": "The Sales Team will need to assess the impact of the new features on the sales process and develop training for their representatives."
   },
   {
-    "stakeholderName": "Customer Advisory Board",
+    "stakeHolderName": "Customer Advisory Board",
     "description": "A customer advisory board can provide valuable feedback on the proposed features and ensure that they meet the needs of the target market."
   }
 ]
