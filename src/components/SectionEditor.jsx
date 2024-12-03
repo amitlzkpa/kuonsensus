@@ -1,6 +1,29 @@
 import React, { useCallback, useRef, useState } from 'react';
 import { Card, Flex } from '@mantine/core';
 
+const BlockInTray = ({ blockData, handleOnDragStart }) => {
+
+  return (
+    <Card
+      h="5rem"
+      bg="gray.1"
+      radius="xl"
+      style={{ cursor: 'move' }}
+      draggable
+      onDragStart={handleOnDragStart}
+    >
+      <Flex
+        h="100%"
+        direction="column"
+        align="center"
+        justify="center"
+      >
+        {blockData?.blockType ?? ""}
+      </Flex>
+    </Card>
+  );
+};
+
 const convertBlockToSection = (blockData) => {
   switch (blockData?.blockType) {
     case "A":
@@ -30,47 +53,17 @@ export const SectionEditor = () => {
 
   return (
     <Flex w="100%" p="sm" gap="sm">
-      {/* Blocks */}
+      {/* Block Tray */}
       <Flex
         w="30%"
         direction="column"
         align="stretch"
         gap="sm"
       >
-        <Card
-          h="5rem"
-          bg="gray.1"
-          radius="xl"
-          style={{ cursor: 'move' }}
-          draggable
-          onDragStart={(e) => handleOnDragStart(e, { blockType: "A" })}
-        >
-          <Flex
-            h="100%"
-            direction="column"
-            align="center"
-            justify="center"
-          >
-            A
-          </Flex>
-        </Card>
-        <Card
-          h="5rem"
-          bg="gray.1"
-          radius="xl"
-          style={{ cursor: 'move' }}
-          draggable
-          onDragStart={(e) => handleOnDragStart(e, { blockType: "B" })}
-        >
-          <Flex
-            h="100%"
-            direction="column"
-            align="center"
-            justify="center"
-          >
-            B
-          </Flex>
-        </Card>
+        <BlockInTray
+          blockData={{ blockType: "A" }}
+          handleOnDragStart={(e) => handleOnDragStart(e, { blockType: "A" })}
+        />
       </Flex>
 
       {/* Content Sections */}
