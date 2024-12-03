@@ -46,6 +46,7 @@
     "react-router-dom": "^7.0.1",
     "recharts": "^2.13.3",
     "three": "^0.170.0",
+    "tiptap-markdown": "^0.8.10",
     "typed.js": "^2.1.0",
     "zod": "^3.23.8"
   },

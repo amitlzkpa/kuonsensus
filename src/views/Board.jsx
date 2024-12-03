@@ -1136,6 +1136,18 @@ const Board_Edit = ({ boardData, setBoardData }) => {
     writeBufferedBoardDataToStorage(updatedBoardData);
   }
 
+  const onMarkdownChange = async (newMarkdownText) => {
+
+    const currArticleObject = boardData.generatedArticles[0];
+    currArticleObject.articleText = newMarkdownText;
+
+    const updatedBoardData = { ...boardData, generatedArticles: [currArticleObject] };
+    writeBufferedBoardDataToStorage(updatedBoardData);
+
+    console.log(newMarkdownText);
+
+  };
+
   return (
     <Flex
       direction="column"
@@ -1175,7 +1187,7 @@ const Board_Edit = ({ boardData, setBoardData }) => {
             (boardData?.generatedArticles ?? []).length > 0
               ?
               (
-                <SheetViewer boardData={boardData} />
+                <SheetViewer boardData={boardData} onMarkdownChange={onMarkdownChange} />
               )
               :
               (

@@ -21,9 +21,10 @@ import Underline from '@tiptap/extension-underline';
 import TextAlign from '@tiptap/extension-text-align';
 import Superscript from '@tiptap/extension-superscript';
 import SubScript from '@tiptap/extension-subscript';
+import { Markdown } from 'tiptap-markdown';
 
 
-export const SheetViewer = ({ boardData }) => {
+export const SheetViewer = ({ boardData, onMarkdownChange }) => {
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -32,12 +33,13 @@ export const SheetViewer = ({ boardData }) => {
       Superscript,
       SubScript,
       Highlight,
+      Markdown,
       TextAlign.configure({ types: ['heading', 'paragraph'] }),
     ],
     content: boardData.generatedArticles[0].articleText,
     onUpdate: ({ editor }) => {
-      console.log(editor);
-      // onChange(editor.getHTML());
+      const currMdText = editor.storage.markdown.getMarkdown();
+      onMarkdownChange(currMdText);
     },
   });
 
