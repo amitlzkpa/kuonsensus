@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
-  ActionIcon,
   Button,
   Card,
   CloseButton,
@@ -239,16 +238,6 @@ const SectionOnSheet = ({ sectionData, onClickRemoveSection = () => { } }) => {
               align="center"
               gap="sm"
             >
-              <ActionIcon
-                variant="subtle"
-                size="xs"
-                onClick={() => { console.log(sectionData) }}
-              >
-                <FaRandom
-                  size="0.7rem"
-                  color="gray"
-                />
-              </ActionIcon>
               {
                 !onClickRemoveSection
                   ?
@@ -375,16 +364,17 @@ export const SheetEditor = ({
         w="100%"
         justify="space-between"
       >
-        <Flex
-          align="center"
-          gap="sm"
-        >
+        <Flex align="center" gap="sm">
 
         </Flex>
-        <Button
-          onClick={() => { if (onHitGo) onHitGo({ sections }) }}
-        >Go
-        </Button>
+        <Flex align="center" gap="sm">
+          <Button variant="outline" onClick={() => { setSections([]) }}>
+            Reset
+          </Button>
+          <Button onClick={() => { if (onHitGo) onHitGo({ sections }) }}>
+            Go
+          </Button>
+        </Flex>
       </Flex>
 
       <Flex w="100%" p="sm" gap="sm">
@@ -464,15 +454,40 @@ export const SheetEditor = ({
             align="stretch"
             gap="sm"
           >
-            {sections.map((section, index) => (
-              <SectionOnSheet
-                key={section.sectionId}
-                sectionData={section}
-                onClickRemoveSection={(section) => {
-                  setSections(sections.filter((s) => s.sectionId !== section.sectionId));
-                }}
-              />
-            ))}
+            {(sections ?? []).length === 0
+              ?
+              (
+                <Flex
+                  h="100%"
+                  w="100%"
+                  direction="column"
+                  align="center"
+                  justify="center"
+                >
+                  <Text
+                    size="sm"
+                    c="gray.7"
+                    fs="italic"
+                    align="center"
+                    mt="xl"
+                  >
+                    Start by dragging blocks from the tray
+                  </Text>
+                </Flex>
+              )
+              :
+              (
+                sections.map((section, index) => (
+                  <SectionOnSheet
+                    key={section.sectionId}
+                    sectionData={section}
+                    onClickRemoveSection={(section) => {
+                      setSections(sections.filter((s) => s.sectionId !== section.sectionId));
+                    }}
+                  />
+                ))
+              )
+            }
           </Flex>
         </Card>
       </Flex>
