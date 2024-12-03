@@ -4,7 +4,8 @@ import {
   Flex,
   HoverCard,
   Pill,
-  Text
+  Text,
+  Input
 } from '@mantine/core';
 
 import sampleBoardData from "../assets/samples/c1_boardData.json";
@@ -215,7 +216,12 @@ export const SectionEditor = ({ boardData = sampleBoardData }) => {
         direction="column"
         align="stretch"
         gap="sm"
+        py="sm"
       >
+        <Input
+          w="100%"
+          onChange={(e) => { console.log(e.target.value) }}
+        />
         {
           (avlSideEffectBlocks ?? []).length === 0
             ?
