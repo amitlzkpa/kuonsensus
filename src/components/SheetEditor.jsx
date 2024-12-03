@@ -121,6 +121,81 @@ export function SelectSectionModifier({
   );
 }
 
+const articleLengthOptions = [
+  { value: 'short', description: '200-400 words. Good for short blurbs.' },
+  { value: 'medium', description: '400-800 words. Mid-size giving you more room to express.' },
+  { value: 'long', description: '800-2000 words. Long form content to make a strong case.' },
+];
+
+function ArticleLengthOption({ value, description }) {
+  return (
+    <Flex
+      direction="column"
+      align="stretch"
+    >
+      <Text fz="sm" fw={500}>
+        {`${value.charAt(0).toUpperCase()}${value.slice(1)}`}
+      </Text>
+      <Text fz="xs" opacity={0.6}>
+        {description}
+      </Text>
+    </Flex>
+  );
+}
+
+export function SelectArticleLength({
+  startValue = 'medium',
+  onNewArticleLengthSelected = () => { }
+}) {
+  const combobox = useCombobox({
+    onDropdownClose: () => combobox.resetSelectedOption(),
+  });
+
+  const [value, setValue] = useState(startValue);
+  const selectedOption = articleLengthOptions.find((item) => item.value === value);
+
+  const options = articleLengthOptions.map((item) => (
+    <Combobox.Option value={item.value} key={item.value}>
+      <ArticleLengthOption {...item} />
+    </Combobox.Option>
+  ));
+
+  return (
+    <Combobox
+      w="100%"
+      store={combobox}
+      withinPortal={false}
+      onOptionSubmit={(val) => {
+        setValue(val);
+        onNewArticleLengthSelected(val);
+        combobox.closeDropdown();
+      }}
+    >
+      <Combobox.Target>
+        <InputBase
+          component="button"
+          type="button"
+          pointer
+          rightSection={<Combobox.Chevron />}
+          onClick={() => combobox.toggleDropdown()}
+          rightSectionPointerEvents="none"
+          multiline
+        >
+          {selectedOption ? (
+            `${selectedOption.value.charAt(0).toUpperCase()}${selectedOption.value.slice(1)}`
+          ) : (
+            <Input.Placeholder>Pick value</Input.Placeholder>
+          )}
+        </InputBase>
+      </Combobox.Target>
+
+      <Combobox.Dropdown>
+        <Combobox.Options>{options}</Combobox.Options>
+      </Combobox.Dropdown>
+    </Combobox>
+  );
+}
+
 const BlockInTray = ({ blockData, handleOnDragStart = null }) => {
   return (
     <Card
@@ -339,6 +414,7 @@ export const SheetEditor = ({
 
   }, [boardData]);
 
+  const [articleLength, setArticleLength] = useState("medium");
   const [sections, setSections] = useState([]);
 
   const handleOnDragStart = (e, blockData) => {
@@ -362,14 +438,18 @@ export const SheetEditor = ({
         w="100%"
         justify="space-between"
       >
-        <Flex align="center" gap="sm">
+        <Flex w="24rem" align="center" gap="sm">
+          <SelectArticleLength
+            startValue={articleLength}
+            onNewArticleLengthSelected={setArticleLength}
+          />
         </Flex>
 
         <Flex align="center" gap="sm">
           <Button variant="outline" onClick={() => { setSections([]) }}>
             Reset
           </Button>
-          <Button onClick={() => { if (onHitGo) onHitGo({ sections }) }}>
+          <Button onClick={() => { if (onHitGo) onHitGo({ articleLength, sections }) }}>
             Go
           </Button>
         </Flex>

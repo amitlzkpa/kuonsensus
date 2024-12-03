@@ -1088,8 +1088,15 @@ const Board_Edit = ({ boardData, setBoardData }) => {
 
   // DRAFT
 
+  const articleLengthPromptTextOptions = {
+    short: "Keep the word count between 200 to 400 words.",
+    medium: "Keep the word count between 400 to 800 words.",
+    long: "Keep the word count between 800 to 1200 words."
+  }
+
   const onHitGo = async (sheetData) => {
 
+    const articleLength = sheetData?.articleLength ?? "medium";
     const sectionStubLinesArray = (sheetData?.sections ?? []).map((section, idx) => {
       return [
         section.generatedText
@@ -1099,12 +1106,15 @@ const Board_Edit = ({ boardData, setBoardData }) => {
     });
 
     const issueDescription = boardData?.boardDescription;
-    const outlineText = sectionStubLinesArray.flat().join("\n")
+    const outlineText = sectionStubLinesArray.flat().join("\n");
+    const articleLengthText = articleLengthPromptTextOptions[articleLength];
 
     const articleDraftText = [
       "",
       "### Objective:",
       issueDescription,
+      "### Article Length",
+      articleLengthText,
       "",
       "### Outline:",
       outlineText,
@@ -1118,6 +1128,7 @@ const Board_Edit = ({ boardData, setBoardData }) => {
       articleTitle: boardData?.boardName,
       sectionStubLinesArray,
       articleDraftText,
+      articleLength
     };
 
     const updatedBoardData = { ...boardData, generatedArticle: articleObject };
