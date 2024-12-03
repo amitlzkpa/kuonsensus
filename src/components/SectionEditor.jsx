@@ -1,7 +1,13 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Card, Flex, Text } from '@mantine/core';
+import {
+  Card,
+  Flex,
+  HoverCard,
+  Text
+} from '@mantine/core';
 
 import sampleBoardData from "../assets/samples/c1_boardData.json";
+import { FaInfoCircle } from 'react-icons/fa';
 
 const blockTypeColors = {
   sideEffectBlock: "blue.1",
@@ -34,13 +40,43 @@ const BlockInTray = ({ blockData, handleOnDragStart }) => {
         justify="center"
 
       >
+        {/* Info box */}
+        <HoverCard width="24rem" shadow="md">
+          <HoverCard.Target>
+            <div style={{ cursor: "default" }}>
+              <FaInfoCircle size="0.9rem" color="#ababab" />
+            </div>
+          </HoverCard.Target>
+          <HoverCard.Dropdown style={{ height: "18rem", overflowY: "auto" }}>
+            <Flex
+              w="100%"
+              direction="column"
+            >
+              <Flex
+                h="100%"
+                direction="column"
+                align="stretch"
+                justify="space-between"
+              >
+                <Text size="sm">
+                  {blockData?.sideEffectObject?.stakeholderName ?? "-"}
+                </Text>
+
+                <Text size="md">
+                  {blockData?.sideEffectObject?.implicationReason}
+                </Text>
+              </Flex>
+            </Flex>
+          </HoverCard.Dropdown>
+        </HoverCard>
+
         <Text
           size="sm"
           c="gray.7"
           align="center"
           lh="0.9rem"
         >
-          {blockData?.sideEffectObject.sideEffectTitle ?? ""}
+          {blockData?.sideEffectObject?.sideEffectTitle ?? ""}
         </Text>
       </Flex>
     </Card>
