@@ -24,7 +24,6 @@ const contentStubTemplate = {
   sectionId: "",
   sourceBlockItem: {},
   generatedText: "",
-  generatedTextFinalized: false,
   commonPromptText: "Create a short stub of text as part of a document from the following text:",
   modifier: "formal",
   customPrompt: ""
@@ -44,7 +43,7 @@ const modifierOptions = [
   "empathize",
 ];
 
-export function SelectCreatable({
+export function SelectSectionModifier({
   sectionData = {}
 }) {
   const combobox = useCombobox({
@@ -221,7 +220,7 @@ const SectionOnSheet = ({ sectionData, onClickRemoveSection = () => { } }) => {
             align="center"
             gap="sm"
           >
-            <SelectCreatable
+            <SelectSectionModifier
               sectionData={sectionData}
             />
             {
@@ -238,13 +237,7 @@ const SectionOnSheet = ({ sectionData, onClickRemoveSection = () => { } }) => {
             }
           </Flex>
           <Text fz="0.7rem">
-            {sectionData?.customPrompt}
-          </Text>
-          <Text fz="0.7rem">
-            {sectionData?.commonPromptText}
-          </Text>
-          <Text fz="0.7rem">
-            {sectionData?.generatedTextFinalized.toString()}
+            {sectionData?.sourceBlockItem?.sideEffectObject?.implicationReason}
           </Text>
           <Text fz="0.7rem">
             {sectionData?.generatedText}
