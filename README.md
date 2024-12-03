@@ -112,6 +112,21 @@ Our ultimate goal is to help you gain the clarity and preparation needed to **re
 
 This is a Progressive Web App with offline support.
 
+### How to test it
+
+#### Requirements
+
+- Uses node 18.16.1
+- Works on Chrome Canary
+
+#### Steps
+
+- Make sure you have the requirements listed above
+- Clone repo
+- Run `npm i` (try `npm i --force` if you get errors)
+- Run `npm run dev`
+- Go to `http://localhost:5173` from Chrome Canary (check console if port is different)
+
 ### Stack
 
 - React
