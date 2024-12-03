@@ -48,7 +48,7 @@ Provide a brief description of the stakeholder and the reason for their inclusio
 If there are any names, teams, groups, organizations or titles mentioned as being relevant, make sure they are included individually as a stakeholder.
 Don't use any special characters or text-formatting.
 Return the response in simple English.
-Format it as a CSV with the following headers: stakeholderName,description.
+Format it as a CSV with the following headers: stakeHolderName,description.
 Don't include the header row in the response.
 Return only the csv string in the response.
 Do not use any commas within individual text values.
@@ -368,7 +368,6 @@ You can create sections.
 Format it in markdown.
 Return only the article context in the response.
 
-## Article Draft:
 {__articleDraftText__}
 
 `;
