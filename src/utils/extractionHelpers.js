@@ -357,3 +357,40 @@ export const generateTitle = async (inText, llmRef) => {
   if (DEBUG_LLM) console.log("-------generateTitle");
   return generatedTitle;
 };
+
+const promptForArticleGeneration = `
+Write an article based on the outline below.
+Return the response in simple English.
+Do not add any title.
+You can create sections.
+Format it in markdown.
+Return only the article context in the response.
+
+## Outline:
+{__outlineText__}
+`;
+
+export const generateArticle = async (inText, llmRef) => {
+  if (DEBUG_LLM) console.log("-------generateArticle");
+
+  const callLLM_generateArticle = async () => {
+    const promptText = promptForArticleGeneration.replace(
+      "{__outlineText__}",
+      inText
+    );
+    if (DEBUG_LLM) console.log(promptText);
+    let llmResponse = await llmRef?.current?.prompt(promptText);
+    if (DEBUG_LLM) console.log(llmResponse);
+    return llmResponse;
+  };
+
+  const generatedArticle = await makeCallsTillSuccess(
+    "generateArticle",
+    callLLM_generateArticle,
+    3,
+    "Unable to write at the moment. Try again in some time."
+  );
+
+  if (DEBUG_LLM) console.log("-------generateArticle");
+  return generatedArticle;
+};
