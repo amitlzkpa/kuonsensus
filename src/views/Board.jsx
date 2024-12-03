@@ -26,6 +26,7 @@ import { Canvas } from "@react-three/fiber";
 import { OrthographicCamera, Environment, SoftShadows } from '@react-three/drei';
 
 import {
+  generateArticle,
   extractStakeholders,
   extractSideEffects,
   generateDescription,
@@ -1037,6 +1038,8 @@ const Board_Init = ({ boardId, setBoardData }) => {
 
 const Board_Edit = ({ boardData, setBoardData }) => {
 
+  const llmRef = useLLMRef();
+
   const { boardId } = useParams();
 
   const storedBoards = useStoredBoards();
@@ -1085,8 +1088,29 @@ const Board_Edit = ({ boardData, setBoardData }) => {
     writeBufferedBoardDataToStorage(updatedBoardData);
   }
 
+  // DRAFT
+
   const onHitGo = async (sheetData) => {
-    console.log(sheetData);
+
+    const sectionStubLinesArray = (sheetData?.sections ?? []).map((section, idx) => {
+      // return ["", section.generalPromptText, `Use a ${section.tone} tone for it`, ""];
+      console.log(section);
+      return [
+        "",
+        section.generalPromptText,
+        `Use a ${section.tone} tone for it`,
+        `## Stub:\n${section?.sourceBlockItem?.sideEffectObject?.implicationReason}`,
+        ""
+      ];
+    });
+
+    const outlineText = sectionStubLinesArray.flat().join("\n")
+
+    console.log(outlineText);
+
+    const rewrittenArticle = await generateArticle(outlineText, llmRef);
+
+    console.log(rewrittenArticle);
   }
 
   return (
