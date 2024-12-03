@@ -65,7 +65,7 @@ const sampleBlocks = [
 
 export const SectionEditor = () => {
 
-  const [availableBlocks, setAvailableBlocks] = useState(sampleBlocks);
+  const [availableBlocks, setAvailableBlocks] = useState([]);
   const [sections, setSections] = useState([]);
 
   const handleOnDragStart = (e, blockData) => {
@@ -91,14 +91,20 @@ export const SectionEditor = () => {
           (availableBlocks ?? []).length === 0
             ?
             (
-              <Card bg="gray.1" radius="xl" h="5rem">
+              <Card bg="gray.1" radius="xl" h="9rem">
                 <Flex
                   h="100%"
                   w="100%"
+                  direction="column"
                   align="center"
                   justify="center"
                 >
-                  <Text size="md" c="gray.7" fs="italic">
+                  <Text
+                    size="sm"
+                    c="gray.7"
+                    fs="italic"
+                    align="center"
+                  >
                     No Blocks Available
                   </Text>
                 </Flex>
