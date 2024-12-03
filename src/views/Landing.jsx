@@ -8,9 +8,64 @@ import { BiLayer } from 'react-icons/bi';
 import { PiEqualizerBold } from "react-icons/pi";
 
 import Typed from "typed.js";
+
+import { useSummarizerRef, useWriterRef, useRewriterRef } from "../hooks/llmRef";
 // import { SectionEditor } from '../components/SectionEditor';
 
 const Landing = () => {
+
+  const summarizerRef = useSummarizerRef();
+  const writerRef = useWriterRef();
+  const rewriterRef = useRewriterRef();
+
+  const handleButtonClick = async () => {
+    console.log('foo');
+    console.log(summarizerRef.current);
+    console.log(writerRef.current);
+    console.log(rewriterRef.current);
+
+    try {
+      const summarizerResponse = await summarizerRef.current?.summarize(
+        `
+      A month after dropping out of a Stanford University PhD programme in the spring of last year, Demi Guo and her friend Chenlin Meng had raised $5mn for their start-up.
+      The app they created, Pika Art, uses AI to produce wild video effects
+      `,
+        {
+          context: "This article was written 2024-08-07 and it's in the World Markets section."
+        }
+      );
+      console.log("summarizer", summarizerResponse);
+
+    } catch (error) {
+      console.log(error);
+    }
+
+    try {
+      const writerResponse = await writerRef?.current.write(
+        "A draft for an inquiry to my bank about how to enable wire transfers on my account"
+      );
+      console.log("writer", writerResponse);
+
+    } catch (error) {
+      console.log(error);
+    }
+
+    try {
+      const rewriterResponse = await rewriterRef?.current.rewrite(
+        "I’m running around like a headless chook organising this bloody barbie, and Johnno’s just sitting there like a bludger!",
+        {
+          context: "Avoid any toxic language and be as constructive as possible."
+        }
+      );
+      console.log("rewriter", rewriterResponse);
+
+    } catch (error) {
+      console.log(error);
+    }
+
+  };
+
+
 
   const adverbsSpanRef = useRef();
 
@@ -41,6 +96,9 @@ const Landing = () => {
         w="100%"
         align="center"
       >
+        <Button onClick={handleButtonClick}>
+          Test
+        </Button>
 
         {/* Header Section */}
         <Stack mih="70vh" maw="40rem" pb="6rem" spacing="md" align="center" justify="center">
