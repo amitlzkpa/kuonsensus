@@ -13,7 +13,6 @@ import {
   useCombobox
 } from '@mantine/core';
 
-import { FaRandom } from 'react-icons/fa';
 // import { FaInfoCircle } from 'react-icons/fa';
 
 import { PromptReady_TextArea } from "../components/PromptReady_TextArea";
@@ -349,7 +348,6 @@ export const SheetEditor = ({
   const handleOnDropEnd = (e) => {
     const blockData = JSON.parse(e.dataTransfer.getData("kuonBlockData"));
     const sectionInitDataFromBlock = convertBlockToSection(blockData);
-    console.log(sectionInitDataFromBlock);
     setSections([...sections, sectionInitDataFromBlock]);
   };
 
@@ -365,8 +363,8 @@ export const SheetEditor = ({
         justify="space-between"
       >
         <Flex align="center" gap="sm">
-
         </Flex>
+
         <Flex align="center" gap="sm">
           <Button variant="outline" onClick={() => { setSections([]) }}>
             Reset

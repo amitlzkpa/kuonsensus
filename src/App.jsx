@@ -40,6 +40,7 @@ const boardTemplate = {
   storedConversations: [],
   hasBeenInitialized: false,
   creationDate: "",
+  generatedArticle: {},
 };
 
 export function App() {

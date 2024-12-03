@@ -1099,7 +1099,6 @@ const Board_Edit = ({ boardData, setBoardData }) => {
     });
 
     const issueDescription = boardData?.boardDescription;
-
     const outlineText = sectionStubLinesArray.flat().join("\n")
 
     const articleDraftText = [
@@ -1113,6 +1112,16 @@ const Board_Edit = ({ boardData, setBoardData }) => {
     ].join("\n");
 
     const rewrittenArticle = await generateArticle(articleDraftText, llmRef);
+
+    const articleObject = {
+      articleText: rewrittenArticle,
+      articleTitle: boardData?.boardName,
+      sectionStubLinesArray,
+      articleDraftText,
+    };
+
+    const updatedBoardData = { ...boardData, generatedArticle: articleObject };
+    writeBufferedBoardDataToStorage(updatedBoardData);
   }
 
   return (
@@ -1150,7 +1159,7 @@ const Board_Edit = ({ boardData, setBoardData }) => {
         {/* Tab content - Draft */}
         <Tabs.Panel value="drafting">
 
-          <SheetEditor onHitGo={onHitGo} />
+          <SheetEditor boardData={boardData} onHitGo={onHitGo} />
 
         </Tabs.Panel>
 
