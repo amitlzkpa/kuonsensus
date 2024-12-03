@@ -1,4 +1,5 @@
 import '@mantine/core/styles.css';
+import '@mantine/tiptap/styles.css';
 import './index.css';
 import React, { useEffect, useState } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
