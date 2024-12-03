@@ -1123,7 +1123,7 @@ const Board_Edit = ({ boardData, setBoardData }) => {
 
     const rewrittenArticle = await generateArticle(articleDraftText, llmRef);
 
-    const articleObject = {
+    const newArticleObject = {
       articleText: rewrittenArticle,
       articleTitle: boardData?.boardName,
       sectionStubLinesArray,
@@ -1131,7 +1131,7 @@ const Board_Edit = ({ boardData, setBoardData }) => {
       articleLength
     };
 
-    const updatedBoardData = { ...boardData, generatedArticle: articleObject };
+    const updatedBoardData = { ...boardData, generatedArticles: [...boardData.generateArticles, newArticleObject] };
     writeBufferedBoardDataToStorage(updatedBoardData);
   }
 
