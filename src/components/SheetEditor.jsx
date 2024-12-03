@@ -43,7 +43,6 @@ const modifierOptions = [
   "oppose",
   "enhance",
   "downplay",
-  "negate",
   "empathize",
 ];
 
@@ -199,8 +198,8 @@ const SectionOnSheet = ({ sectionData, onClickRemoveSection = () => { } }) => {
 
   return (
     <Card
-      mih="12rem"
-      mah="18rem"
+      mih="15rem"
+      mah="20rem"
       bg="gray.1"
       radius="xl"
     >
@@ -376,7 +375,12 @@ export const SheetEditor = ({
         w="100%"
         justify="space-between"
       >
-        <div></div>
+        <Flex
+          align="center"
+          gap="sm"
+        >
+
+        </Flex>
         <Button
           onClick={() => { if (onHitGo) onHitGo({ sections }) }}
         >Go
@@ -455,6 +459,7 @@ export const SheetEditor = ({
         >
           <Flex
             w="100%"
+            pb="10rem"
             direction="column"
             align="stretch"
             gap="sm"
