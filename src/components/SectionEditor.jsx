@@ -1,5 +1,5 @@
 import React, { useCallback, useRef, useState } from 'react';
-import { Card, Flex } from '@mantine/core';
+import { Card, Flex, Text } from '@mantine/core';
 
 const BlockInTray = ({ blockData, handleOnDragStart }) => {
 
@@ -57,8 +57,15 @@ const convertBlockToSection = (blockData) => {
   }
 };
 
+const sampleBlocks = [
+  { blockId: "a", blockType: "A" },
+  { blockId: "b", blockType: "B" },
+  { blockId: "c", blockType: "C" },
+];
+
 export const SectionEditor = () => {
 
+  const [availableBlocks, setAvailableBlocks] = useState(sampleBlocks);
   const [sections, setSections] = useState([]);
 
   const handleOnDragStart = (e, blockData) => {
@@ -80,14 +87,32 @@ export const SectionEditor = () => {
         align="stretch"
         gap="sm"
       >
-        <BlockInTray
-          blockData={{ blockType: "A" }}
-          handleOnDragStart={(e) => handleOnDragStart(e, { blockType: "A" })}
-        />
-        <BlockInTray
-          blockData={{ blockType: "B" }}
-          handleOnDragStart={(e) => handleOnDragStart(e, { blockType: "B" })}
-        />
+        {
+          (availableBlocks ?? []).length === 0
+            ?
+            (
+              <Card bg="gray.1" radius="xl" h="5rem">
+                <Flex
+                  h="100%"
+                  w="100%"
+                  align="center"
+                  justify="center"
+                >
+                  <Text size="md" c="gray.7" fs="italic">
+                    No Blocks Available
+                  </Text>
+                </Flex>
+              </Card>
+            )
+            :
+            availableBlocks.map((block) => (
+              <BlockInTray
+                key={block.blockId}
+                blockData={block}
+                handleOnDragStart={(e) => handleOnDragStart(e, block)}
+              />
+            ))
+        }
       </Flex>
 
       {/* Content Sections */}
