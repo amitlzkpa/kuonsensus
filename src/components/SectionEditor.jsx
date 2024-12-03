@@ -16,12 +16,19 @@ const blockTypeColors = {
 };
 
 const contentStubTemplate = {
+  sectionId: "",
   sourceBlockItem: {},
   generatedText: "",
   generatedTextFinalized: false,
   generalPromptText: "Create a short stub of text as part of a document out of following text:",
   tone: "formal",
   customPrompt: ""
+};
+
+const blockItemTemplate = {
+  blockId: "",
+  blockType: "",
+  sideEffectObject: {}
 };
 
 const BlockInTray = ({ blockData, handleOnDragStart = null }) => {
@@ -143,8 +150,8 @@ const SectionOnSheet = ({ sectionData }) => {
 };
 
 const convertBlockToSection = (blockData) => {
-  console.log(blockData);
   const sectionData = { ...contentStubTemplate };
+  sectionData.sectionId = `scnId_${blockData.blockId}_${Math.floor(Math.random() * 100000)}`;
   sectionData.sourceBlockItem = blockData;
   switch (blockData?.blockType) {
     case "A":
@@ -174,7 +181,7 @@ export const SectionEditor = ({ boardData = sampleBoardData }) => {
     let effectBlocks = (boardData.sideEffects ?? []).map((bd, idx) => {
 
       try {
-        const effectBlock = {};
+        const effectBlock = { ...blockItemTemplate };
         effectBlock.blockId = `blkId_${bd?.boardName}_${bd?.sideEffectTitle}_${idx}`;
         effectBlock.blockType = "sideEffectBlock";
         effectBlock.sideEffectObject = bd;
@@ -287,7 +294,7 @@ export const SectionEditor = ({ boardData = sampleBoardData }) => {
         >
           {sections.map((section, index) => (
             <SectionOnSheet
-              key={index}
+              key={section.sectionId}
               sectionData={section}
             />
           ))}
