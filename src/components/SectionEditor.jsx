@@ -24,6 +24,26 @@ const BlockInTray = ({ blockData, handleOnDragStart }) => {
   );
 };
 
+const SectionOnSheet = ({ sectionData }) => {
+  return (
+    <Card
+      mih="5rem"
+      mah="15rem"
+      bg="gray.1"
+      radius="xl"
+    >
+      <Flex
+        h="100%"
+        direction="column"
+        align="center"
+        justify="center"
+      >
+        {sectionData.srcPrompt}
+      </Flex>
+    </Card>
+  )
+};
+
 const convertBlockToSection = (blockData) => {
   switch (blockData?.blockType) {
     case "A":
@@ -64,6 +84,10 @@ export const SectionEditor = () => {
           blockData={{ blockType: "A" }}
           handleOnDragStart={(e) => handleOnDragStart(e, { blockType: "A" })}
         />
+        <BlockInTray
+          blockData={{ blockType: "B" }}
+          handleOnDragStart={(e) => handleOnDragStart(e, { blockType: "B" })}
+        />
       </Flex>
 
       {/* Content Sections */}
@@ -84,21 +108,10 @@ export const SectionEditor = () => {
           gap="sm"
         >
           {sections.map((section, index) => (
-            <Card
+            <SectionOnSheet
               key={index}
-              h="5rem"
-              bg="gray.1"
-              radius="xl"
-            >
-              <Flex
-                h="100%"
-                direction="column"
-                align="center"
-                justify="center"
-              >
-                {section.srcPrompt}
-              </Flex>
-            </Card>
+              sectionData={section}
+            />
           ))}
         </Flex>
       </Card>
