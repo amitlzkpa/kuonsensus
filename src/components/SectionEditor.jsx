@@ -1,5 +1,7 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Card, Flex, Text } from '@mantine/core';
+
+import sampleBoardData from "../assets/samples/c1_boardData.json";
 
 const BlockInTray = ({ blockData, handleOnDragStart }) => {
 
@@ -63,9 +65,38 @@ const sampleBlocks = [
   { blockId: "c", blockType: "C" },
 ];
 
-export const SectionEditor = () => {
+export const SectionEditor = ({ boardData = sampleBoardData }) => {
 
-  const [availableBlocks, setAvailableBlocks] = useState([]);
+  const [avlSideEffectBlocks, setAvlSideEffectBlocks] = useState([]);
+
+  useEffect(() => {
+
+    console.log('sideEffect', boardData.sideEffects[0]);
+
+    let effectBlocks = (boardData.sideEffects ?? []).map(bd => {
+
+      try {
+        const effectBlock = {};
+        effectBlock.blockId = `blkId_${bd?.boardName}_${bd?.sideEffectTitle}`;
+        effectBlock.blockType = "sideEffectBlock";
+        effectBlock.sideEffectObject = bd;
+        return effectBlock;
+      } catch (error) {
+        console.log('error', error.message);
+        return {};
+      }
+    });
+
+    effectBlocks = effectBlocks.filter(bd => bd !== bd?.boardId);
+
+    setAvlSideEffectBlocks(effectBlocks);
+
+    console.log('effectBlock', effectBlocks[0]);
+    console.log(effectBlocks.length);
+
+  }, [boardData]);
+
+
   const [sections, setSections] = useState([]);
 
   const handleOnDragStart = (e, blockData) => {
@@ -88,7 +119,7 @@ export const SectionEditor = () => {
         gap="sm"
       >
         {
-          (availableBlocks ?? []).length === 0
+          (avlSideEffectBlocks ?? []).length === 0
             ?
             (
               <Card bg="gray.1" radius="xl" h="9rem">
@@ -111,7 +142,7 @@ export const SectionEditor = () => {
               </Card>
             )
             :
-            availableBlocks.map((block) => (
+            avlSideEffectBlocks.map((block) => (
               <BlockInTray
                 key={block.blockId}
                 blockData={block}
