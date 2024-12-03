@@ -1144,8 +1144,6 @@ const Board_Edit = ({ boardData, setBoardData }) => {
     const updatedBoardData = { ...boardData, generatedArticles: [currArticleObject] };
     writeBufferedBoardDataToStorage(updatedBoardData);
 
-    console.log(newMarkdownText);
-
   };
 
   return (
@@ -1176,7 +1174,7 @@ const Board_Edit = ({ boardData, setBoardData }) => {
             Draft
           </Tabs.Tab>
           <Tabs.Tab value="discussing">
-            Discuss
+            Discover
           </Tabs.Tab>
         </Tabs.List>
 
