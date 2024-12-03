@@ -8,7 +8,6 @@ import { BiLayer } from 'react-icons/bi';
 import { PiEqualizerBold } from "react-icons/pi";
 
 import Typed from "typed.js";
-// import { SectionEditor } from '../components/SectionEditor';
 
 const Landing = () => {
 
@@ -30,12 +29,6 @@ const Landing = () => {
 
   return (
     <Container size="lg" style={{ textAlign: 'center', padding: '2rem' }}>
-      {/* 
-      <Stack mih="60vh" align="center">
-        <SectionEditor />
-      </Stack>
-      */}
-
       <Flex
         direction="column"
         w="100%"
