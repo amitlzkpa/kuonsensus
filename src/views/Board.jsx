@@ -35,6 +35,7 @@ import * as kuonKeys from "../config/kuonKeys";
 import * as localStorage from "../utils/localStorageHelpers";
 import { useLLMRef } from "../hooks/llmRef";
 import { useStoredBoards, triggerStorageUpdate } from '../hooks/localStorage';
+import { SectionEditor } from '../components/SectionEditor';
 import { PromptReady_TextArea } from "../components/PromptReady_TextArea";
 import { PromptReady_TextInput } from "../components/PromptReady_TextInput";
 import { Kuon3D_StakeHolder } from "../components/Kuon3D_StakeHolder";
@@ -1118,7 +1119,11 @@ const Board_Edit = ({ boardData, setBoardData }) => {
 
         {/* Tab content - Draft */}
         <Tabs.Panel value="drafting">
-          Draft tab content
+
+          <Flex>
+            <SectionEditor />
+          </Flex>
+
         </Tabs.Panel>
 
         {/* Tab content - Discuss */}
