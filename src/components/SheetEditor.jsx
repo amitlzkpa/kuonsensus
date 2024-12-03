@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
   Card,
+  CloseButton,
   Flex,
   HoverCard,
   Pill,
@@ -97,7 +98,7 @@ const BlockInTray = ({ blockData, handleOnDragStart = null }) => {
   );
 };
 
-const SectionOnSheet = ({ sectionData }) => {
+const SectionOnSheet = ({ sectionData, onClickRemoveSection = () => { } }) => {
   return (
     <Card
       mih="12rem"
@@ -124,12 +125,30 @@ const SectionOnSheet = ({ sectionData }) => {
         <Flex
           w="70%"
           direction="column"
-          justify="center"
+          justify="flex-start"
           align="stretch"
         >
-          <Text fz="0.7rem">
-            {sectionData?.modifier}
-          </Text>
+          <Flex
+            justify="space-between"
+            align="center"
+            gap="sm"
+          >
+            <Text fz="0.7rem">
+              {sectionData?.modifier}
+            </Text>
+            {
+              !onClickRemoveSection
+                ?
+                <></>
+                :
+                (
+                  <CloseButton
+                    variant="subtle"
+                    onClick={() => { onClickRemoveSection(sectionData) }}
+                  />
+                )
+            }
+          </Flex>
           <Text fz="0.7rem">
             {sectionData?.customPrompt}
           </Text>
@@ -314,6 +333,9 @@ export const SheetEditor = ({
               <SectionOnSheet
                 key={section.sectionId}
                 sectionData={section}
+                onClickRemoveSection={(section) => {
+                  setSections(sections.filter((s) => s.sectionId !== section.sectionId));
+                }}
               />
             ))}
           </Flex>
