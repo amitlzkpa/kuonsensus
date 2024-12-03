@@ -21,7 +21,7 @@ const contentStubTemplate = {
   sourceBlockItem: {},
   generatedText: "",
   generatedTextFinalized: false,
-  generalPromptText: "Create a short stub of text as part of a document out of following text:",
+  commonPromptText: "Create a short stub of text as part of a document from the following text:",
   tone: "formal",
   customPrompt: ""
 };
@@ -134,7 +134,7 @@ const SectionOnSheet = ({ sectionData }) => {
             {sectionData?.customPrompt}
           </Text>
           <Text fz="0.7rem">
-            {sectionData?.generalPromptText}
+            {sectionData?.commonPromptText}
           </Text>
           <Text fz="0.7rem">
             {sectionData?.generatedTextFinalized.toString()}
@@ -154,16 +154,16 @@ const convertBlockToSection = (blockData) => {
   sectionData.sourceBlockItem = blockData;
   switch (blockData?.blockType) {
     case "sideEffectBlock":
-      // sectionData.generalPromptText = generalPromptText;
+      // sectionData.commonPromptText = commonPromptText;
       break;
     case "stakeHolderBlock":
-      // sectionData.generalPromptText = generalPromptText;
+      // sectionData.commonPromptText = commonPromptText;
       break;
     case "structureBlock":
-      // sectionData.generalPromptText = generalPromptText;
+      // sectionData.commonPromptText = commonPromptText;
       break;
     default:
-      // sectionData.generalPromptText = generalPromptText;
+      // sectionData.commonPromptText = commonPromptText;
       break;
   }
   return sectionData;

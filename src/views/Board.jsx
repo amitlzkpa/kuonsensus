@@ -1093,11 +1093,11 @@ const Board_Edit = ({ boardData, setBoardData }) => {
   const onHitGo = async (sheetData) => {
 
     const sectionStubLinesArray = (sheetData?.sections ?? []).map((section, idx) => {
-      // return ["", section.generalPromptText, `Use a ${section.tone} tone for it`, ""];
+      // return ["", section.commonPromptText, `Use a ${section.tone} tone for it`, ""];
       console.log(section);
       return [
         "",
-        section.generalPromptText,
+        section.commonPromptText,
         `Use a ${section.tone} tone for it`,
         `## Stub:\n${section?.sourceBlockItem?.sideEffectObject?.implicationReason}`,
         ""
