@@ -52,7 +52,7 @@ const SectionOnSheet = ({ sectionData }) => {
   console.log(sectionData);
   return (
     <Card
-      mih="5rem"
+      mih="12rem"
       mah="15rem"
       bg="gray.1"
       radius="xl"
