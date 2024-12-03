@@ -312,8 +312,6 @@ const Board_Init = ({ boardId, setBoardData }) => {
         });
       }
 
-      console.log(creationBuffer);
-
       setBufferBoardDataInit(creationBuffer);
     } catch (error) {
       console.error(error?.message);
@@ -1093,24 +1091,28 @@ const Board_Edit = ({ boardData, setBoardData }) => {
   const onHitGo = async (sheetData) => {
 
     const sectionStubLinesArray = (sheetData?.sections ?? []).map((section, idx) => {
-      // return ["", section.commonPromptText, `Use a ${section.modifier} modifier for it`, ""];
-      console.log(section);
       return [
-        "",
-        section.commonPromptText,
-        `Update it in a way that the meaning of the content becomes more ${section.modifier}`,
-        `## Stub:\n${section?.sourceBlockItem?.sideEffectObject?.implicationReason}`,
-        ""
+        section.generatedText
+        ??
+        `${section?.sourceBlockItem?.sideEffectObject?.sideEffectTitle} is ${section?.sourceBlockItem?.sideEffectObject?.implication === "negative" ? "bad" : "good"} for ${section?.sourceBlockItem?.sideEffectObject?.stakeholderName} because ${section?.sourceBlockItem?.sideEffectObject?.implicationReason}`,
       ];
     });
 
+    const issueDescription = boardData?.boardDescription;
+
     const outlineText = sectionStubLinesArray.flat().join("\n")
 
-    console.log(outlineText);
+    const articleDraftText = [
+      "",
+      "### Objective:",
+      issueDescription,
+      "",
+      "### Outline:",
+      outlineText,
+      ""
+    ].join("\n");
 
-    const rewrittenArticle = await generateArticle(outlineText, llmRef);
-
-    console.log(rewrittenArticle);
+    const rewrittenArticle = await generateArticle(articleDraftText, llmRef);
   }
 
   return (

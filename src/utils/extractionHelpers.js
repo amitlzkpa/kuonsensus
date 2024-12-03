@@ -360,14 +360,17 @@ export const generateTitle = async (inText, llmRef) => {
 
 const promptForArticleGeneration = `
 Write an article based on the outline below.
+The article is being written in an effort to achive the objective as described below.
+Write it in first person.
 Return the response in simple English.
 Do not add any title.
 You can create sections.
 Format it in markdown.
 Return only the article context in the response.
 
-## Outline:
-{__outlineText__}
+## Article Draft:
+{__articleDraftText__}
+
 `;
 
 export const generateArticle = async (inText, llmRef) => {
@@ -375,7 +378,7 @@ export const generateArticle = async (inText, llmRef) => {
 
   const callLLM_generateArticle = async () => {
     const promptText = promptForArticleGeneration.replace(
-      "{__outlineText__}",
+      "{__articleDraftText__}",
       inText
     );
     if (DEBUG_LLM) console.log(promptText);
