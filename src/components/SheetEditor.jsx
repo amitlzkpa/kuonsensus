@@ -98,8 +98,6 @@ const BlockInTray = ({ blockData, handleOnDragStart = null }) => {
 };
 
 const SectionOnSheet = ({ sectionData }) => {
-  console.log('-------------');
-  console.log(sectionData);
   return (
     <Card
       mih="12rem"
@@ -155,13 +153,13 @@ const convertBlockToSection = (blockData) => {
   sectionData.sectionId = `scnId_${blockData.blockId}_${Math.floor(Math.random() * 100000)}`;
   sectionData.sourceBlockItem = blockData;
   switch (blockData?.blockType) {
-    case "A":
+    case "sideEffectBlock":
       // sectionData.generalPromptText = generalPromptText;
       break;
-    case "B":
+    case "stakeHolderBlock":
       // sectionData.generalPromptText = generalPromptText;
       break;
-    case "C":
+    case "structureBlock":
       // sectionData.generalPromptText = generalPromptText;
       break;
     default:
@@ -231,7 +229,7 @@ export const SheetEditor = ({
       >
         <div></div>
         <Button
-          onClick={() => { if (onHitGo) onHitGo(sections) }}
+          onClick={() => { if (onHitGo) onHitGo({ sections }) }}
         >Go
         </Button>
       </Flex>
