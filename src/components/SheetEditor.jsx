@@ -171,7 +171,10 @@ const convertBlockToSection = (blockData) => {
   return sectionData;
 };
 
-export const SectionEditor = ({ boardData = sampleBoardData }) => {
+export const SheetEditor = ({
+  boardData = sampleBoardData,
+  onHitGo = null
+}) => {
 
   const [avlSideEffectBlocks, setAvlSideEffectBlocks] = useState([]);
 
@@ -202,7 +205,6 @@ export const SectionEditor = ({ boardData = sampleBoardData }) => {
 
   }, [boardData]);
 
-
   const [sections, setSections] = useState([]);
 
   const handleOnDragStart = (e, blockData) => {
@@ -228,7 +230,10 @@ export const SectionEditor = ({ boardData = sampleBoardData }) => {
         justify="space-between"
       >
         <div></div>
-        <Button>Go</Button>
+        <Button
+          onClick={() => { if (onHitGo) onHitGo(sections) }}
+        >Go
+        </Button>
       </Flex>
 
       <Flex w="100%" p="sm" gap="sm">
@@ -320,4 +325,4 @@ export const SectionEditor = ({ boardData = sampleBoardData }) => {
   );
 }
 
-export default SectionEditor;
+export default SheetEditor;

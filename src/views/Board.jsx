@@ -35,7 +35,7 @@ import * as kuonKeys from "../config/kuonKeys";
 import * as localStorage from "../utils/localStorageHelpers";
 import { useLLMRef } from "../hooks/llmRef";
 import { useStoredBoards, triggerStorageUpdate } from '../hooks/localStorage';
-import { SectionEditor } from '../components/SectionEditor';
+import { SheetEditor } from '../components/SheetEditor';
 import { PromptReady_TextArea } from "../components/PromptReady_TextArea";
 import { PromptReady_TextInput } from "../components/PromptReady_TextInput";
 import { Kuon3D_StakeHolder } from "../components/Kuon3D_StakeHolder";
@@ -1085,6 +1085,10 @@ const Board_Edit = ({ boardData, setBoardData }) => {
     writeBufferedBoardDataToStorage(updatedBoardData);
   }
 
+  const onHitGo = async (sheetData) => {
+    console.log(sheetData);
+  }
+
   return (
     <Flex
       direction="column"
@@ -1120,7 +1124,7 @@ const Board_Edit = ({ boardData, setBoardData }) => {
         {/* Tab content - Draft */}
         <Tabs.Panel value="drafting">
 
-          <SectionEditor />
+          <SheetEditor onHitGo={onHitGo} />
 
         </Tabs.Panel>
 
