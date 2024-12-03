@@ -1,5 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
+  ActionIcon,
+  Button,
   Card,
   CloseButton,
   Flex,
@@ -7,13 +9,13 @@ import {
   Pill,
   Text,
   Input,
-  Button,
   Combobox,
   InputBase,
   useCombobox
 } from '@mantine/core';
 
 import sampleBoardData from "../assets/samples/c1_boardData.json";
+import { FaRandom } from 'react-icons/fa';
 // import { FaInfoCircle } from 'react-icons/fa';
 
 const blockTypeColors = {
@@ -25,8 +27,7 @@ const contentStubTemplate = {
   sourceBlockItem: {},
   generatedText: "",
   commonPromptText: "Create a short stub of text as part of a document from the following text:",
-  modifier: "formal",
-  customPrompt: ""
+  modifier: "",
 };
 
 const blockItemTemplate = {
@@ -223,18 +224,35 @@ const SectionOnSheet = ({ sectionData, onClickRemoveSection = () => { } }) => {
             <SelectSectionModifier
               sectionData={sectionData}
             />
-            {
-              !onClickRemoveSection
-                ?
-                <></>
-                :
-                (
-                  <CloseButton
-                    variant="subtle"
-                    onClick={() => { onClickRemoveSection(sectionData) }}
-                  />
-                )
-            }
+            <Flex
+              direction="row"
+              justify="flex-end"
+              align="center"
+              gap="sm"
+            >
+              <ActionIcon
+                variant="subtle"
+                size="xs"
+                onClick={() => { console.log(sectionData) }}
+              >
+                <FaRandom
+                  size="0.7rem"
+                  color="gray"
+                />
+              </ActionIcon>
+              {
+                !onClickRemoveSection
+                  ?
+                  <></>
+                  :
+                  (
+                    <CloseButton
+                      variant="subtle"
+                      onClick={() => { onClickRemoveSection(sectionData) }}
+                    />
+                  )
+              }
+            </Flex>
           </Flex>
           <Text fz="0.7rem">
             {sectionData?.sourceBlockItem?.sideEffectObject?.implicationReason}
