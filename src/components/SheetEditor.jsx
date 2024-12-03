@@ -7,7 +7,10 @@ import {
   Pill,
   Text,
   Input,
-  Button
+  Button,
+  Combobox,
+  InputBase,
+  useCombobox
 } from '@mantine/core';
 
 import sampleBoardData from "../assets/samples/c1_boardData.json";
@@ -32,6 +35,91 @@ const blockItemTemplate = {
   blockType: "",
   sideEffectObject: {}
 };
+
+const modifierOptions = [
+  "oppose",
+  "enhance",
+  "downplay",
+  "negate",
+  "empathize",
+];
+
+export function SelectCreatable({
+  sectionData = {}
+}) {
+  const combobox = useCombobox({
+    onDropdownClose: () => combobox.resetSelectedOption(),
+  });
+
+  const [data, setData] = useState(modifierOptions);
+  const [value, setValue] = useState(sectionData?.modifier ?? '');
+  const [search, setSearch] = useState('');
+
+  useEffect(() => {
+    sectionData.modifier = value;
+  }, [value, sectionData]);
+
+  const exactOptionMatch = data.some((item) => item === search);
+  const filteredOptions = exactOptionMatch
+    ? data
+    : data.filter((item) => item.toLowerCase().includes(search.toLowerCase().trim()));
+
+  const options = filteredOptions.map((item) => (
+    <Combobox.Option fz="0.7rem" value={item} key={item}>
+      {item.toUpperCase()}
+    </Combobox.Option>
+  ));
+
+  return (
+    <Combobox
+      store={combobox}
+      withinPortal={false}
+      onOptionSubmit={(val) => {
+        if (val === '$create') {
+          setData((current) => [...current, search]);
+          setValue(search);
+        } else {
+          setValue(val);
+          setSearch(val);
+        }
+
+        combobox.closeDropdown();
+      }}
+    >
+      <Combobox.Target>
+        <InputBase
+          variant="unstyled"
+          size="0.9rem"
+          fz="0.7rem"
+          rightSection={<Combobox.Chevron />}
+          value={value}
+          onChange={(event) => {
+            combobox.openDropdown();
+            combobox.updateSelectedOptionIndex();
+            setSearch(event.currentTarget.value);
+          }}
+          onClick={() => combobox.openDropdown()}
+          onFocus={() => combobox.openDropdown()}
+          onBlur={() => {
+            combobox.closeDropdown();
+            setSearch(value || '');
+          }}
+          placeholder="Pick a modifier"
+          rightSectionPointerEvents="none"
+        />
+      </Combobox.Target>
+
+      <Combobox.Dropdown>
+        <Combobox.Options mah={200} style={{ overflowY: 'auto' }}>
+          {!exactOptionMatch && search.trim().length > 0 && (
+            <Combobox.Option value="$create">+ Create {search}</Combobox.Option>
+          )}
+          {options}
+        </Combobox.Options>
+      </Combobox.Dropdown>
+    </Combobox>
+  );
+}
 
 const BlockInTray = ({ blockData, handleOnDragStart = null }) => {
   return (
@@ -133,9 +221,9 @@ const SectionOnSheet = ({ sectionData, onClickRemoveSection = () => { } }) => {
             align="center"
             gap="sm"
           >
-            <Text fz="0.7rem">
-              {sectionData?.modifier}
-            </Text>
+            <SelectCreatable
+              sectionData={sectionData}
+            />
             {
               !onClickRemoveSection
                 ?
