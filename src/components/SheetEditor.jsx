@@ -14,9 +14,12 @@ import {
   useCombobox
 } from '@mantine/core';
 
-import sampleBoardData from "../assets/samples/c1_boardData.json";
 import { FaRandom } from 'react-icons/fa';
 // import { FaInfoCircle } from 'react-icons/fa';
+
+import { PromptReady_TextArea } from "../components/PromptReady_TextArea";
+
+import sampleBoardData from "../assets/samples/c1_boardData.json";
 
 const blockTypeColors = {
   sideEffectBlock: "blue.1",
@@ -187,6 +190,13 @@ const BlockInTray = ({ blockData, handleOnDragStart = null }) => {
 };
 
 const SectionOnSheet = ({ sectionData, onClickRemoveSection = () => { } }) => {
+
+  const [generatedTextBuffer, setGeneratedTextBuffer] = useState(sectionData?.generatedText);
+
+  useEffect(() => {
+    sectionData.generatedText = generatedTextBuffer;
+  }, [generatedTextBuffer, sectionData]);
+
   return (
     <Card
       mih="12rem"
@@ -257,9 +267,30 @@ const SectionOnSheet = ({ sectionData, onClickRemoveSection = () => { } }) => {
           <Text fz="0.7rem">
             {sectionData?.sourceBlockItem?.sideEffectObject?.implicationReason}
           </Text>
-          <Text fz="0.7rem">
-            {sectionData?.generatedText}
-          </Text>
+          <Flex
+            direction="column"
+            w="100%"
+            h="100%"
+            p="sm"
+            align="stretch"
+          >
+            <PromptReady_TextArea
+              height="100%"
+              enableAiGeneration={true}
+              promptBase={`Rewrite following text${sectionData.modifier ? ` and modify it to ${sectionData.modifier} it` : ""}:\n${sectionData?.sourceBlockItem?.sideEffectObject?.sideEffectTitle} is ${sectionData?.sourceBlockItem?.sideEffectObject?.implication === "negative" ? "bad" : "good"} for ${sectionData?.sourceBlockItem?.sideEffectObject?.stakeholderName} because ${sectionData?.sourceBlockItem?.sideEffectObject?.implicationReason}`}
+              promptSamples=""
+              inputValue={generatedTextBuffer}
+              setInputValue={setGeneratedTextBuffer}
+              generateOnLoad={true}
+              textareaProps={{
+                variant: "unstyled",
+                placeholder: "Make a point...",
+                minRows: 3,
+                maxRows: 4,
+                rows: 4
+              }}
+            />
+          </Flex>
         </Flex>
       </Flex>
     </Card>
