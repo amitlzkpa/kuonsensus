@@ -88,7 +88,7 @@ const BlockInTray = ({ blockData, handleOnDragStart = null }) => {
           size="sm"
           c="gray.7"
           align="center"
-          lh="0.9rem"
+          lh="1.1rem"
         >
           {blockData?.sideEffectObject?.sideEffectTitle ?? ""}
         </Text>
