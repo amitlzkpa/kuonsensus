@@ -114,7 +114,28 @@ const SectionOnSheet = ({ sectionData }) => {
             blockData={sectionData?.sourceBlockItem}
           />
         </Flex>
-        {/* {sectionData?.sourceBlockItem?.sideEffectObject?.sideEffectTitle} */}
+        <Flex
+          w="70%"
+          direction="column"
+          justify="center"
+          align="stretch"
+        >
+          <Text fz="0.7rem">
+            {sectionData?.tone}
+          </Text>
+          <Text fz="0.7rem">
+            {sectionData?.customPrompt}
+          </Text>
+          <Text fz="0.7rem">
+            {sectionData?.generalPromptText}
+          </Text>
+          <Text fz="0.7rem">
+            {sectionData?.generatedTextFinalized.toString()}
+          </Text>
+          <Text fz="0.7rem">
+            {sectionData?.generatedText}
+          </Text>
+        </Flex>
       </Flex>
     </Card>
   )
