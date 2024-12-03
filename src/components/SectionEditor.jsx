@@ -23,16 +23,15 @@ const contentStubTemplate = {
   customPrompt: ""
 };
 
-const BlockInTray = ({ blockData, handleOnDragStart }) => {
-
+const BlockInTray = ({ blockData, handleOnDragStart = null }) => {
   return (
     <Card
-      h="8rem"
+      h="100%"
       bg={blockTypeColors[blockData.blockType] ?? "gray.1"}
       radius="xl"
-      style={{ cursor: 'move' }}
-      draggable
-      onDragStart={handleOnDragStart}
+      style={{ cursor: handleOnDragStart ? 'move' : 'default' }}
+      draggable={!!handleOnDragStart}
+      onDragStart={(e) => { if (handleOnDragStart) handleOnDragStart(e) }}
     >
       <Flex
         h="100%"
@@ -44,7 +43,7 @@ const BlockInTray = ({ blockData, handleOnDragStart }) => {
         {/* Info box */}
         <HoverCard width="24rem" shadow="md">
           <HoverCard.Target>
-            <div style={{ cursor: "default" }}>
+            <div>
               <Pill
                 c={blockData?.sideEffectObject?.implication === "positive" ? "green.9" : "orange.7"}
                 withRemoveButton={false}
@@ -95,17 +94,27 @@ const SectionOnSheet = ({ sectionData }) => {
   return (
     <Card
       mih="12rem"
-      mah="15rem"
+      mah="18rem"
       bg="gray.1"
       radius="xl"
     >
       <Flex
         h="100%"
-        direction="column"
-        align="center"
-        justify="center"
+        w="100%"
+        direction="row"
+        align="stretch"
+        justify="flex-start"
+        gap="sm"
       >
-        {sectionData?.sourceBlockItem?.sideEffectObject?.sideEffectTitle}
+        <Flex
+          w="30%"
+          h="100%"
+        >
+          <BlockInTray
+            blockData={sectionData?.sourceBlockItem}
+          />
+        </Flex>
+        {/* {sectionData?.sourceBlockItem?.sideEffectObject?.sideEffectTitle} */}
       </Flex>
     </Card>
   )
