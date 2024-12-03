@@ -132,12 +132,6 @@ const convertBlockToSection = (blockData) => {
   return sectionData;
 };
 
-const sampleBlocks = [
-  { blockId: "a", blockType: "A" },
-  { blockId: "b", blockType: "B" },
-  { blockId: "c", blockType: "C" },
-];
-
 export const SectionEditor = ({ boardData = sampleBoardData }) => {
 
   const [avlSideEffectBlocks, setAvlSideEffectBlocks] = useState([]);
