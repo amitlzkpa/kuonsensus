@@ -37,6 +37,7 @@ import * as localStorage from "../utils/localStorageHelpers";
 import { useLLMRef } from "../hooks/llmRef";
 import { useStoredBoards, triggerStorageUpdate } from '../hooks/localStorage';
 import { SheetEditor } from '../components/SheetEditor';
+import { SheetViewer } from '../components/SheetViewer';
 import { PromptReady_TextArea } from "../components/PromptReady_TextArea";
 import { PromptReady_TextInput } from "../components/PromptReady_TextInput";
 import { Kuon3D_StakeHolder } from "../components/Kuon3D_StakeHolder";
@@ -1170,7 +1171,17 @@ const Board_Edit = ({ boardData, setBoardData }) => {
         {/* Tab content - Draft */}
         <Tabs.Panel value="drafting">
 
-          <SheetEditor boardData={boardData} onHitGo={onHitGo} />
+          {
+            (boardData?.generatedArticles ?? []).length > 0
+              ?
+              (
+                <SheetViewer boardData={boardData} />
+              )
+              :
+              (
+                <SheetEditor boardData={boardData} onHitGo={onHitGo} />
+              )
+          }
 
         </Tabs.Panel>
 
