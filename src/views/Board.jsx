@@ -1131,7 +1131,7 @@ const Board_Edit = ({ boardData, setBoardData }) => {
       articleLength
     };
 
-    const updatedBoardData = { ...boardData, generatedArticles: [...boardData.generateArticles, newArticleObject] };
+    const updatedBoardData = { ...boardData, generatedArticles: [...(boardData.generatedArticles ?? []), newArticleObject] };
     writeBufferedBoardDataToStorage(updatedBoardData);
   }
 
