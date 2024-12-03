@@ -5,7 +5,8 @@ import {
   HoverCard,
   Pill,
   Text,
-  Input
+  Input,
+  Button
 } from '@mantine/core';
 
 import sampleBoardData from "../assets/samples/c1_boardData.json";
@@ -216,90 +217,105 @@ export const SectionEditor = ({ boardData = sampleBoardData }) => {
   };
 
   return (
-    <Flex w="100%" p="sm" gap="sm">
-      {/* Block Tray */}
+    <Flex
+      direction="column"
+      align="stretch"
+      gap="sm"
+      py="sm"
+    >
       <Flex
-        w="30%"
-        direction="column"
-        align="stretch"
-        gap="sm"
-        py="sm"
+        w="100%"
+        justify="space-between"
       >
-        <Input
-          w="100%"
-          onChange={(e) => { console.log(e.target.value) }}
-        />
-        {
-          (avlSideEffectBlocks ?? []).length === 0
-            ?
-            (
-              <Card bg="gray.1" radius="xl" h="9rem">
-                <Flex
-                  h="100%"
-                  w="100%"
-                  direction="column"
-                  align="center"
-                  justify="center"
-                >
-                  <Text
-                    size="sm"
-                    c="gray.7"
-                    fs="italic"
-                    align="center"
-                  >
-                    No Blocks Available
-                  </Text>
-                </Flex>
-              </Card>
-            )
-            :
-            (
-              <Flex
-                direction="column"
-                align="stretch"
-                justify="flex-start"
-                gap="sm"
-                style={{ overflowY: "auto", overflowX: "hidden" }}
-              >
-                {
-                  avlSideEffectBlocks.map((block) => (
-                    <BlockInTray
-                      key={block.blockId}
-                      blockData={block}
-                      handleOnDragStart={(e) => handleOnDragStart(e, block)}
-                    />
-                  ))
-                }
-              </Flex>
-            )
-        }
+        <div></div>
+        <Button>Go</Button>
       </Flex>
 
-      {/* Content Sections */}
-      <Card
-        w="70%"
-        mih="30rem"
-        mah="100vh"
-        bg="red.1"
-        radius="xl"
-        style={{ overflowY: "auto" }}
-        onDrop={handleOnDropEnd}
-        onDragOver={(e) => e.preventDefault()}
-      >
+      <Flex w="100%" p="sm" gap="sm">
+        {/* Block Tray */}
         <Flex
-          w="100%"
+          w="30%"
           direction="column"
           align="stretch"
           gap="sm"
+          py="sm"
         >
-          {sections.map((section, index) => (
-            <SectionOnSheet
-              key={section.sectionId}
-              sectionData={section}
-            />
-          ))}
+          <Input
+            w="100%"
+            onChange={(e) => { console.log(e.target.value) }}
+          />
+          {
+            (avlSideEffectBlocks ?? []).length === 0
+              ?
+              (
+                <Card bg="gray.1" radius="xl" h="9rem">
+                  <Flex
+                    h="100%"
+                    w="100%"
+                    direction="column"
+                    align="center"
+                    justify="center"
+                  >
+                    <Text
+                      size="sm"
+                      c="gray.7"
+                      fs="italic"
+                      align="center"
+                    >
+                      No Blocks Available
+                    </Text>
+                  </Flex>
+                </Card>
+              )
+              :
+              (
+                <Flex
+                  direction="column"
+                  align="stretch"
+                  justify="flex-start"
+                  gap="sm"
+                  style={{ overflowY: "auto", overflowX: "hidden" }}
+                >
+                  {
+                    avlSideEffectBlocks.map((block) => (
+                      <BlockInTray
+                        key={block.blockId}
+                        blockData={block}
+                        handleOnDragStart={(e) => handleOnDragStart(e, block)}
+                      />
+                    ))
+                  }
+                </Flex>
+              )
+          }
         </Flex>
-      </Card>
+
+        {/* Content Sections */}
+        <Card
+          w="70%"
+          mih="30rem"
+          mah="100vh"
+          bg="red.1"
+          radius="xl"
+          style={{ overflowY: "auto" }}
+          onDrop={handleOnDropEnd}
+          onDragOver={(e) => e.preventDefault()}
+        >
+          <Flex
+            w="100%"
+            direction="column"
+            align="stretch"
+            gap="sm"
+          >
+            {sections.map((section, index) => (
+              <SectionOnSheet
+                key={section.sectionId}
+                sectionData={section}
+              />
+            ))}
+          </Flex>
+        </Card>
+      </Flex>
     </Flex>
   );
 }
