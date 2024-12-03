@@ -237,7 +237,7 @@ const BlockInTray = ({ blockData, handleOnDragStart = null }) => {
                 justify="space-between"
               >
                 <Text size="sm">
-                  {blockData?.sideEffectObject?.stakeholderName ?? "-"}
+                  {blockData?.sideEffectObject?.stakeHolderName ?? "-"}
                 </Text>
 
                 <Text size="md">
@@ -339,7 +339,7 @@ const SectionOnSheet = ({ sectionData, onClickRemoveSection = () => { } }) => {
             <PromptReady_TextArea
               height="100%"
               enableAiGeneration={true}
-              promptBase={`Rewrite following text${sectionData.modifier ? ` and modify it to ${sectionData.modifier} it` : ""}:\n${sectionData?.sourceBlockItem?.sideEffectObject?.sideEffectTitle} is ${sectionData?.sourceBlockItem?.sideEffectObject?.implication === "negative" ? "bad" : "good"} for ${sectionData?.sourceBlockItem?.sideEffectObject?.stakeholderName} because ${sectionData?.sourceBlockItem?.sideEffectObject?.implicationReason}`}
+              promptBase={`Rewrite following text${sectionData.modifier ? ` and modify it to ${sectionData.modifier} it` : ""}:\n${sectionData?.sourceBlockItem?.sideEffectObject?.sideEffectTitle} is ${sectionData?.sourceBlockItem?.sideEffectObject?.implication === "negative" ? "bad" : "good"} for ${sectionData?.sourceBlockItem?.sideEffectObject?.stakeHolderName} because ${sectionData?.sourceBlockItem?.sideEffectObject?.implicationReason}`}
               promptSamples=""
               inputValue={generatedTextBuffer}
               setInputValue={setGeneratedTextBuffer}

@@ -1101,7 +1101,7 @@ const Board_Edit = ({ boardData, setBoardData }) => {
       return [
         section.generatedText
         ??
-        `${section?.sourceBlockItem?.sideEffectObject?.sideEffectTitle} is ${section?.sourceBlockItem?.sideEffectObject?.implication === "negative" ? "bad" : "good"} for ${section?.sourceBlockItem?.sideEffectObject?.stakeholderName} because ${section?.sourceBlockItem?.sideEffectObject?.implicationReason}`,
+        `${section?.sourceBlockItem?.sideEffectObject?.sideEffectTitle} is ${section?.sourceBlockItem?.sideEffectObject?.implication === "negative" ? "bad" : "good"} for ${section?.sourceBlockItem?.sideEffectObject?.stakeHolderName} because ${section?.sourceBlockItem?.sideEffectObject?.implicationReason}`,
       ];
     });
 

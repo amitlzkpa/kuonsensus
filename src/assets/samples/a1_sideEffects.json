@@ -1,193 +1,193 @@
 [
   {
     "sideEffectTitle": "Improved Brand Image",
-    "stakeholderName": "Developers",
+    "stakeHolderName": "Developers",
     "implication": "positive",
     "implicationReason": "Adopting environmentally friendly practices enhances the developer's image and attracts environmentally conscious customers and investors."
   },
   {
     "sideEffectTitle": "Reduced Risk of Legal Challenges",
-    "stakeholderName": "Developers",
+    "stakeHolderName": "Developers",
     "implication": "positive",
     "implicationReason": "Implementing mitigation measures can reduce the risk of legal challenges related to environmental violations, protecting the developer's reputation and investments."
   },
   {
     "sideEffectTitle": "Enhanced Reputation and Trust",
-    "stakeholderName": "Developers",
+    "stakeHolderName": "Developers",
     "implication": "positive",
     "implicationReason": "Contributing to local conservation efforts demonstrates the developer's commitment to social responsibility and community well-being, building trust with local communities."
   },
   {
     "sideEffectTitle": "Potential for Tax Incentives and Subsidies",
-    "stakeholderName": "Developers",
+    "stakeHolderName": "Developers",
     "implication": "positive",
     "implicationReason": "Participating in renewable energy programs or conservation initiatives can qualify the developer for tax incentives and subsidies, reducing development costs and improving profitability."
   },
   {
     "sideEffectTitle": "Increased Construction Time",
-    "stakeholderName": "Developers",
+    "stakeHolderName": "Developers",
     "implication": "negative",
     "implicationReason": "Implementing renewable energy systems can require additional construction time and expertise, potentially increasing project timelines"
   },
   {
     "sideEffectTitle": "Reduced Flexibility",
-    "stakeholderName": "Developers",
+    "stakeHolderName": "Developers",
     "implication": "negative",
     "implicationReason": "Mandatory tree planting can limit the flexibility of developers in choosing the types or locations of trees, affecting their design and construction decisions"
   },
   {
     "sideEffectTitle": "Potential for Delays in Permitting",
-    "stakeholderName": "Developers",
+    "stakeHolderName": "Developers",
     "implication": "negative",
     "implicationReason": "Contributions to local conservation funds may require additional administrative processes and time, delaying the approval process for the project"
   },
   {
     "sideEffectTitle": "Increased Risk of Negative PR",
-    "stakeholderName": "Developers",
+    "stakeHolderName": "Developers",
     "implication": "negative",
     "implicationReason": "Negative public reaction to mandatory environmental measures can damage the developer's reputation, potentially affecting future project proposals and investor interest"
   },
   {
     "sideEffectTitle": "Increased Scientific Data",
-    "stakeholderName": "Environmental Experts",
+    "stakeHolderName": "Environmental Experts",
     "implication": "positive",
     "implicationReason": "Collecting data on tree planting effectiveness and energy system performance will provide valuable insights for future research and development."
   },
   {
     "sideEffectTitle": "Enhanced Expertise and Credibility",
-    "stakeholderName": "Environmental Experts",
+    "stakeHolderName": "Environmental Experts",
     "implication": "positive",
     "implicationReason": "Demonstrating expertise in implementing and monitoring environmental mitigation measures can increase the environmental experts' credibility and influence."
   },
   {
     "sideEffectTitle": "Opportunities for Collaboration and Partnerships",
-    "stakeholderName": "Environmental Experts",
+    "stakeHolderName": "Environmental Experts",
     "implication": "positive",
     "implicationReason": "Participating in environmental projects can create opportunities for collaboration and partnerships with researchers developers and government agencies."
   },
   {
     "sideEffectTitle": "Development of New Mitigation Strategies",
-    "stakeholderName": "Environmental Experts",
+    "stakeHolderName": "Environmental Experts",
     "implication": "positive",
     "implicationReason": "The implementation of new mitigation strategies such as tree planting and renewable energy systems can lead to the development of innovative solutions for environmental challenges."
   },
   {
     "sideEffectTitle": "Increased Project Complexity",
-    "stakeholderName": "Environmental Experts",
+    "stakeHolderName": "Environmental Experts",
     "implication": "negative",
     "implicationReason": "Implementing tree planting and renewable energy systems can add complexity to construction projects, potentially increasing project costs and timelines"
   },
   {
     "sideEffectTitle": "Limited Scope of Work",
-    "stakeholderName": "Environmental Experts",
+    "stakeHolderName": "Environmental Experts",
     "implication": "negative",
     "implicationReason": "Contributions to local conservation funds might restrict the scope of work for developers, limiting their ability to deliver on the project's intended purpose"
   },
   {
     "sideEffectTitle": "Potential Overestimation of Costs",
-    "stakeholderName": "Environmental Experts",
+    "stakeHolderName": "Environmental Experts",
     "implication": "negative",
     "implicationReason": "Estimates for tree planting and renewable energy integration may be overly optimistic, potentially leading to unexpected costs and delays during construction"
   },
   {
     "sideEffectTitle": "Difficulty in Sourcing Materials",
-    "stakeholderName": "Environmental Experts",
+    "stakeHolderName": "Environmental Experts",
     "implication": "negative",
     "implicationReason": "Finding suitable trees and materials for planting can be challenging, particularly in areas with specific ecological requirements, potentially delaying project timelines "
   },
   {
     "sideEffectTitle": "Reduced Negative Environmental Impact",
-    "stakeholderName": "Local Environmental Groups",
+    "stakeHolderName": "Local Environmental Groups",
     "implication": "positive",
     "implicationReason": "The proposed changes directly address the negative environmental impact of new construction by requiring developers to implement measures such as tree planting renewable energy systems and contributions to local conservation funds."
   },
   {
     "sideEffectTitle": "Increased Public Awareness and Support",
-    "stakeholderName": "Local Environmental Groups",
+    "stakeHolderName": "Local Environmental Groups",
     "implication": "positive",
     "implicationReason": "By promoting these environmental initiatives developers can increase public awareness and support for sustainable development practices, fostering a more environmentally conscious community."
   },
   {
     "sideEffectTitle": "Strengthened Community Partnerships",
-    "stakeholderName": "Local Environmental Groups",
+    "stakeHolderName": "Local Environmental Groups",
     "implication": "positive",
     "implicationReason": "Collaboration with developers on these projects can lead to stronger partnerships between the developer the local community and relevant authorities, creating a collaborative environment for environmental stewardship."
   },
   {
     "sideEffectTitle": "Potential for Funding and Grants",
-    "stakeholderName": "Local Environmental Groups",
+    "stakeHolderName": "Local Environmental Groups",
     "implication": "positive",
     "implicationReason": "Developers may be eligible for funding and grants specifically designed to support sustainable construction practices, further reducing their financial burden and maximizing the positive impact of the initiative. "
   },
   {
     "sideEffectTitle": "Enhanced Community Engagement",
-    "stakeholderName": "Local Environmental Groups",
+    "stakeHolderName": "Local Environmental Groups",
     "implication": "negative",
     "implicationReason": "The requirement for tree planting and renewable energy can create opportunities for local residents to engage with the development process, fostering a sense of ownership and community involvement."
   },
   {
     "sideEffectTitle": "Increased Transparency and Public Awareness",
-    "stakeholderName": "Local Environmental Groups",
+    "stakeHolderName": "Local Environmental Groups",
     "implication": "negative",
     "implicationReason": "The inclusion of conservation fund contributions can promote transparency and public awareness of the project's environmental impact and its contribution to local environmental initiatives."
   },
   {
     "sideEffectTitle": "Improved Public Image and Reputation",
-    "stakeholderName": "Local Environmental Groups",
+    "stakeHolderName": "Local Environmental Groups",
     "implication": "negative",
     "implicationReason": "The developer's commitment to environmental sustainability enhances the project's public image and reputation, attracting positive attention and fostering goodwill within the community."
   },
   {
     "sideEffectTitle": "Potential for Collaboration and Partnership Opportunities",
-    "stakeholderName": "Local Environmental Groups",
+    "stakeHolderName": "Local Environmental Groups",
     "implication": "negative",
     "implicationReason": "The requirement for tree planting and renewable energy can facilitate collaboration and partnership opportunities between the developer local environmental groups and other stakeholders, leading to synergistic outcomes. "
   },
   {
     "sideEffectTitle": "Increased Revenue through Permit Fees",
-    "stakeholderName": "Government Agencies",
+    "stakeHolderName": "Government Agencies",
     "implication": "positive",
     "implicationReason": "Developers will need to pay additional fees associated with implementing the mitigation measures such as tree planting renewable energy systems or contributions to conservation funds, providing increased revenue for government agencies."
   },
   {
     "sideEffectTitle": "Improved Public Image and Reputation",
-    "stakeholderName": "Government Agencies",
+    "stakeHolderName": "Government Agencies",
     "implication": "positive",
     "implicationReason": "Government agencies can present the requirement as a commitment to environmental sustainability, enhancing their public image and reputation, particularly among environmentally conscious citizens."
   },
   {
     "sideEffectTitle": "Enhanced Enforcement Capabilities",
-    "stakeholderName": "Government Agencies",
+    "stakeHolderName": "Government Agencies",
     "implication": "positive",
     "implicationReason": "The requirement can strengthen government agencies' ability to enforce environmental regulations and ensure developers comply with their obligations, promoting greater compliance and accountability."
   },
   {
     "sideEffectTitle": "Reduced Need for Environmental Impact Assessments",
-    "stakeholderName": "Government Agencies",
+    "stakeHolderName": "Government Agencies",
     "implication": "positive",
     "implicationReason": "By requiring developers to incorporate mitigation measures upfront developers may reduce the need for extensive and costly environmental impact assessments, freeing up government resources for other priorities. "
   },
   {
     "sideEffectTitle": "Increased Administrative Burden",
-    "stakeholderName": "Government Agencies",
+    "stakeHolderName": "Government Agencies",
     "implication": "negative",
     "implicationReason": "Implementing new regulations and reporting requirements related to environmental mitigation could add administrative burden to government agencies."
   },
   {
     "sideEffectTitle": "Potential for Delays and Inefficiencies",
-    "stakeholderName": "Government Agencies",
+    "stakeHolderName": "Government Agencies",
     "implication": "negative",
     "implicationReason": "Ensuring compliance with new regulations and ensuring that mitigation measures are effectively implemented could lead to delays and inefficiencies in the approval and construction process."
   },
   {
     "sideEffectTitle": "Increased Enforcement Costs",
-    "stakeholderName": "Government Agencies",
+    "stakeHolderName": "Government Agencies",
     "implication": "negative",
     "implicationReason": "Government agencies may need to allocate additional resources to monitor and enforce the new environmental mitigation requirements, potentially leading to increased enforcement costs."
   },
   {
     "sideEffectTitle": "Risk of Overburdening Small Businesses",
-    "stakeholderName": "Government Agencies",
+    "stakeHolderName": "Government Agencies",
     "implication": "negative",
     "implicationReason": "The increased regulatory requirements could place undue burden on small businesses that may not have the resources or expertise to comply with new regulations effectively. "
   }
