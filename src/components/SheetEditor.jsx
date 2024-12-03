@@ -22,7 +22,7 @@ const contentStubTemplate = {
   generatedText: "",
   generatedTextFinalized: false,
   commonPromptText: "Create a short stub of text as part of a document from the following text:",
-  tone: "formal",
+  modifier: "formal",
   customPrompt: ""
 };
 
@@ -128,7 +128,7 @@ const SectionOnSheet = ({ sectionData }) => {
           align="stretch"
         >
           <Text fz="0.7rem">
-            {sectionData?.tone}
+            {sectionData?.modifier}
           </Text>
           <Text fz="0.7rem">
             {sectionData?.customPrompt}
