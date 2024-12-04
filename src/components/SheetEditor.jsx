@@ -387,9 +387,21 @@ export const SheetEditor = ({
 
   const [avlSideEffectBlocks, setAvlSideEffectBlocks] = useState([]);
 
-  useEffect(() => {
+  const [filteredBlocks, setFilteredBlocks] = useState([]);
 
-    // console.log('sideEffect', boardData.sideEffects[0]);
+  const [filterSearchTerm, setFilterSearchTerm] = useState("");
+
+  useEffect(() => {
+    if (filterSearchTerm.trim() === "") {
+      setFilteredBlocks(avlSideEffectBlocks);
+      return;
+    }
+    setFilteredBlocks(avlSideEffectBlocks.filter((blk) => {
+      return blk?.sideEffectObject?.sideEffectTitle?.toLowerCase().includes(filterSearchTerm.toLowerCase());
+    }));
+  }, [filterSearchTerm, avlSideEffectBlocks]);
+
+  useEffect(() => {
 
     let effectBlocks = (boardData.sideEffects ?? []).map((bd, idx) => {
 
@@ -408,9 +420,6 @@ export const SheetEditor = ({
     effectBlocks = effectBlocks.filter(bd => bd !== bd?.boardId);
 
     setAvlSideEffectBlocks(effectBlocks);
-
-    // console.log('effectBlock', effectBlocks[0]);
-    // console.log(effectBlocks.length);
 
   }, [boardData]);
 
@@ -466,7 +475,9 @@ export const SheetEditor = ({
         >
           <Input
             w="100%"
-            onChange={(e) => { console.log(e.target.value) }}
+            value={filterSearchTerm}
+            onChange={(e) => { setFilterSearchTerm(e.target.value) }}
+            placeholder="Search blocks..."
           />
           {
             (avlSideEffectBlocks ?? []).length === 0
@@ -501,7 +512,7 @@ export const SheetEditor = ({
                   style={{ overflowY: "auto", overflowX: "hidden" }}
                 >
                   {
-                    avlSideEffectBlocks.map((block) => (
+                    filteredBlocks.map((block) => (
                       <BlockInTray
                         key={block.blockId}
                         blockData={block}

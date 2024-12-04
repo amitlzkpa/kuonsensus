@@ -46,9 +46,7 @@ export const PromptReady_TextArea = ({
           "## Strict Instructions:",
           "Return only unformatted response text in English."
         ].join("\n");
-        console.log(inputGenPromptText);
         const generatedText = await llmRef.current?.prompt(inputGenPromptText);
-        console.log(generatedText);
         setInputValue(generatedText);
         setGeneratedValue(generatedText);
         if (onGeneratedValueChange) {
