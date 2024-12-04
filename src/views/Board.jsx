@@ -20,7 +20,6 @@ import {
 } from '@mantine/core';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import Typed from "typed.js";
 import { FaPen, FaTrashAlt } from 'react-icons/fa';
 import { Canvas } from "@react-three/fiber";
 import { OrthographicCamera, Environment, SoftShadows } from '@react-three/drei';
@@ -87,31 +86,6 @@ propose requiring developers to include measures such as
 - contributions to local conservation funds
 `;
 
-const TypingText = ({ text, typeSpeed = 50 }) => {
-
-  const el = useRef(null);
-
-  useEffect(() => {
-    const t = new Typed(el.current, {
-      strings: [text],
-      typeSpeed: typeSpeed,
-      loop: false,
-      showCursor: false,
-    });
-
-    return () => {
-      t.destroy();
-    };
-
-  }, [text, typeSpeed]);
-
-  return (
-    <span
-      ref={el}
-    />
-  );
-}
-
 const ImplicationList = ({ sideEffects, handleRemoveSideEffect, disableTypingEffect = false }) => {
   return (
     <Flex
@@ -142,12 +116,7 @@ const ImplicationList = ({ sideEffects, handleRemoveSideEffect, disableTypingEff
                 <HoverCard.Target>
                   <div>
                     <Text>
-                      {
-                        disableTypingEffect ? sideEffect.sideEffectTitle :
-                          (
-                            <TypingText text={sideEffect.sideEffectTitle} typeSpeed={[20, 50, 60][Math.floor(Math.random() * 3)]} />
-                          )
-                      }
+                      {sideEffect.sideEffectTitle}
                     </Text>
                   </div>
                 </HoverCard.Target>
@@ -241,9 +210,6 @@ const Board_Init = ({ boardId, setBoardData }) => {
     setBoardData(consolidatedBoardData);
   };
 
-  const titleEl = useRef(null);
-  const descriptionEl = useRef(null);
-
   const handleSubmit = async () => {
     if (isProcessing) return;
     handleStepChange(1);
@@ -263,13 +229,6 @@ const Board_Init = ({ boardId, setBoardData }) => {
       const boardName = await generateTitle(userInitText, llmRef);
       creationBuffer.boardName = boardName;
 
-      new Typed(titleEl.current, {
-        strings: [boardName],
-        typeSpeed: 50,
-        loop: false,
-        showCursor: false,
-      });
-
       setBufferBoardDataInit({
         ...bufferBoardDataInit,
         ...creationBuffer,
@@ -277,13 +236,6 @@ const Board_Init = ({ boardId, setBoardData }) => {
 
       const boardDescription = await generateDescription(userInitText, llmRef);
       creationBuffer.boardDescription = boardDescription;
-
-      new Typed(descriptionEl.current, {
-        strings: [boardDescription],
-        typeSpeed: 20,
-        loop: false,
-        showCursor: false,
-      });
 
       setBufferBoardDataInit({
         ...bufferBoardDataInit,
@@ -562,18 +514,18 @@ const Board_Init = ({ boardId, setBoardData }) => {
             >
               <Title order={2} style={{ backgroundColor: "#efefef", borderRadius: "6px", padding: "8px 4px 8px 4px" }}>
                 <span
-                  ref={titleEl}
                   contentEditable={true}
                   suppressContentEditableWarning={true}
                   onInput={e => setBufferBoardDataInit({
                     ...bufferBoardDataInit,
                     boardName: (e.currentTarget.textContent ?? "").toString().trim()
                   })}
-                />
+                >
+                  {bufferBoardDataInit?.boardName ?? ""}
+                </span>
               </Title>
               <Text style={{ backgroundColor: "#efefef", borderRadius: "6px", padding: "1px 4px 1px 4px" }}>
                 <span
-                  ref={descriptionEl}
                   contentEditable={true}
                   suppressContentEditableWarning={true}
                   style={{ backgroundColor: "gray.2", borderRadius: "2px" }}
@@ -581,7 +533,9 @@ const Board_Init = ({ boardId, setBoardData }) => {
                     ...bufferBoardDataInit,
                     boardDescription: (e.currentTarget.textContent ?? "").toString().trim()
                   })}
-                />
+                >
+                  {bufferBoardDataInit?.boardDescription ?? ""}
+                </span>
               </Text>
             </Flex>
 
@@ -617,7 +571,7 @@ const Board_Init = ({ boardId, setBoardData }) => {
                             (stakeHolder, idx) => (
                               <Accordion.Item key={idx} value={stakeHolder.stakeHolderName}>
                                 <Accordion.Control icon={"→"}>
-                                  <TypingText text={stakeHolder.stakeHolderName} typeSpeed={[20, 50, 60][Math.floor(Math.random() * 3)]} />
+                                  <Text>{stakeHolder.stakeHolderName}</Text>
                                 </Accordion.Control>
                                 <Accordion.Panel>
                                   <Flex
@@ -643,7 +597,7 @@ const Board_Init = ({ boardId, setBoardData }) => {
                                       </Flex>
                                     </Flex>
                                     <Text>
-                                      <TypingText text={stakeHolder.description} typeSpeed={[20, 50, 60][Math.floor(Math.random() * 3)]} />
+                                      {stakeHolder.description}
                                     </Text>
 
                                     <Flex
