@@ -1173,9 +1173,9 @@ const Board_Edit = ({ boardData, setBoardData }) => {
           <Tabs.Tab value="drafting">
             Draft
           </Tabs.Tab>
-          <Tabs.Tab value="discussing">
+          {/* <Tabs.Tab value="discussing">
             Discover
-          </Tabs.Tab>
+          </Tabs.Tab> */}
         </Tabs.List>
 
         {/* Tab content - Draft */}
