@@ -571,7 +571,22 @@ const Board_Init = ({ boardId, setBoardData }) => {
                             (stakeHolder, idx) => (
                               <Accordion.Item key={idx} value={stakeHolder.stakeHolderName}>
                                 <Accordion.Control icon={"→"}>
-                                  <Text>{stakeHolder.stakeHolderName}</Text>
+                                  <Flex
+                                    align="center"
+                                    gap="sm"
+                                  >
+
+                                    <Text>{stakeHolder.stakeHolderName}</Text>
+                                    {
+                                      isProcessing && ((bufferBoardDataInit?.sideEffects ?? [])
+                                        .filter((sideEffect) => sideEffect.stakeHolderName === stakeHolder.stakeHolderName)).length < 1
+                                        ? (
+                                          <Loader type="dots" />
+                                        ) : (
+                                          <></>
+                                        )
+                                    }
+                                  </Flex>
                                 </Accordion.Control>
                                 <Accordion.Panel>
                                   <Flex
