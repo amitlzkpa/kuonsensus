@@ -25,7 +25,6 @@ import { Canvas } from "@react-three/fiber";
 import { OrthographicCamera, Environment, SoftShadows } from '@react-three/drei';
 
 import {
-  generateArticle,
   extractStakeholders,
   extractSideEffects,
   generateDescription,
@@ -1006,8 +1005,6 @@ const Board_Init = ({ boardId, setBoardData }) => {
 
 const Board_Edit = ({ boardData, setBoardData }) => {
 
-  const llmRef = useLLMRef();
-
   const { boardId } = useParams();
 
   const storedBoards = useStoredBoards();
@@ -1058,40 +1055,12 @@ const Board_Edit = ({ boardData, setBoardData }) => {
 
   // DRAFT
 
-  const articleLengthPromptTextOptions = {
-    short: "Keep the word count between 200 to 400 words.",
-    medium: "Keep the word count between 400 to 800 words.",
-    long: "Keep the word count between 800 to 1200 words."
-  }
-
-  const onHitGo = async (sheetData) => {
-
-    const articleLength = sheetData?.articleLength ?? "medium";
-    const sectionStubLinesArray = (sheetData?.sections ?? []).map((section, idx) => {
-      return [
-        section.generatedText
-        ??
-        `${section?.sourceBlockItem?.sideEffectObject?.sideEffectTitle} is ${section?.sourceBlockItem?.sideEffectObject?.implication === "negative" ? "bad" : "good"} for ${section?.sourceBlockItem?.sideEffectObject?.stakeHolderName} because ${section?.sourceBlockItem?.sideEffectObject?.implicationReason}`,
-      ];
-    });
-
-    const issueDescription = boardData?.boardDescription;
-    const outlineText = sectionStubLinesArray.flat().join("\n");
-    const articleLengthText = articleLengthPromptTextOptions[articleLength];
-
-    const articleDraftText = [
-      "",
-      "### Objective:",
-      issueDescription,
-      "### Article Length",
-      articleLengthText,
-      "",
-      "### Outline:",
-      outlineText,
-      ""
-    ].join("\n");
-
-    const rewrittenArticle = await generateArticle(articleDraftText, llmRef);
+  const onArticleSave = async ({
+    rewrittenArticle,
+    sectionStubLinesArray,
+    articleDraftText,
+    articleLength
+  }) => {
 
     const newArticleObject = {
       articleText: rewrittenArticle,
@@ -1158,7 +1127,7 @@ const Board_Edit = ({ boardData, setBoardData }) => {
               )
               :
               (
-                <SheetEditor boardData={boardData} onHitGo={onHitGo} />
+                <SheetEditor boardData={boardData} onArticleSave={onArticleSave} />
               )
           }
 
