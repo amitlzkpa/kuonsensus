@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Button,
   Card,
@@ -11,8 +11,8 @@ import {
   Combobox,
   InputBase,
   useCombobox,
-  Loader
 } from '@mantine/core';
+import { FaInfoCircle } from 'react-icons/fa';
 
 import { generateArticle } from "../utils/extractionHelpers";
 import { PromptReady_TextArea } from "../components/PromptReady_TextArea";
@@ -21,15 +21,60 @@ import { useLLMRef } from "../hooks/llmRef";
 
 import sampleBoardData from "../assets/samples/c1_boardData.json";
 
+const structureBlockTemplates = [
+  {
+    blockId: "",
+    blockType: "structureBlock",
+    structureObject: {
+      "type": "introduction",
+      "label": "Introduction",
+      "description": "Introduce the topic and the issue at hand."
+    }
+  },
+  {
+    blockId: "",
+    blockType: "structureBlock",
+    structureObject: {
+      "type": "conclusion",
+      "label": "Conclusion",
+      "description": "Summarize the key points and provide a conclusion."
+    }
+  },
+  {
+    blockId: "",
+    blockType: "structureBlock",
+    structureObject: {
+      "type": "example",
+      "label": "Example",
+      "description": "Provide an example to illustrate the previous point."
+    }
+  },
+  {
+    blockId: "",
+    blockType: "structureBlock",
+    structureObject: {
+      "type": "custom",
+      "label": "Custom",
+      "description": "Custom section for your content."
+    }
+  }
+];
+
 const blockTypeColors = {
   sideEffectBlock: "blue.1",
+  structureBlock: "grey.1",
+};
+
+const commonPromptTexts = {
+  sideEffectBlock: "Create a short stub of text as part of a document from the following text:",
+  structureBlock: "Create a short stub of text as part of a document from the following text:"
 };
 
 const contentStubTemplate = {
   sectionId: "",
   sourceBlockItem: {},
   generatedText: "",
-  commonPromptText: "Create a short stub of text as part of a document from the following text:",
+  commonPromptText: "commonPromptTexts",
   modifier: "",
 };
 
@@ -198,6 +243,108 @@ export function SelectArticleLength({
   );
 }
 
+const BlockInTray_SideEffect = ({ blockData }) => {
+  return (
+    <Flex
+      h="100%"
+      direction="column"
+      align="center"
+      justify="center"
+      gap="sm"
+    >
+      <HoverCard width="24rem" shadow="md">
+        <HoverCard.Target>
+          <div>
+            <Pill
+              c={blockData?.sideEffectObject?.implication === "positive" ? "green.9" : "orange.7"}
+              withRemoveButton={false}
+            >
+              {blockData?.sideEffectObject?.implication}
+            </Pill>
+          </div>
+        </HoverCard.Target>
+        <HoverCard.Dropdown style={{ height: "18rem", overflowY: "auto" }}>
+          <Flex
+            w="100%"
+            direction="column"
+          >
+            <Flex
+              h="100%"
+              direction="column"
+              align="stretch"
+              justify="space-between"
+            >
+              <Text size="sm">
+                {blockData?.sideEffectObject?.stakeHolderName ?? "-"}
+              </Text>
+
+              <Text size="md">
+                {blockData?.sideEffectObject?.implicationReason}
+              </Text>
+            </Flex>
+          </Flex>
+        </HoverCard.Dropdown>
+      </HoverCard>
+
+      <Text
+        size="sm"
+        c="gray.7"
+        align="center"
+        lh="1.1rem"
+      >
+        {blockData?.sideEffectObject?.sideEffectTitle ?? ""}
+      </Text>
+    </Flex>
+  );
+};
+
+const BlockInTray_Structure = ({ blockData }) => {
+  return (
+    <Flex
+      h="100%"
+      direction="column"
+      align="center"
+      justify="center"
+      gap="sm"
+    >
+      <HoverCard width="24rem" shadow="md">
+        <HoverCard.Target>
+          <div>
+            <FaInfoCircle width="0.3rem" height="0.3rem" color="#ABABAB" />
+          </div>
+        </HoverCard.Target>
+        <HoverCard.Dropdown style={{ height: "18rem", overflowY: "auto" }}>
+          <Flex
+            w="100%"
+            direction="column"
+          >
+            <Flex
+              h="100%"
+              direction="column"
+              align="stretch"
+              justify="space-between"
+            >
+              <Text size="md">
+                {blockData?.structureObject?.description}
+              </Text>
+            </Flex>
+          </Flex>
+        </HoverCard.Dropdown>
+      </HoverCard>
+
+      <Text
+        size="sm"
+        c="gray.7"
+        align="center"
+        lh="1.1rem"
+      >
+        {blockData?.structureObject?.label ?? ""}
+      </Text>
+    </Flex>
+  );
+};
+
+
 const BlockInTray = ({ blockData, handleOnDragStart = null }) => {
   return (
     <Card
@@ -208,57 +355,23 @@ const BlockInTray = ({ blockData, handleOnDragStart = null }) => {
       draggable={!!handleOnDragStart}
       onDragStart={(e) => { if (handleOnDragStart) handleOnDragStart(e) }}
     >
-      <Flex
-        h="100%"
-        direction="column"
-        align="center"
-        justify="center"
-        gap="sm"
-      >
-        {/* Info box */}
-        <HoverCard width="24rem" shadow="md">
-          <HoverCard.Target>
-            <div>
-              <Pill
-                c={blockData?.sideEffectObject?.implication === "positive" ? "green.9" : "orange.7"}
-                withRemoveButton={false}
-              >
-                {blockData?.sideEffectObject?.implication}
-              </Pill>
-            </div>
-          </HoverCard.Target>
-          <HoverCard.Dropdown style={{ height: "18rem", overflowY: "auto" }}>
-            <Flex
-              w="100%"
-              direction="column"
-            >
-              <Flex
-                h="100%"
-                direction="column"
-                align="stretch"
-                justify="space-between"
-              >
-                <Text size="sm">
-                  {blockData?.sideEffectObject?.stakeHolderName ?? "-"}
-                </Text>
 
-                <Text size="md">
-                  {blockData?.sideEffectObject?.implicationReason}
-                </Text>
-              </Flex>
-            </Flex>
-          </HoverCard.Dropdown>
-        </HoverCard>
+      {
+        blockData.blockType === "sideEffectBlock"
+          ?
+          <BlockInTray_SideEffect
+            blockData={blockData}
+          />
+          :
+          blockData.blockType === "structureBlock"
+            ?
+            <BlockInTray_Structure
+              blockData={blockData}
+            />
+            :
+            <></>
+      }
 
-        <Text
-          size="sm"
-          c="gray.7"
-          align="center"
-          lh="1.1rem"
-        >
-          {blockData?.sideEffectObject?.sideEffectTitle ?? ""}
-        </Text>
-      </Flex>
     </Card>
   );
 };
@@ -367,12 +480,14 @@ const convertBlockToSection = (blockData) => {
   sectionData.sourceBlockItem = blockData;
   switch (blockData?.blockType) {
     case "sideEffectBlock":
+      sectionData.commonPromptText = commonPromptTexts.sideEffectBlock;
       // sectionData.commonPromptText = commonPromptText;
       break;
     case "stakeHolderBlock":
       // sectionData.commonPromptText = commonPromptText;
       break;
     case "structureBlock":
+      sectionData.commonPromptText = commonPromptTexts.structureBlock;
       // sectionData.commonPromptText = commonPromptText;
       break;
     default:
@@ -419,9 +534,27 @@ export const SheetEditor = ({
       }
     });
 
-    effectBlocks = effectBlocks.filter(bd => bd !== bd?.boardId);
+    effectBlocks = effectBlocks.filter(bd => bd?.blockId);
 
-    setAvlSideEffectBlocks(effectBlocks);
+    let structureBlocks = structureBlockTemplates.map((sb, idx) => {
+
+      try {
+        const structureBlock = { ...sb };
+        structureBlock.blockId = `blkId_${sb?.structureObject?.type}_${idx}`;
+        structureBlock.blockType = "structureBlock";
+        structureBlock.structureBlockObject = sb.structureObject;
+        return structureBlock;
+      } catch (error) {
+        console.log('error', error.message);
+        return {};
+      }
+    });
+
+    structureBlocks = structureBlocks.filter(sb => sb?.blockId);
+
+    const allBlocks = [...structureBlocks, ...effectBlocks];
+
+    setAvlSideEffectBlocks(allBlocks);
 
   }, [boardData]);
 
