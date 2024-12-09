@@ -376,13 +376,76 @@ const BlockInTray = ({ blockData, handleOnDragStart = null }) => {
   );
 };
 
-const SectionOnSheet = ({ sectionData, onClickRemoveSection = () => { } }) => {
+const SectionBlockOnSheet = ({ sectionData, onClickRemoveSection }) => {
 
   const [generatedTextBuffer, setGeneratedTextBuffer] = useState(sectionData?.generatedText);
 
   useEffect(() => {
     sectionData.generatedText = generatedTextBuffer;
   }, [generatedTextBuffer, sectionData]);
+
+  return (
+    <>
+      <Flex
+        justify="space-between"
+        align="center"
+        gap="sm"
+      >
+        <SelectSectionModifier
+          sectionData={sectionData}
+        />
+        <Flex
+          direction="row"
+          justify="flex-end"
+          align="center"
+          gap="sm"
+        >
+          {
+            !onClickRemoveSection
+              ?
+              <></>
+              :
+              (
+                <CloseButton
+                  variant="subtle"
+                  onClick={() => { onClickRemoveSection(sectionData) }}
+                />
+              )
+          }
+        </Flex>
+      </Flex>
+      <Text fz="0.7rem">
+        {sectionData?.sourceBlockItem?.sideEffectObject?.implicationReason}
+      </Text>
+      <Flex
+        direction="column"
+        w="100%"
+        h="100%"
+        p="sm"
+        align="stretch"
+      >
+        <PromptReady_TextArea
+          height="100%"
+          enableAiGeneration={true}
+          promptBase={`Rewrite following text${sectionData.modifier ? ` and modify it to ${sectionData.modifier} it` : ""}:\n${sectionData?.sourceBlockItem?.sideEffectObject?.sideEffectTitle} is ${sectionData?.sourceBlockItem?.sideEffectObject?.implication === "negative" ? "bad" : "good"} for ${sectionData?.sourceBlockItem?.sideEffectObject?.stakeHolderName} because ${sectionData?.sourceBlockItem?.sideEffectObject?.implicationReason}`}
+          promptSamples=""
+          inputValue={generatedTextBuffer}
+          setInputValue={setGeneratedTextBuffer}
+          generateOnLoad={true}
+          textareaProps={{
+            variant: "unstyled",
+            placeholder: "Make a point...",
+            minRows: 3,
+            maxRows: 4,
+            rows: 4
+          }}
+        />
+      </Flex>
+    </>
+  );
+};
+
+const SectionOnSheet = ({ sectionData, onClickRemoveSection = () => { } }) => {
 
   return (
     <Card
@@ -413,61 +476,10 @@ const SectionOnSheet = ({ sectionData, onClickRemoveSection = () => { } }) => {
           justify="flex-start"
           align="stretch"
         >
-          <Flex
-            justify="space-between"
-            align="center"
-            gap="sm"
-          >
-            <SelectSectionModifier
-              sectionData={sectionData}
-            />
-            <Flex
-              direction="row"
-              justify="flex-end"
-              align="center"
-              gap="sm"
-            >
-              {
-                !onClickRemoveSection
-                  ?
-                  <></>
-                  :
-                  (
-                    <CloseButton
-                      variant="subtle"
-                      onClick={() => { onClickRemoveSection(sectionData) }}
-                    />
-                  )
-              }
-            </Flex>
-          </Flex>
-          <Text fz="0.7rem">
-            {sectionData?.sourceBlockItem?.sideEffectObject?.implicationReason}
-          </Text>
-          <Flex
-            direction="column"
-            w="100%"
-            h="100%"
-            p="sm"
-            align="stretch"
-          >
-            <PromptReady_TextArea
-              height="100%"
-              enableAiGeneration={true}
-              promptBase={`Rewrite following text${sectionData.modifier ? ` and modify it to ${sectionData.modifier} it` : ""}:\n${sectionData?.sourceBlockItem?.sideEffectObject?.sideEffectTitle} is ${sectionData?.sourceBlockItem?.sideEffectObject?.implication === "negative" ? "bad" : "good"} for ${sectionData?.sourceBlockItem?.sideEffectObject?.stakeHolderName} because ${sectionData?.sourceBlockItem?.sideEffectObject?.implicationReason}`}
-              promptSamples=""
-              inputValue={generatedTextBuffer}
-              setInputValue={setGeneratedTextBuffer}
-              generateOnLoad={true}
-              textareaProps={{
-                variant: "unstyled",
-                placeholder: "Make a point...",
-                minRows: 3,
-                maxRows: 4,
-                rows: 4
-              }}
-            />
-          </Flex>
+          <SectionBlockOnSheet
+            sectionData={sectionData}
+            onClickRemoveSection={onClickRemoveSection}
+          />
         </Flex>
       </Flex>
     </Card>
