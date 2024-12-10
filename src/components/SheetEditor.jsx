@@ -349,6 +349,7 @@ const BlockInTray = ({ blockData, handleOnDragStart = null }) => {
   return (
     <Card
       h="100%"
+      w="100%"
       bg={blockTypeColors[blockData.blockType] ?? "gray.1"}
       radius="xl"
       style={{ cursor: handleOnDragStart ? 'move' : 'default' }}
@@ -377,6 +378,31 @@ const BlockInTray = ({ blockData, handleOnDragStart = null }) => {
 };
 
 const SectionBlockOnSheet = ({ sectionData, onClickRemoveSection }) => {
+
+  return (
+    <>
+      {
+        sectionData?.sourceBlockItem?.blockType === "sideEffectBlock"
+          ?
+          <SectionBlockOnSheet_SideEffect
+            sectionData={sectionData}
+            onClickRemoveSection={onClickRemoveSection}
+          />
+          :
+          sectionData?.sourceBlockItem?.blockType === "structureBlock"
+            ?
+            <SectionBlockOnSheet_Structure
+              sectionData={sectionData}
+              onClickRemoveSection={onClickRemoveSection}
+            />
+            :
+            <></>
+      }
+    </>
+  );
+};
+
+const SectionBlockOnSheet_SideEffect = ({ sectionData, onClickRemoveSection }) => {
 
   const [generatedTextBuffer, setGeneratedTextBuffer] = useState(sectionData?.generatedText);
 
@@ -435,6 +461,73 @@ const SectionBlockOnSheet = ({ sectionData, onClickRemoveSection }) => {
           textareaProps={{
             variant: "unstyled",
             placeholder: "Make a point...",
+            minRows: 3,
+            maxRows: 4,
+            rows: 4
+          }}
+        />
+      </Flex>
+    </>
+  );
+};
+
+const SectionBlockOnSheet_Structure = ({ sectionData, onClickRemoveSection }) => {
+
+  const [generatedTextBuffer, setGeneratedTextBuffer] = useState(sectionData?.generatedText);
+
+  useEffect(() => {
+    sectionData.generatedText = generatedTextBuffer;
+  }, [generatedTextBuffer, sectionData]);
+
+  return (
+    <>
+      <Flex
+        justify="space-between"
+        align="center"
+        gap="sm"
+      >
+        <Flex />
+        <Flex
+          direction="row"
+          justify="flex-end"
+          align="center"
+          gap="sm"
+        >
+          {
+            !onClickRemoveSection
+              ?
+              <></>
+              :
+              (
+                <CloseButton
+                  variant="subtle"
+                  onClick={() => { onClickRemoveSection(sectionData) }}
+                />
+              )
+          }
+        </Flex>
+      </Flex>
+      <Text fz="0.7rem">
+        {sectionData?.sourceBlockItem?.structureBlockObject?.description}
+      </Text>
+      <Flex
+        direction="column"
+        w="100%"
+        h="100%"
+        p="sm"
+        align="stretch"
+      >
+        <PromptReady_TextArea
+          height="100%"
+          enableAiGeneration={true}
+          promptBase={`Replace this section with a paragraph to act as ${sectionData?.sourceBlockItem?.structureBlockObject?.label} in context of the rest of the content. ${sectionData?.sourceBlockItem?.structureBlockObject?.description}.${generatedTextBuffer ? ` Make sure to address comment below in the rewrite.\n${generatedTextBuffer}` : ""}`}
+          promptSamples=""
+          inputValue={generatedTextBuffer}
+          setInputValue={setGeneratedTextBuffer}
+          generateOnLoad={true}
+          textareaProps={{
+            variant: "unstyled",
+            placeholder: "Add details...",
             minRows: 3,
             maxRows: 4,
             rows: 4
